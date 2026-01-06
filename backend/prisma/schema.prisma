@@ -5,10 +5,148 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
+}
+
+model Proveedor {
+  proveedor_id Int       @id @default(autoincrement())
+  nombre       String
+  telefono     String
+  entregas     Entrega[]
+
+  @@map("proveedores")
+}
+
+model Mediares {
+  mediares_id     Int              @id @default(autoincrement())
+  peso_carton     Float
+  peso_real       Float
+  tamano          Float
+  precio_compra   Float
+  tipo_vaca       String
+  entrega_id      Int
+  entrega         Entrega          @relation(fields: [entrega_id], references: [entrega_id])
+  carneDepostadas CarneDepostada[]
+
+  @@map("mediares")
+}
+
+model Entrega {
+  entrega_id      Int              @id @default(autoincrement())
+  fecha_entrega   DateTime
+  total           Float
+  pago            Boolean
+  factura         String?
+  proveedor_id    Int
+  proveedor       Proveedor        @relation(fields: [proveedor_id], references: [proveedor_id])
+  entregaDetalles EntregaDetalle[]
+  mediares        Mediares[]
+
+  @@map("entregas")
+}
+
+model EntregaDetalle {
+  entregaDetalle_id Int      @id @default(autoincrement())
+  cantidad          Float
+  precio_compra     Float
+  producto_id       Int
+  entrega_id        Int
+  entregas          Entrega  @relation(fields: [entrega_id], references: [entrega_id])
+  productos         Producto @relation(fields: [producto_id], references: [producto_id])
+
+  @@map("entregaDetalles")
+}
+
+model CarneDepostada {
+  carne_id    Int      @id @default(autoincrement())
+  peso_real   Float
+  producto_id Int
+  mediares_id Int
+  mediares    Mediares @relation(fields: [mediares_id], references: [mediares_id])
+  productos   Producto @relation(fields: [producto_id], references: [producto_id])
+
+  @@map("carneDepostada")
+}
+
+model Producto {
+  producto_id      Int               @id @default(autoincrement())
+  nombre           String
+  categoria        String
+  stock_actual     Float
+  precio_venta     Float
+  unidad_medida    String
+  entregaDetalles  EntregaDetalle[]
+  carneDepostadas  CarneDepostada[]
+  perdidas         Perdida[]
+  ofertas          Oferta[]
+  ventaDetalles    VentaDetalle[]
+  stockMovimientos StockMovimiento[]
+
+  @@map("productos")
+}
+
+model Perdida {
+  perdida_id    Int      @id @default(autoincrement())
+  tirado        Float
+  unidad_medida String
+  fecha_perdida DateTime
+  motivo        String?
+  total         Float
+  producto_id   Int
+  productos     Producto @relation(fields: [producto_id], references: [producto_id])
+
+  @@map("perdidas")
+}
+
+model Oferta {
+  oferta_id     Int            @id @default(autoincrement())
+  minKg         Float
+  precio_oferta Float
+  esta_activo   Boolean
+  producto_id   Int
+  producto      Producto       @relation(fields: [producto_id], references: [producto_id])
+  ventaDetalles VentaDetalle[]
+
+  @@map("ofertas")
+}
+
+model VentaDetalle {
+  ventaDetalle_id Int      @id @default(autoincrement())
+  precio_unitario Float
+  cantidad        Float
+  subtotal        Float
+  producto_id     Int
+  venta_id        Int
+  oferta_id       Int?
+  productos       Producto @relation(fields: [producto_id], references: [producto_id])
+  ventas          Venta    @relation(fields: [venta_id], references: [venta_id])
+  ofertas         Oferta?  @relation(fields: [oferta_id], references: [oferta_id])
+
+  @@map("ventaDetalles")
+}
+
+model Venta {
+  venta_id      Int            @id @default(autoincrement())
+  fecha_venta   DateTime
+  esta_vendida  Boolean
+  ventaDetalles VentaDetalle[]
+
+  @@map("ventas")
+}
+
+model StockMovimiento {
+  movimiento_id   Int      @id @default(autoincrement())
+  cantidad        Float
+  tipo_movimiento String
+  motivo          String
+  referencia_id   Int
+  referencia_tipo String
+  producto_id     Int
+  productos       Producto @relation(fields: [producto_id], references: [producto_id])
+
+  @@map("stockMovimiento")
 }
