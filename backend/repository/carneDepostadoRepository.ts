@@ -2,9 +2,7 @@ import { prisma } from "../config/db";
 import { CarneDepostada } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-export default class CarneDepostadaRepository
-  implements Repository<CarneDepostada, number>
-{
+class CarneDepostadaRepository implements Repository<CarneDepostada, number> {
   async findById(id: number): Promise<CarneDepostada | null> {
     return await prisma.carneDepostada.findUnique({
       where: {
@@ -46,3 +44,7 @@ export default class CarneDepostadaRepository
     });
   }
 }
+
+const carneDepostadaRepository = new CarneDepostadaRepository();
+
+export default carneDepostadaRepository;

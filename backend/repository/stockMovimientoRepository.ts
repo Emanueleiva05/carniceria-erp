@@ -2,9 +2,7 @@ import { prisma } from "../config/db";
 import { StockMovimiento } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-export default class StockMovimientoRepository
-  implements Repository<StockMovimiento, number>
-{
+class StockMovimientoRepository implements Repository<StockMovimiento, number> {
   async findById(id: number): Promise<StockMovimiento | null> {
     return await prisma.stockMovimiento.findUnique({
       where: {
@@ -52,3 +50,7 @@ export default class StockMovimientoRepository
     });
   }
 }
+
+const stockMovimientoRepository = new StockMovimientoRepository();
+
+export default stockMovimientoRepository;
