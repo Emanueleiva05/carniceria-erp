@@ -11,3 +11,5 @@ router.get("/:id", (id) => {});
 router.put("/:id/", (id) => {});
 
 router.delete("/:id", (id) => {});
+
+export default router;
