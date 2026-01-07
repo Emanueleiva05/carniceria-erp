@@ -2,7 +2,7 @@ import { prisma } from "../config/db";
 import { Perdida } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-export class ProveedorRepository implements Repository<Perdida, number> {
+export default class PerdidaRepository implements Repository<Perdida, number> {
   async findById(id: number): Promise<Perdida | null> {
     return await prisma.perdida.findUnique({
       where: {

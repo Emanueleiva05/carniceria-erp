@@ -2,7 +2,9 @@ import { prisma } from "../config/db";
 import { Mediares } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-export class ProveedorRepository implements Repository<Mediares, number> {
+export default class MediaresRepository
+  implements Repository<Mediares, number>
+{
   async findById(id: number): Promise<Mediares | null> {
     return await prisma.mediares.findUnique({
       where: {

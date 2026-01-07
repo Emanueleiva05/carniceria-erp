@@ -2,7 +2,7 @@ import { prisma } from "../config/db";
 import { StockMovimiento } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-export class ProveedorRepository
+export default class StockMovimientoRepository
   implements Repository<StockMovimiento, number>
 {
   async findById(id: number): Promise<StockMovimiento | null> {
