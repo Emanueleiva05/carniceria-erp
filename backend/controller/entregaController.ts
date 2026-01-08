@@ -1,0 +1,85 @@
+import { Request, Response } from "express";
+import {
+  deleteEntrega,
+  getEntregaById,
+  getEntregas,
+  setEntrega,
+  updateEntrega,
+} from "../services/entregaService";
+
+export const createEntrega = async (req: Request, res: Response) => {
+  try {
+    const data = req.body;
+
+    await setEntrega(data);
+
+    res.status(202).json({ message: "Entrega creada con exito" });
+  } catch (err) {
+    res.status(400).json({ message: "Error a la hora de crear una Entrega" });
+  }
+};
+
+export const modifyEntrega = async (req: Request, res: Response) => {
+  try {
+    const data = req.body;
+    const id = req.params.id;
+
+    if (!id) {
+      return res.status(400).json({ message: "ID no valido" });
+    }
+
+    await updateEntrega(parseInt(id), data);
+
+    res.status(202).json({ message: "Entrega modificada con exito" });
+  } catch (err) {
+    res
+      .status(400)
+      .json({ message: "Error a la hora de modificar una Entrega" });
+  }
+};
+
+export const removeEntrega = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      return res.status(400).json({ message: "ID no valido" });
+    }
+
+    await deleteEntrega(parseInt(id));
+
+    res.status(202).json({ message: "Entrega eliminada con exito" });
+  } catch (err) {
+    res
+      .status(400)
+      .json({ message: "Error a la hora de eliminar una entrega" });
+  }
+};
+
+export const obtainEntregaById = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      return 0;
+    }
+
+    const entrega = await getEntregaById(parseInt(id));
+
+    res.status(202).json(entrega);
+  } catch (err) {
+    res
+      .status(400)
+      .json({ message: "Error a la hora de obtener una entrega segun id" });
+  }
+};
+
+export const obtainEntrega = async (req: Request, res: Response) => {
+  try {
+    const entregas = await getEntregas();
+
+    res.status(202).json(entregas);
+  } catch (err) {
+    res.status(400).json({ message: "Error a la hora de obtener entregas" });
+  }
+};
