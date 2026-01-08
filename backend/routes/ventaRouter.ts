@@ -1,15 +1,23 @@
 import { Router } from "express";
 
+import {
+  createVenta,
+  obtainVentaById,
+  obtainVentas,
+  modifyVenta,
+  removeVenta,
+} from "../controller/ventaController";
+
 const router = Router();
 
-router.post("/", () => {});
+router.post("/", createVenta);
 
-router.get("/", () => {});
+router.get("/", obtainVentas);
 
-router.get("/:id", (id) => {});
+router.get("/:id", obtainVentaById);
 
-router.put("/:id/", (id) => {});
+router.put("/:id/", modifyVenta);
 
-router.delete("/:id", (id) => {});
+router.delete("/:id", removeVenta);
 
 export default router;

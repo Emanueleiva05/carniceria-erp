@@ -11,6 +11,8 @@ export const createVenta = async (req: Request, res: Response) => {
   try {
     const data = req.body;
 
+    data.fecha_venta = new Date(data.fecha_venta);
+
     await setVenta(data);
 
     res.status(202).json({ message: "Venta detalle creada con exito" });

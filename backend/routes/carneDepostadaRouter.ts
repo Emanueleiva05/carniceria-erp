@@ -1,15 +1,23 @@
 import { Router } from "express";
 
+import {
+  createCarne,
+  obtainCarne,
+  obtainCarneById,
+  modifyCarne,
+  removeCarne,
+} from "../controller/carneDepostadaController";
+
 const router = Router();
 
-router.post("/", () => {});
+router.post("/", createCarne);
 
-router.get("/", () => {});
+router.get("/", obtainCarne);
 
-router.get("/:id", (id) => {});
+router.get("/:id", obtainCarneById);
 
-router.put("/:id/", (id) => {});
+router.put("/:id/", modifyCarne);
 
-router.delete("/:id", (id) => {});
+router.delete("/:id", removeCarne);
 
 export default router;

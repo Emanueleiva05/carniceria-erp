@@ -1,15 +1,23 @@
 import { Router } from "express";
 
+import {
+  modifyEntrega,
+  obtainEntrega,
+  obtainEntregaById,
+  createEntrega,
+  removeEntrega,
+} from "../controller/entregaController";
+
 const router = Router();
 
-router.post("/", () => {});
+router.post("/", createEntrega);
 
-router.get("/", () => {});
+router.get("/", obtainEntrega);
 
-router.get("/:id", (id) => {});
+router.get("/:id", obtainEntregaById);
 
-router.put("/:id/", (id) => {});
+router.put("/:id/", modifyEntrega);
 
-router.delete("/:id", (id) => {});
+router.delete("/:id", removeEntrega);
 
 export default router;

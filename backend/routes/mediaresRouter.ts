@@ -1,15 +1,22 @@
 import { Router } from "express";
+import {
+  obtainMediares,
+  obtainMediaresById,
+  createMediares,
+  modifyMediares,
+  removeMediares,
+} from "../controller/mediaresController";
 
 const router = Router();
 
-router.post("/", () => {});
+router.post("/", createMediares);
 
-router.get("/", () => {});
+router.get("/", obtainMediares);
 
-router.get("/:id", (id) => {});
+router.get("/:id", obtainMediaresById);
 
-router.put("/:id/", (id) => {});
+router.put("/:id/", modifyMediares);
 
-router.delete("/:id", (id) => {});
+router.delete("/:id", removeMediares);
 
 export default router;

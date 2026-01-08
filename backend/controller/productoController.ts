@@ -63,7 +63,7 @@ export const obtainProductoById = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     if (!id) {
-      return 0;
+      return res.status(400).json({ message: "ID no valido" });
     }
 
     const producto = await getProductoById(parseInt(id));

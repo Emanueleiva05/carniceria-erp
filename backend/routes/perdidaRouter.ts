@@ -1,15 +1,22 @@
 import { Router } from "express";
+import {
+  obtainPerdidaById,
+  obtainPerdidas,
+  createPerdida,
+  removePerdida,
+  modifyPerdida,
+} from "../controller/perdidaController";
 
 const router = Router();
 
-router.post("/", () => {});
+router.post("/", createPerdida);
 
-router.get("/", () => {});
+router.get("/", obtainPerdidas);
 
-router.get("/:id", (id) => {});
+router.get("/:id", obtainPerdidaById);
 
-router.put("/:id/", (id) => {});
+router.put("/:id/", modifyPerdida);
 
-router.delete("/:id", (id) => {});
+router.delete("/:id", removePerdida);
 
 export default router;

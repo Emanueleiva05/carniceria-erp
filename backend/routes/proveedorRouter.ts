@@ -1,15 +1,23 @@
 import { Router } from "express";
 
+import {
+  modifyProveedor,
+  createProveedor,
+  removeProveedor,
+  obtainProveedorById,
+  obtainProveedores,
+} from "../controller/proveedorController";
+
 const router = Router();
 
-router.post("/", () => {});
+router.post("/", createProveedor);
 
-router.get("/", () => {});
+router.get("/", obtainProveedores);
 
-router.get("/:id", (id) => {});
+router.get("/:id", obtainProveedorById);
 
-router.put("/:id/", (id) => {});
+router.put("/:id/", modifyProveedor);
 
-router.delete("/:id", (id) => {});
+router.delete("/:id", removeProveedor);
 
 export default router;

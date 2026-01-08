@@ -11,6 +11,8 @@ export const createEntrega = async (req: Request, res: Response) => {
   try {
     const data = req.body;
 
+    data.fecha_entrega = new Date(data.fecha_entrega);
+
     await setEntrega(data);
 
     res.status(202).json({ message: "Entrega creada con exito" });
@@ -61,7 +63,7 @@ export const obtainEntregaById = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     if (!id) {
-      return 0;
+      return res.status(400).json({ message: "ID no valido" });
     }
 
     const entrega = await getEntregaById(parseInt(id));
