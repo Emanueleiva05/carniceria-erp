@@ -2,7 +2,7 @@ import { prisma } from "../config/db";
 import { VentaDetalle } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-export class ProveedorRepository implements Repository<VentaDetalle, number> {
+class VentaDetalleRepository implements Repository<VentaDetalle, number> {
   async findById(id: number): Promise<VentaDetalle | null> {
     return await prisma.ventaDetalle.findUnique({
       where: {
@@ -50,3 +50,7 @@ export class ProveedorRepository implements Repository<VentaDetalle, number> {
     });
   }
 }
+
+const ventaDetalleRepository = new VentaDetalleRepository();
+
+export default ventaDetalleRepository;

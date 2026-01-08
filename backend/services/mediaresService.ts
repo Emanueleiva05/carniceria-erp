@@ -1,0 +1,43 @@
+import mediaresRepository from "../repository/mediaresRepository";
+
+interface Mediares {
+  mediares_id: number;
+  peso_carton: number;
+  peso_real: number;
+  tamano: number;
+  precio_compra: number;
+  tipo_vaca: string;
+  entrega_id: number;
+}
+
+export const setMediares = async (data: Mediares) => {
+  return await mediaresRepository.save(data);
+};
+
+export const updateMediares = async (id: number, data: Mediares) => {
+  return await mediaresRepository.update(id, data);
+};
+
+export const deleteMediares = async (id: number) => {
+  return await mediaresRepository.delete(id);
+};
+
+export const getMediaresById = async (id: number) => {
+  const mediares = await mediaresRepository.findById(id);
+
+  if (!mediares) {
+    throw new Error("No se encontro la mediares");
+  }
+
+  return mediares;
+};
+
+export const getMediares = async () => {
+  const mediareses = await mediaresRepository.findAll();
+
+  if (mediareses.length === 0) {
+    throw new Error("No hay mediareses cargadas en el sistema");
+  }
+
+  return mediareses;
+};
