@@ -6,17 +6,19 @@ import {
   modifyVentaDetalle,
   createVentaDetalle,
 } from "../controller/ventaDetalleController";
+import { validateBody } from "../middleware/proveedorMiddleware";
+import { validateIdParams } from "../middleware/genericMiddleware";
 
 const router = Router();
 
-router.post("/", createVentaDetalle);
+router.post("/", validateBody, createVentaDetalle);
 
 router.get("/", obtainVentaDetalle);
 
-router.get("/:id", obtainVentaDetalleById);
+router.get("/:id", validateIdParams, obtainVentaDetalleById);
 
-router.put("/:id/", modifyVentaDetalle);
+router.put("/:id/", validateIdParams, validateBody, modifyVentaDetalle);
 
-router.delete("/:id", removeVentaDetalle);
+router.delete("/:id", validateIdParams, removeVentaDetalle);
 
 export default router;
