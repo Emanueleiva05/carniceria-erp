@@ -6,17 +6,19 @@ import {
   modifyEntregaDetalle,
   createEntregaDetalle,
 } from "../controller/entregaDetalleController";
+import { validateBody } from "../middleware/entregaDetalleMiddleware";
+import { validateIdParams } from "../middleware/genericMiddleware";
 
 const router = Router();
 
-router.post("/", createEntregaDetalle);
+router.post("/", validateBody, createEntregaDetalle);
 
 router.get("/", obtainEntregaDetalles);
 
-router.get("/:id", obtainEntregaDetalleById);
+router.get("/:id", validateIdParams, obtainEntregaDetalleById);
 
-router.put("/:id/", modifyEntregaDetalle);
+router.put("/:id/", validateIdParams, validateBody, modifyEntregaDetalle);
 
-router.delete("/:id", removeEntregaDetalle);
+router.delete("/:id", validateIdParams, removeEntregaDetalle);
 
 export default router;

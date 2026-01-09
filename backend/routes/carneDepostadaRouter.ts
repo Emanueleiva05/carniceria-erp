@@ -7,17 +7,19 @@ import {
   modifyCarne,
   removeCarne,
 } from "../controller/carneDepostadaController";
+import { validateBody } from "../middleware/carneDepostadaMiddleware";
+import { validateIdParams } from "../middleware/genericMiddleware";
 
 const router = Router();
 
-router.post("/", createCarne);
+router.post("/", validateBody, createCarne);
 
 router.get("/", obtainCarne);
 
-router.get("/:id", obtainCarneById);
+router.get("/:id", validateIdParams, obtainCarneById);
 
-router.put("/:id/", modifyCarne);
+router.put("/:id/", validateIdParams, validateBody, modifyCarne);
 
-router.delete("/:id", removeCarne);
+router.delete("/:id", validateIdParams, removeCarne);
 
 export default router;

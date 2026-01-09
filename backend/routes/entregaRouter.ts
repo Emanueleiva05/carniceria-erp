@@ -7,17 +7,22 @@ import {
   createEntrega,
   removeEntrega,
 } from "../controller/entregaController";
+import { validateBody } from "../middleware/entregaMiddleware";
+import {
+  validateFecha,
+  validateIdParams,
+} from "../middleware/genericMiddleware";
 
 const router = Router();
 
-router.post("/", createEntrega);
+router.post("/", validateBody, validateFecha, createEntrega);
 
 router.get("/", obtainEntrega);
 
-router.get("/:id", obtainEntregaById);
+router.get("/:id", validateIdParams, obtainEntregaById);
 
-router.put("/:id/", modifyEntrega);
+router.put("/:id/", validateIdParams, validateFecha, modifyEntrega);
 
-router.delete("/:id", removeEntrega);
+router.delete("/:id", validateIdParams, removeEntrega);
 
 export default router;

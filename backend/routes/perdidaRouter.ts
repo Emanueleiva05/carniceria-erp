@@ -6,17 +6,28 @@ import {
   removePerdida,
   modifyPerdida,
 } from "../controller/perdidaController";
+import { validateBody } from "../middleware/perdidaMiddleware";
+import {
+  validateFecha,
+  validateIdParams,
+} from "../middleware/genericMiddleware";
 
 const router = Router();
 
-router.post("/", createPerdida);
+router.post("/", validateBody, validateFecha, createPerdida);
 
 router.get("/", obtainPerdidas);
 
-router.get("/:id", obtainPerdidaById);
+router.get(
+  "/:id",
+  validateIdParams,
+  validateBody,
+  validateFecha,
+  obtainPerdidaById
+);
 
-router.put("/:id/", modifyPerdida);
+router.put("/:id/", validateIdParams, modifyPerdida);
 
-router.delete("/:id", removePerdida);
+router.delete("/:id", validateIdParams, removePerdida);
 
 export default router;
