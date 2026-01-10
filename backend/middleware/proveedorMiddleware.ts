@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import EmptyRequest from "../error/EmptyRequest";
+import BadRequest from "../error/BadRequest";
 
 export const validateBody = (
   req: Request,
@@ -7,21 +9,15 @@ export const validateBody = (
 ) => {
   const { nombre, telefono } = req.body;
 
-  if (!nombre) {
-    return res.status(400).json({ message: "Nombre no ingresado" });
-  }
+  if (!nombre) throw new EmptyRequest("Nombre");
 
-  if (!telefono) {
-    return res.status(400).json({ message: "Telefono no ingresado" });
-  }
+  if (!telefono) throw new EmptyRequest("Telefono");
 
-  if (typeof nombre !== "string" || nombre.trim().length === 0) {
-    return res.status(400).json({ message: "Nombre no valido" });
-  }
+  if (typeof nombre !== "string" || nombre.trim().length === 0)
+    throw new BadRequest("Nombre");
 
-  if (typeof telefono !== "string" || nombre.trim().length === 0) {
-    return res.status(400).json({ message: "Telefono no valido" });
-  }
+  if (typeof telefono !== "string" || nombre.trim().length === 0)
+    throw new BadRequest("Telefono");
 
   next();
 };

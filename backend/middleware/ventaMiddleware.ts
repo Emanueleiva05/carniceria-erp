@@ -1,4 +1,6 @@
 import { Response, Request, NextFunction } from "express";
+import EmptyRequest from "../error/EmptyRequest";
+import BadRequest from "../error/BadRequest";
 
 export const validateBody = (
   req: Request,
@@ -7,21 +9,14 @@ export const validateBody = (
 ) => {
   const { fecha_venta, esta_vendida } = req.body;
 
-  if (!fecha_venta) {
-    return res.status(400).json({ message: "Fecha venta no ingresado" });
-  }
+  if (!fecha_venta) throw new EmptyRequest("Fecha venta");
 
-  if (typeof fecha_venta !== "string" || fecha_venta.trim().length === 0) {
-    return res.status(400).json({ message: "Fecha venta no valido" });
-  }
+  if (typeof fecha_venta !== "string" || fecha_venta.trim().length === 0)
+    throw new BadRequest("Fecha venta");
 
-  if (esta_vendida === null) {
-    return res.status(400).json({ message: "Esta vendida no ingresado" });
-  }
+  if (esta_vendida === null) throw new EmptyRequest("Esta vendida");
 
-  if (typeof esta_vendida !== "boolean") {
-    return res.status(400).json({ message: "Esta vendida no valido" });
-  }
+  if (typeof esta_vendida !== "boolean") throw new BadRequest("Esta vendida");
 
   next();
 };

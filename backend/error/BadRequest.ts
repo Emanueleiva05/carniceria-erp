@@ -2,7 +2,7 @@ import AppError from "./AppError";
 
 class BadRequest extends AppError {
   constructor(message: string) {
-    super(`El parametro ${message} es invalido`, 400, "Bad Request");
+    super(`Es invalido el parametro: ${message}`, 400, "Bad Request");
   }
 }
 

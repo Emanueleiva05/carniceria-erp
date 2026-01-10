@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import EmptyRequest from "../error/EmptyRequest";
+import BadRequest from "../error/BadRequest";
 
 export const validateBody = (
   req: Request,
@@ -8,39 +10,32 @@ export const validateBody = (
   const { nombre, categoria, stock_actual, precio_venta, unidad_medida } =
     req.body;
 
-  if (!nombre) return res.status(400).json({ message: "Nombre no ingresado" });
+  if (!nombre) throw new EmptyRequest("Nombre");
 
-  if (typeof nombre !== "string" || nombre.trim().length === 0) {
-    return res.status(400).json({ message: "Nombre no valido" });
-  }
+  if (typeof nombre !== "string" || nombre.trim().length === 0)
+    throw new BadRequest("Nombre");
 
-  if (!categoria)
-    return res.status(400).json({ message: "Categoria no ingresada" });
+  if (!categoria) throw new EmptyRequest("Categoria");
 
-  if (typeof categoria !== "string" || categoria.trim().length === 0) {
-    return res.status(400).json({ message: "Categoria no valida" });
-  }
+  if (typeof categoria !== "string" || categoria.trim().length === 0)
+    throw new BadRequest("Categoria");
 
-  if (!stock_actual)
-    return res.status(400).json({ message: "Stock actual no ingresado" });
+  if (stock_actual === null || stock_actual === 0 || stock_actual === "")
+    throw new EmptyRequest("Stock actual");
 
-  if (typeof stock_actual !== "number" || stock_actual < 0) {
-    return res.status(400).json({ message: "Stock actual no valido" });
-  }
+  if (typeof stock_actual !== "number" || stock_actual < 0)
+    throw new BadRequest("Stock actual");
 
-  if (!precio_venta)
-    return res.status(400).json({ message: "Precio venta no ingresado" });
+  if (precio_venta === null || precio_venta === 0 || precio_venta === "")
+    throw new EmptyRequest("Precio venta");
 
-  if (typeof precio_venta !== "number" || precio_venta < 0) {
-    return res.status(400).json({ message: "Precio venta no valido" });
-  }
+  if (typeof precio_venta !== "number" || precio_venta < 0)
+    throw new BadRequest("Precio venta");
 
-  if (!unidad_medida)
-    return res.status(400).json({ message: "Unidad de medida no ingresado" });
+  if (!unidad_medida) throw new EmptyRequest("Unidad medida");
 
-  if (typeof unidad_medida !== "string" || unidad_medida.trim().length === 0) {
-    return res.status(400).json({ message: "Unidad de medida no valido" });
-  }
+  if (typeof unidad_medida !== "string" || unidad_medida.trim().length === 0)
+    throw new BadRequest("Unidad medida");
 
   next();
 };
