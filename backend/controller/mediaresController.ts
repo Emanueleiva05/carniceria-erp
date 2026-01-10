@@ -22,13 +22,9 @@ export const createMediares = async (req: Request, res: Response) => {
 export const modifyMediares = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateMediares(parseInt(id), data);
+    await updateMediares(id, data);
 
     res.status(202).json({ message: "Mediares modificada con exito" });
   } catch (err) {
@@ -40,13 +36,9 @@ export const modifyMediares = async (req: Request, res: Response) => {
 
 export const removeMediares = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteMediares(parseInt(id));
+    await deleteMediares(id);
 
     res.status(202).json({ message: "Mediares eliminada con exito" });
   } catch (err) {
@@ -58,13 +50,9 @@ export const removeMediares = async (req: Request, res: Response) => {
 
 export const obtainMediaresById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const mediares = await getMediaresById(parseInt(id));
+    const mediares = await getMediaresById(id);
 
     res.status(202).json(mediares);
   } catch (err) {

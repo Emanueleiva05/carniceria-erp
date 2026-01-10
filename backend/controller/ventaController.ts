@@ -26,13 +26,9 @@ export const createVenta = async (req: Request, res: Response) => {
 export const modifyVenta = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateVenta(parseInt(id), data);
+    await updateVenta(id, data);
 
     res.status(202).json({ message: "Venta modificada con exito" });
   } catch (err) {
@@ -42,13 +38,9 @@ export const modifyVenta = async (req: Request, res: Response) => {
 
 export const removeVenta = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteVenta(parseInt(id));
+    await deleteVenta(id);
 
     res.status(202).json({ message: "Venta eliminada con exito" });
   } catch (err) {
@@ -58,13 +50,9 @@ export const removeVenta = async (req: Request, res: Response) => {
 
 export const obtainVentaById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return 0;
-    }
-
-    const venta = await getVentaById(parseInt(id));
+    const venta = await getVentaById(id);
 
     res.status(202).json(venta);
   } catch (err) {

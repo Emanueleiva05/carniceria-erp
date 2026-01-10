@@ -24,13 +24,9 @@ export const createEntregaDetalle = async (req: Request, res: Response) => {
 export const modifyEntregaDetalle = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateEntregaDetalle(parseInt(id), data);
+    await updateEntregaDetalle(id, data);
 
     res.status(202).json({ message: "Entrega modificada con exito" });
   } catch (err) {
@@ -42,13 +38,9 @@ export const modifyEntregaDetalle = async (req: Request, res: Response) => {
 
 export const removeEntregaDetalle = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteEntregaDetalle(parseInt(id));
+    await deleteEntregaDetalle(id);
 
     res.status(202).json({ message: "Entrega detalle eliminada con exito" });
   } catch (err) {
@@ -60,13 +52,9 @@ export const removeEntregaDetalle = async (req: Request, res: Response) => {
 
 export const obtainEntregaDetalleById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const entrega_detalle = await getEntregaDetalleById(parseInt(id));
+    const entrega_detalle = await getEntregaDetalleById(id);
 
     res.status(202).json(entrega_detalle);
   } catch (err) {

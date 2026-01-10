@@ -21,6 +21,8 @@ export const validateIdParams = (
       .json({ message: "El parametro ingresado no es un numero" });
   }
 
+  res.locals.id = idInt;
+
   next();
 };
 

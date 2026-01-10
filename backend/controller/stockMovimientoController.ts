@@ -24,13 +24,9 @@ export const createMovimiento = async (req: Request, res: Response) => {
 export const modifyMovimiento = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateMovimiento(parseInt(id), data);
+    await updateMovimiento(id, data);
 
     res.status(202).json({ message: "Movimiento modificada con exito" });
   } catch (err) {
@@ -42,13 +38,9 @@ export const modifyMovimiento = async (req: Request, res: Response) => {
 
 export const removeMovimiento = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteMovimiento(parseInt(id));
+    await deleteMovimiento(id);
 
     res.status(202).json({ message: "Movimiento eliminada con exito" });
   } catch (err) {
@@ -60,13 +52,9 @@ export const removeMovimiento = async (req: Request, res: Response) => {
 
 export const obtainMovimientoById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const movimiento = await getMovimientoById(parseInt(id));
+    const movimiento = await getMovimientoById(id);
 
     res.status(202).json(movimiento);
   } catch (err) {

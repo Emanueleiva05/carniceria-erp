@@ -24,13 +24,9 @@ export const createVentaDetalle = async (req: Request, res: Response) => {
 export const modifyVentaDetalle = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateVentaDetalle(parseInt(id), data);
+    await updateVentaDetalle(id, data);
 
     res.status(202).json({ message: "Venta detalle modificada con exito" });
   } catch (err) {
@@ -42,13 +38,9 @@ export const modifyVentaDetalle = async (req: Request, res: Response) => {
 
 export const removeVentaDetalle = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteVentaDetalle(parseInt(id));
+    await deleteVentaDetalle(id);
 
     res.status(202).json({ message: "Venta detalle eliminada con exito" });
   } catch (err) {
@@ -60,13 +52,9 @@ export const removeVentaDetalle = async (req: Request, res: Response) => {
 
 export const obtainVentaDetalleById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const venta_detalle = await getVentaDetalleById(parseInt(id));
+    const venta_detalle = await getVentaDetalleById(id);
 
     res.status(202).json(venta_detalle);
   } catch (err) {

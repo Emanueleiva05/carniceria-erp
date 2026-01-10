@@ -24,13 +24,9 @@ export const createPerdida = async (req: Request, res: Response) => {
 export const modifyPerdida = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updatePerdida(parseInt(id), data);
+    await updatePerdida(id, data);
 
     res.status(202).json({ message: "Perdida modificada con exito" });
   } catch (err) {
@@ -42,13 +38,9 @@ export const modifyPerdida = async (req: Request, res: Response) => {
 
 export const removePerdida = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deletePerdida(parseInt(id));
+    await deletePerdida(id);
 
     res.status(202).json({ message: "Perdida detalle eliminada con exito" });
   } catch (err) {
@@ -60,13 +52,9 @@ export const removePerdida = async (req: Request, res: Response) => {
 
 export const obtainPerdidaById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const perdida = await getPerdidaById(parseInt(id));
+    const perdida = await getPerdidaById(id);
 
     res.status(202).json(perdida);
   } catch (err) {

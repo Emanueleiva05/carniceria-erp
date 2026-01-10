@@ -24,13 +24,9 @@ export const createProveedor = async (req: Request, res: Response) => {
 export const modifyProveedor = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateProveedores(parseInt(id), data);
+    await updateProveedores(id, data);
 
     res.status(202).json({ message: "Proveedor modificada con exito" });
   } catch (err) {
@@ -42,13 +38,9 @@ export const modifyProveedor = async (req: Request, res: Response) => {
 
 export const removeProveedor = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteProveedores(parseInt(id));
+    await deleteProveedores(id);
 
     res.status(202).json({ message: "Proveedor eliminada con exito" });
   } catch (err) {
@@ -60,13 +52,9 @@ export const removeProveedor = async (req: Request, res: Response) => {
 
 export const obtainProveedorById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const proveedor = await getProveedoresById(parseInt(id));
+    const proveedor = await getProveedoresById(id);
 
     res.status(202).json(proveedor);
   } catch (err) {

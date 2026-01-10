@@ -24,13 +24,9 @@ export const createOferta = async (req: Request, res: Response) => {
 export const modifyOferta = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateOferta(parseInt(id), data);
+    await updateOferta(id, data);
 
     res.status(202).json({ message: "Oferta modificada con exito" });
   } catch (err) {
@@ -42,13 +38,9 @@ export const modifyOferta = async (req: Request, res: Response) => {
 
 export const removeOferta = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteOferta(parseInt(id));
+    await deleteOferta(id);
 
     res.status(202).json({ message: "Oferta detalle eliminada con exito" });
   } catch (err) {
@@ -58,13 +50,9 @@ export const removeOferta = async (req: Request, res: Response) => {
 
 export const obtainOfertaById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const oferta = await getOfertaById(parseInt(id));
+    const oferta = await getOfertaById(id);
 
     res.status(202).json(oferta);
   } catch (err) {

@@ -24,13 +24,9 @@ export const createProducto = async (req: Request, res: Response) => {
 export const modifyProducto = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateProducto(parseInt(id), data);
+    await updateProducto(id, data);
 
     res.status(202).json({ message: "Producto modificada con exito" });
   } catch (err) {
@@ -42,13 +38,9 @@ export const modifyProducto = async (req: Request, res: Response) => {
 
 export const removeProducto = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteProducto(parseInt(id));
+    await deleteProducto(id);
 
     res.status(202).json({ message: "Producto detalle eliminada con exito" });
   } catch (err) {
@@ -60,13 +52,9 @@ export const removeProducto = async (req: Request, res: Response) => {
 
 export const obtainProductoById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const producto = await getProductoById(parseInt(id));
+    const producto = await getProductoById(id);
 
     res.status(202).json(producto);
   } catch (err) {
