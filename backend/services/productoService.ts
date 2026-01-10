@@ -1,3 +1,4 @@
+import NotFound from "../error/NotFound";
 import productoRepository from "../repository/productoRepository";
 
 interface Producto {
@@ -25,7 +26,7 @@ export const getProductoById = async (id: number) => {
   const producto = await productoRepository.findById(id);
 
   if (!producto) {
-    throw new Error("No se encontro el producto");
+    throw new NotFound("Producto");
   }
 
   return producto;
@@ -33,10 +34,5 @@ export const getProductoById = async (id: number) => {
 
 export const getProductos = async () => {
   const productos = await productoRepository.findAll();
-
-  if (productos.length === 0) {
-    throw new Error("No hay productos cargados en el sistema");
-  }
-
   return productos;
 };

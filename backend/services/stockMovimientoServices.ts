@@ -1,3 +1,4 @@
+import NotFound from "../error/NotFound";
 import stockMovimientoRepository from "../repository/stockMovimientoRepository";
 
 interface StockMovimiento {
@@ -26,7 +27,7 @@ export const getMovimientoById = async (id: number) => {
   const movimiento = await stockMovimientoRepository.findById(id);
 
   if (!movimiento) {
-    throw new Error("No se encontro el movimiento");
+    throw new NotFound("Movimiento");
   }
 
   return movimiento;
@@ -34,10 +35,5 @@ export const getMovimientoById = async (id: number) => {
 
 export const getMovimiento = async () => {
   const movimientos = await stockMovimientoRepository.findAll();
-
-  if (movimientos.length === 0) {
-    throw new Error("No hay movimientos cargados en el sistema");
-  }
-
   return movimientos;
 };

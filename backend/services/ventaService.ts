@@ -1,3 +1,4 @@
+import NotFound from "../error/NotFound";
 import ventaRepository from "../repository/ventaRepository";
 
 interface Venta {
@@ -22,7 +23,7 @@ export const getVentaById = async (id: number) => {
   const venta = await ventaRepository.findById(id);
 
   if (!venta) {
-    throw new Error("No se encontro la venta");
+    throw new NotFound("Venta");
   }
 
   return venta;
@@ -30,10 +31,5 @@ export const getVentaById = async (id: number) => {
 
 export const getVentas = async () => {
   const ventas = await ventaRepository.findAll();
-
-  if (ventas.length === 0) {
-    throw new Error("No hay ventas cargadas en el sistema");
-  }
-
   return ventas;
 };

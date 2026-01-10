@@ -1,4 +1,5 @@
 import carneDepostadaRepository from "../repository/carneDepostadoRepository";
+import NotFound from "../error/NotFound";
 
 interface CarneDepostada {
   carne_id: number;
@@ -23,7 +24,7 @@ export const getCarneById = async (id: number) => {
   const carne = await carneDepostadaRepository.findById(id);
 
   if (!carne) {
-    throw new Error("No se encontro la carne");
+    throw new NotFound("Carne");
   }
 
   return carne;
@@ -31,10 +32,5 @@ export const getCarneById = async (id: number) => {
 
 export const getCarnes = async () => {
   const carnes = await carneDepostadaRepository.findAll();
-
-  if (carnes.length === 0) {
-    throw new Error("No hay carne cargada en el sistema");
-  }
-
   return carnes;
 };

@@ -1,3 +1,4 @@
+import NotFound from "../error/NotFound";
 import perdidaRepository from "../repository/perdidaRepository";
 
 interface Perdida {
@@ -26,7 +27,7 @@ export const getPerdidaById = async (id: number) => {
   const perdida = await perdidaRepository.findById(id);
 
   if (!perdida) {
-    throw new Error("No se encontro la perdida");
+    throw new NotFound("Perdida");
   }
 
   return perdida;
@@ -34,10 +35,5 @@ export const getPerdidaById = async (id: number) => {
 
 export const getPerdidas = async () => {
   const perdidas = await perdidaRepository.findAll();
-
-  if (perdidas.length === 0) {
-    throw new Error("No hay perdidas cargadas en el sistema");
-  }
-
   return perdidas;
 };

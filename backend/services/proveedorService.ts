@@ -1,3 +1,4 @@
+import NotFound from "../error/NotFound";
 import proveedorRepository from "../repository/proveedorRepository";
 
 interface Proveedor {
@@ -22,7 +23,7 @@ export const getProveedoresById = async (id: number) => {
   const proveedor = await proveedorRepository.findById(id);
 
   if (!proveedor) {
-    throw new Error("No se encontro el proveedor");
+    throw new NotFound("Proveedor");
   }
 
   return proveedor;
@@ -30,10 +31,5 @@ export const getProveedoresById = async (id: number) => {
 
 export const getProveedores = async () => {
   const proveedores = await proveedorRepository.findAll();
-
-  if (proveedores.length === 0) {
-    throw new Error("No hay proveedores cargados en el sistema");
-  }
-
   return proveedores;
 };
