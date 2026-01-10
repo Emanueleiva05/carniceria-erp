@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   deleteEntregaDetalle,
   getEntregaDetalleById,
@@ -7,7 +7,11 @@ import {
   updateEntregaDetalle,
 } from "../services/entregaDetalleService";
 
-export const createEntregaDetalle = async (req: Request, res: Response) => {
+export const createEntregaDetalle = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
 
@@ -15,75 +19,69 @@ export const createEntregaDetalle = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: "Entrega detalle creada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de crear un detalle de entrega" });
+    next(err);
   }
 };
 
-export const modifyEntregaDetalle = async (req: Request, res: Response) => {
+export const modifyEntregaDetalle = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateEntregaDetalle(parseInt(id), data);
+    await updateEntregaDetalle(id, data);
 
     res.status(202).json({ message: "Entrega modificada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de modificar una entrega" });
+    next(err);
   }
 };
 
-export const removeEntregaDetalle = async (req: Request, res: Response) => {
+export const removeEntregaDetalle = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteEntregaDetalle(parseInt(id));
+    await deleteEntregaDetalle(id);
 
     res.status(202).json({ message: "Entrega detalle eliminada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de eliminar una entrega detalle" });
+    next(err);
   }
 };
 
-export const obtainEntregaDetalleById = async (req: Request, res: Response) => {
+export const obtainEntregaDetalleById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const entrega_detalle = await getEntregaDetalleById(parseInt(id));
+    const entrega_detalle = await getEntregaDetalleById(id);
 
     res.status(202).json(entrega_detalle);
   } catch (err) {
-    res.status(400).json({
-      message: "Error a la hora de obtener una entrega detalle segun id",
-    });
+    next(err);
   }
 };
 
-export const obtainEntregaDetalles = async (req: Request, res: Response) => {
+export const obtainEntregaDetalles = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const entrega_detalles = await getEntregaDetalles();
 
     res.status(202).json(entrega_detalles);
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de obtener entregass detalles" });
+    next(err);
   }
 };

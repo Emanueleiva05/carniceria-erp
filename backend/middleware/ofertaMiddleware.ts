@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import EmptyRequest from "../error/EmptyRequest";
+import BadRequest from "../error/BadRequest";
 
 export const validateBody = (
   req: Request,
@@ -7,34 +9,27 @@ export const validateBody = (
 ) => {
   const { minKg, precio_oferta, esta_activo, producto_id } = req.body;
 
-  if (!minKg)
-    return res.status(400).json({ message: "Kilos minimos no ingresado" });
+  if (minKg === null || minKg === 0 || minKg === "")
+    throw new EmptyRequest("Minimo kilos");
 
-  if (typeof minKg !== "number" || minKg <= 0) {
-    return res.status(400).json({ message: "Minimo de kilos no valido" });
-  }
+  if (typeof minKg !== "number" || minKg <= 0)
+    throw new BadRequest("Minimo kilos");
 
-  if (!precio_oferta)
-    return res.status(400).json({ message: "Precio oferta no ingresado" });
+  if (precio_oferta === null || precio_oferta === 0 || precio_oferta === "")
+    throw new EmptyRequest("Precio oferta");
 
-  if (typeof precio_oferta !== "number" || precio_oferta <= 0) {
-    return res.status(400).json({ message: "Precio de oferta no valido" });
-  }
+  if (typeof precio_oferta !== "number" || precio_oferta <= 0)
+    throw new BadRequest("Precio oferta");
 
-  if (esta_activo === null) {
-    return res.status(400).json({ message: "Esta activo no ingresado" });
-  }
+  if (esta_activo === null) throw new EmptyRequest("Esta activo");
 
-  if (typeof esta_activo !== "boolean") {
-    return res.status(400).json({ message: "Esta activo no valido" });
-  }
+  if (typeof esta_activo !== "boolean") throw new BadRequest("Esta activo");
 
-  if (!producto_id)
-    return res.status(400).json({ message: "Producto no ingresado" });
+  if (producto_id === null || producto_id === 0 || producto_id === "")
+    throw new EmptyRequest("Producto ID");
 
-  if (typeof producto_id !== "number" || producto_id <= 0) {
-    return res.status(400).json({ message: "Producto ID no valido" });
-  }
+  if (typeof producto_id !== "number" || producto_id <= 0)
+    throw new BadRequest("Producto ID");
 
   next();
 };

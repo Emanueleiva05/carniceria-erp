@@ -1,3 +1,4 @@
+import NotFound from "../error/NotFound";
 import entregaRepository from "../repository/entregaRepository";
 
 interface Entrega {
@@ -25,7 +26,7 @@ export const getEntregaById = async (id: number) => {
   const entrega = await entregaRepository.findById(id);
 
   if (!entrega) {
-    throw new Error("No se encontro la entrega");
+    throw new NotFound("Entrega");
   }
 
   return entrega;
@@ -33,10 +34,5 @@ export const getEntregaById = async (id: number) => {
 
 export const getEntregas = async () => {
   const entregas = await entregaRepository.findAll();
-
-  if (entregas.length === 0) {
-    throw new Error("No hay entregas cargada en el sistema");
-  }
-
   return entregas;
 };

@@ -10,6 +10,7 @@ import stockMovimientoRouter from "./routes/stockMovimientoRouter";
 import ventaDetalleRouter from "./routes/ventaDetalleRouter";
 import ventaRouter from "./routes/ventaRouter";
 import ofertaRouter from "./routes/ofertaRouter";
+import errorHandler from "./middleware/errorHandler";
 
 const app = express();
 const PORT = Bun.env.PORT;
@@ -27,6 +28,8 @@ app.use("/api/producto/", productoRouter);
 app.use("/api/ventaDetalle/", ventaDetalleRouter);
 app.use("/api/movimiento/", stockMovimientoRouter);
 app.use("/api/venta/", ventaRouter);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Servidor en ${PORT}`);

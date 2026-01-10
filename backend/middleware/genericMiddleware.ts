@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import EmptyRequest from "../error/EmptyRequest";
+import BadRequest from "../error/BadRequest";
 
 export const validateIdParams = (
   req: Request,
@@ -7,19 +9,13 @@ export const validateIdParams = (
 ) => {
   const id = req.params.id;
 
-  if (!id) {
-    return res
-      .status(400)
-      .json({ message: "ID no espcificado como parametro" });
-  }
+  if (!id) throw new EmptyRequest("ID en parametro");
 
   const idInt = parseInt(id);
 
-  if (Number.isNaN(idInt)) {
-    return res
-      .status(400)
-      .json({ message: "El parametro ingresado no es un numero" });
-  }
+  if (Number.isNaN(idInt)) throw new BadRequest("ID no es un numero");
+
+  res.locals.id = idInt;
 
   next();
 };

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import {
   deleteProducto,
   getProductoById,
@@ -7,7 +7,11 @@ import {
   updateProducto,
 } from "../services/productoService";
 
-export const createProducto = async (req: Request, res: Response) => {
+export const createProducto = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
 
@@ -15,73 +19,69 @@ export const createProducto = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: "Producto detalle creada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de crear un detalle de producto" });
+    next(err);
   }
 };
 
-export const modifyProducto = async (req: Request, res: Response) => {
+export const modifyProducto = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateProducto(parseInt(id), data);
+    await updateProducto(id, data);
 
     res.status(202).json({ message: "Producto modificada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de modificar una producto" });
+    next(err);
   }
 };
 
-export const removeProducto = async (req: Request, res: Response) => {
+export const removeProducto = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteProducto(parseInt(id));
+    await deleteProducto(id);
 
     res.status(202).json({ message: "Producto detalle eliminada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de eliminar una producto" });
+    next(err);
   }
 };
 
-export const obtainProductoById = async (req: Request, res: Response) => {
+export const obtainProductoById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const producto = await getProductoById(parseInt(id));
+    const producto = await getProductoById(id);
 
     res.status(202).json(producto);
   } catch (err) {
-    res.status(400).json({
-      message: "Error a la hora de obtener un producto segun id",
-    });
+    next(err);
   }
 };
 
-export const obtainProductos = async (req: Request, res: Response) => {
+export const obtainProductos = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const productos = await getProductos();
 
     res.status(202).json(productos);
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de obtener productos" });
+    next(err);
   }
 };

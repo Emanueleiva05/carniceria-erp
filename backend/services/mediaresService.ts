@@ -1,3 +1,4 @@
+import NotFound from "../error/NotFound";
 import mediaresRepository from "../repository/mediaresRepository";
 
 interface Mediares {
@@ -26,7 +27,7 @@ export const getMediaresById = async (id: number) => {
   const mediares = await mediaresRepository.findById(id);
 
   if (!mediares) {
-    throw new Error("No se encontro la mediares");
+    throw new NotFound("Mediares");
   }
 
   return mediares;
@@ -34,10 +35,5 @@ export const getMediaresById = async (id: number) => {
 
 export const getMediares = async () => {
   const mediareses = await mediaresRepository.findAll();
-
-  if (mediareses.length === 0) {
-    throw new Error("No hay mediareses cargadas en el sistema");
-  }
-
   return mediareses;
 };

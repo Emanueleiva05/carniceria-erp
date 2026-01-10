@@ -1,3 +1,4 @@
+import NotFound from "../error/NotFound";
 import entregaDetalleRepository from "../repository/entregaDetalleRepository";
 
 interface EntregaDetalle {
@@ -27,7 +28,7 @@ export const getEntregaDetalleById = async (id: number) => {
   const entregaDetalle = await entregaDetalleRepository.findById(id);
 
   if (!entregaDetalle) {
-    throw new Error("No se encontro la entrega detalle");
+    throw new NotFound("Entrega detalle");
   }
 
   return entregaDetalle;
@@ -35,10 +36,5 @@ export const getEntregaDetalleById = async (id: number) => {
 
 export const getEntregaDetalles = async () => {
   const entregaDetalles = await entregaDetalleRepository.findAll();
-
-  if (entregaDetalles.length === 0) {
-    throw new Error("No hay entrega detalles cargada en el sistema");
-  }
-
   return entregaDetalles;
 };

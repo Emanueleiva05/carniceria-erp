@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import {
   deletePerdida,
   getPerdidaById,
@@ -7,7 +7,11 @@ import {
   updatePerdida,
 } from "../services/perdidaServices";
 
-export const createPerdida = async (req: Request, res: Response) => {
+export const createPerdida = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
 
@@ -15,73 +19,69 @@ export const createPerdida = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: "Perdida detalle creada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de crear un detalle de Perdida" });
+    next(err);
   }
 };
 
-export const modifyPerdida = async (req: Request, res: Response) => {
+export const modifyPerdida = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updatePerdida(parseInt(id), data);
+    await updatePerdida(id, data);
 
     res.status(202).json({ message: "Perdida modificada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de modificar una perdida" });
+    next(err);
   }
 };
 
-export const removePerdida = async (req: Request, res: Response) => {
+export const removePerdida = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deletePerdida(parseInt(id));
+    await deletePerdida(id);
 
     res.status(202).json({ message: "Perdida detalle eliminada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de eliminar una perdida" });
+    next(err);
   }
 };
 
-export const obtainPerdidaById = async (req: Request, res: Response) => {
+export const obtainPerdidaById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    const perdida = await getPerdidaById(parseInt(id));
+    const perdida = await getPerdidaById(id);
 
     res.status(202).json(perdida);
   } catch (err) {
-    res.status(400).json({
-      message: "Error a la hora de obtener una perdida detalle segun id",
-    });
+    next(err);
   }
 };
 
-export const obtainPerdidas = async (req: Request, res: Response) => {
+export const obtainPerdidas = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const perdidas = await getPerdidas();
 
     res.status(202).json(perdidas);
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de obtener perdidas" });
+    next(err);
   }
 };

@@ -1,3 +1,4 @@
+import NotFound from "../error/NotFound";
 import ofertaRepository from "../repository/ofertaRepository";
 
 interface Oferta {
@@ -24,7 +25,7 @@ export const getOfertaById = async (id: number) => {
   const oferta = await ofertaRepository.findById(id);
 
   if (!oferta) {
-    throw new Error("No se encontro la oferta");
+    throw new NotFound("Oferta");
   }
 
   return oferta;
@@ -32,10 +33,5 @@ export const getOfertaById = async (id: number) => {
 
 export const getOfertas = async () => {
   const ofertas = await ofertaRepository.findAll();
-
-  if (ofertas.length === 0) {
-    throw new Error("No hay ofertas cargadas en el sistema");
-  }
-
   return ofertas;
 };

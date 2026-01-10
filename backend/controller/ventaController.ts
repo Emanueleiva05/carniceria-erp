@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import {
   deleteVenta,
   getVentaById,
@@ -7,7 +7,11 @@ import {
   updateVenta,
 } from "../services/ventaService";
 
-export const createVenta = async (req: Request, res: Response) => {
+export const createVenta = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
 
@@ -17,69 +21,69 @@ export const createVenta = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: "Venta detalle creada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de crear un detalle de venta" });
+    next(err);
   }
 };
 
-export const modifyVenta = async (req: Request, res: Response) => {
+export const modifyVenta = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await updateVenta(parseInt(id), data);
+    await updateVenta(id, data);
 
     res.status(202).json({ message: "Venta modificada con exito" });
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de modificar una venta" });
+    next(err);
   }
 };
 
-export const removeVenta = async (req: Request, res: Response) => {
+export const removeVenta = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return res.status(400).json({ message: "ID no valido" });
-    }
-
-    await deleteVenta(parseInt(id));
+    await deleteVenta(id);
 
     res.status(202).json({ message: "Venta eliminada con exito" });
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de eliminar una venta" });
+    next(err);
   }
 };
 
-export const obtainVentaById = async (req: Request, res: Response) => {
+export const obtainVentaById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const id = req.params.id;
+    const id = res.locals.id;
 
-    if (!id) {
-      return 0;
-    }
-
-    const venta = await getVentaById(parseInt(id));
+    const venta = await getVentaById(id);
 
     res.status(202).json(venta);
   } catch (err) {
-    res.status(400).json({
-      message: "Error a la hora de obtener un venta segun id",
-    });
+    next(err);
   }
 };
 
-export const obtainVentas = async (req: Request, res: Response) => {
+export const obtainVentas = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const ventas = await getVentas();
 
     res.status(202).json(ventas);
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de obtener ventas" });
+    next(err);
   }
 };
