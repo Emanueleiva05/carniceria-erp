@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   deleteCarne,
   getCarneById,
@@ -7,7 +7,11 @@ import {
   updateCarne,
 } from "../services/carneDepostadaService";
 
-export const createCarne = async (req: Request, res: Response) => {
+export const createCarne = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
 
@@ -15,11 +19,15 @@ export const createCarne = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: "Carne creada con exito" });
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de crear un carne" });
+    next(err);
   }
 };
 
-export const modifyCarne = async (req: Request, res: Response) => {
+export const modifyCarne = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
     const id = res.locals.id;
@@ -28,11 +36,15 @@ export const modifyCarne = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: "Carne modificada con exito" });
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de modificar una carne" });
+    next(err);
   }
 };
 
-export const removeCarne = async (req: Request, res: Response) => {
+export const removeCarne = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = res.locals.id;
 
@@ -40,11 +52,15 @@ export const removeCarne = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: "Carne eliminada con exito" });
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de eliminar una carne" });
+    next(err);
   }
 };
 
-export const obtainCarneById = async (req: Request, res: Response) => {
+export const obtainCarneById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = res.locals.id;
 
@@ -52,18 +68,20 @@ export const obtainCarneById = async (req: Request, res: Response) => {
 
     res.status(202).json(carne);
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de obtener una carne segun id" });
+    next(err);
   }
 };
 
-export const obtainCarne = async (req: Request, res: Response) => {
+export const obtainCarne = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const carnes = await getCarnes();
 
     res.status(202).json(carnes);
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de obtener carnes" });
+    next(err);
   }
 };

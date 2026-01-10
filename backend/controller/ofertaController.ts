@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import {
   deleteOferta,
   getOfertaById,
@@ -7,7 +7,11 @@ import {
   updateOferta,
 } from "../services/ofertaServices";
 
-export const createOferta = async (req: Request, res: Response) => {
+export const createOferta = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
 
@@ -15,13 +19,15 @@ export const createOferta = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: "Oferta detalle creada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de crear un detalle de oferta" });
+    next(err);
   }
 };
 
-export const modifyOferta = async (req: Request, res: Response) => {
+export const modifyOferta = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
     const id = res.locals.id;
@@ -30,13 +36,15 @@ export const modifyOferta = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: "Oferta modificada con exito" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error a la hora de modificar una oferta" });
+    next(err);
   }
 };
 
-export const removeOferta = async (req: Request, res: Response) => {
+export const removeOferta = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = res.locals.id;
 
@@ -44,11 +52,15 @@ export const removeOferta = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: "Oferta detalle eliminada con exito" });
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de eliminar una oferta" });
+    next(err);
   }
 };
 
-export const obtainOfertaById = async (req: Request, res: Response) => {
+export const obtainOfertaById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = res.locals.id;
 
@@ -56,18 +68,20 @@ export const obtainOfertaById = async (req: Request, res: Response) => {
 
     res.status(202).json(oferta);
   } catch (err) {
-    res.status(400).json({
-      message: "Error a la hora de obtener una oferta detalle segun id",
-    });
+    next(err);
   }
 };
 
-export const obtainOfertas = async (req: Request, res: Response) => {
+export const obtainOfertas = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const ofertas = await getOfertas();
 
     res.status(202).json(ofertas);
   } catch (err) {
-    res.status(400).json({ message: "Error a la hora de obtener oferta " });
+    next(err);
   }
 };
