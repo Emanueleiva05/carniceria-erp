@@ -19,10 +19,6 @@ export const validateBody = (
 
   if (typeof total !== "number" || total < 0) throw new BadRequest("Total");
 
-  if (pago === null) throw new EmptyRequest("Pago");
-
-  if (typeof pago !== "boolean") throw new BadRequest("Pago");
-
   if (proveedor_id === null || proveedor_id === 0 || proveedor_id === "")
     throw new EmptyRequest("Proveedor ID");
 

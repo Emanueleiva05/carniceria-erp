@@ -1,5 +1,7 @@
 import carneDepostadaRepository from "../repository/carneDepostadoRepository";
 import NotFound from "../error/NotFound";
+import { getMediaresById } from "./mediaresService";
+import { getProductoById } from "./productoService";
 
 interface CarneDepostada {
   carne_id: number;
@@ -9,6 +11,9 @@ interface CarneDepostada {
 }
 
 export const setCarne = async (data: CarneDepostada) => {
+  await getMediaresById(data.mediares_id);
+  await getProductoById(data.producto_id);
+
   return await carneDepostadaRepository.save(data);
 };
 

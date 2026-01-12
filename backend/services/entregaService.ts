@@ -1,5 +1,6 @@
 import NotFound from "../error/NotFound";
 import entregaRepository from "../repository/entregaRepository";
+import { getProveedoresById } from "./proveedorService";
 
 interface Entrega {
   entrega_id: number;
@@ -11,10 +12,16 @@ interface Entrega {
 }
 
 export const setEntrega = async (data: Entrega) => {
+  await getProveedoresById(data.proveedor_id);
+  data.pago = false;
+  data.fecha_entrega = new Date();
+
   return await entregaRepository.save(data);
 };
 
 export const updateEntrega = async (id: number, data: Entrega) => {
+  await getProveedoresById(data.proveedor_id);
+
   return await entregaRepository.update(id, data);
 };
 

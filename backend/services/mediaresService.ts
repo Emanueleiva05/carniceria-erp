@@ -1,5 +1,6 @@
 import NotFound from "../error/NotFound";
 import mediaresRepository from "../repository/mediaresRepository";
+import { getEntregaById } from "./entregaService";
 
 interface Mediares {
   mediares_id: number;
@@ -12,6 +13,8 @@ interface Mediares {
 }
 
 export const setMediares = async (data: Mediares) => {
+  await getEntregaById(data.entrega_id);
+
   return await mediaresRepository.save(data);
 };
 
