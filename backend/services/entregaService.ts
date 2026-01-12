@@ -16,6 +16,7 @@ export const setEntrega = async (data: EntregaInput) => {
   await getProveedoresById(data.proveedor_id);
   data.pago = false;
   data.fecha_entrega = new Date();
+  data.total = 0;
 
   return await entregaRepository.save(data);
 };

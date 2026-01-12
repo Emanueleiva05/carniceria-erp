@@ -1,19 +1,19 @@
 import { Categoria, UnidadMedida } from "../utils/tipos";
 
 export class Producto {
-  public producto_id: Number;
-  public nombre: String;
+  public producto_id: number;
+  public nombre: string;
   public categoria: Categoria;
-  public stock_actual: Number;
-  public precio_venta: Number;
+  public stock_actual: number;
+  public precio_venta: number;
   public unidad: UnidadMedida;
 
   constructor(
-    id: Number,
-    nombre: String,
+    id: number,
+    nombre: string,
     categoria: Categoria,
-    stock_actual: Number,
-    precio_venta: Number,
+    stock_actual: number,
+    precio_venta: number,
     unidad: UnidadMedida
   ) {
     this.producto_id = id;

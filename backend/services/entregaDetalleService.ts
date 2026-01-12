@@ -4,7 +4,7 @@ import entregaDetalleRepository from "../repository/entregaDetalleRepository";
 import { getEntregaById } from "./entregaService";
 import { getProductoById } from "./productoService";
 
-interface EntregaDetalleInput {
+export interface EntregaDetalleInput {
   entregaDetalle_id: number;
   cantidad: number;
   precio_compra: number;
