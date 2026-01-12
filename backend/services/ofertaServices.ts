@@ -1,5 +1,6 @@
 import NotFound from "../error/NotFound";
 import ofertaRepository from "../repository/ofertaRepository";
+import { getProductoById } from "./productoService";
 
 interface Oferta {
   oferta_id: number;
@@ -10,10 +11,15 @@ interface Oferta {
 }
 
 export const setOferta = async (data: Oferta) => {
+  await getProductoById(data.producto_id);
+  data.esta_activo = true;
+
   return await ofertaRepository.save(data);
 };
 
 export const updateOferta = async (id: number, data: Oferta) => {
+  await getProductoById(data.producto_id);
+
   return await ofertaRepository.update(id, data);
 };
 

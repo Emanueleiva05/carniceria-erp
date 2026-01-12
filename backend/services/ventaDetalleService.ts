@@ -1,5 +1,8 @@
 import NotFound from "../error/NotFound";
 import ventaDetalleRepository from "../repository/ventaDetalleRepository";
+import { getOfertaById } from "./ofertaServices";
+import { getProductoById } from "./productoService";
+import { getVentaById } from "./ventaService";
 
 interface VentaDetalle {
   ventaDetalle_id: number;
@@ -12,10 +15,20 @@ interface VentaDetalle {
 }
 
 export const setVentaDetalle = async (data: VentaDetalle) => {
+  await getProductoById(data.producto_id);
+  await getVentaById(data.venta_id);
+
+  if (data.oferta_id) {
+    await getOfertaById(data.oferta_id);
+  }
+
   return await ventaDetalleRepository.save(data);
 };
 
 export const updateVentaDetalle = async (id: number, data: VentaDetalle) => {
+  await getProductoById(data.producto_id);
+  await getVentaById(data.venta_id);
+
   return await ventaDetalleRepository.update(id, data);
 };
 

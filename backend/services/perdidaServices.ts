@@ -1,5 +1,6 @@
 import NotFound from "../error/NotFound";
 import perdidaRepository from "../repository/perdidaRepository";
+import { getProductoById } from "./productoService";
 
 interface Perdida {
   perdida_id: number;
@@ -12,10 +13,15 @@ interface Perdida {
 }
 
 export const setPerdida = async (data: Perdida) => {
+  await getProductoById(data.producto_id);
+  data.fecha_perdida = new Date();
+
   return await perdidaRepository.save(data);
 };
 
 export const updatePerdida = async (id: number, data: Perdida) => {
+  await getProductoById(data.producto_id);
+
   return await perdidaRepository.update(id, data);
 };
 
