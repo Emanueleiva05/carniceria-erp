@@ -2,6 +2,7 @@ import NotFound from "../error/NotFound";
 import { StockMovimiento } from "../models/StockMovimiento";
 import stockMovimientoRepository from "../repository/stockMovimientoRepository";
 import { Operacion, TipoMovimiento, TipoReferencia } from "../utils/tipos";
+import { getProductoById } from "./productoService";
 
 interface StockMovimientoInput {
   movimiento_id: number;
@@ -14,6 +15,7 @@ interface StockMovimientoInput {
 }
 
 export const setMovimiento = async (data: StockMovimientoInput) => {
+  await getProductoById(data.producto_id);
   return await stockMovimientoRepository.save(data);
 };
 

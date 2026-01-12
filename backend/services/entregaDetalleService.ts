@@ -1,6 +1,8 @@
 import NotFound from "../error/NotFound";
 import { EntregaDetalle } from "../models/EntregaDetalle";
 import entregaDetalleRepository from "../repository/entregaDetalleRepository";
+import { getEntregaById } from "./entregaService";
+import { getProductoById } from "./productoService";
 
 interface EntregaDetalleInput {
   entregaDetalle_id: number;
@@ -11,6 +13,9 @@ interface EntregaDetalleInput {
 }
 
 export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
+  await getProductoById(data.producto_id);
+  await getEntregaById(data.entrega_id);
+
   return await entregaDetalleRepository.save(data);
 };
 
@@ -18,6 +23,9 @@ export const updateEntregaDetalle = async (
   id: number,
   data: EntregaDetalleInput
 ) => {
+  await getProductoById(data.producto_id);
+  await getEntregaById(data.entrega_id);
+
   return await entregaDetalleRepository.update(id, data);
 };
 

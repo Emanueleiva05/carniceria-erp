@@ -1,6 +1,7 @@
 import NotFound from "../error/NotFound";
 import { Perdida } from "../models/Perdida";
 import perdidaRepository from "../repository/perdidaRepository";
+import { getProductoById } from "./productoService";
 import { UnidadMedida } from "../utils/tipos";
 
 interface PerdidaInput {
@@ -14,10 +15,15 @@ interface PerdidaInput {
 }
 
 export const setPerdida = async (data: PerdidaInput) => {
+  await getProductoById(data.producto_id);
+  data.fecha_perdida = new Date();
+
   return await perdidaRepository.save(data);
 };
 
 export const updatePerdida = async (id: number, data: PerdidaInput) => {
+  await getProductoById(data.producto_id);
+
   return await perdidaRepository.update(id, data);
 };
 

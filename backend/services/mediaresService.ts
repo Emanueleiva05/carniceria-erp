@@ -1,6 +1,7 @@
 import NotFound from "../error/NotFound";
 import Mediares from "../models/Mediares";
 import mediaresRepository from "../repository/mediaresRepository";
+import { getEntregaById } from "./entregaService";
 import { Tamanio } from "../utils/tipos";
 
 interface MediaresInput {
@@ -14,6 +15,8 @@ interface MediaresInput {
 }
 
 export const setMediares = async (data: MediaresInput) => {
+  await getEntregaById(data.entrega_id);
+
   return await mediaresRepository.save(data);
 };
 

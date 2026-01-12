@@ -10,6 +10,9 @@ interface VentaInput {
 }
 
 export const setVenta = async (data: VentaInput) => {
+  data.fecha_venta = new Date();
+  data.esta_vendida = false;
+
   return await ventaRepository.save(data);
 };
 
