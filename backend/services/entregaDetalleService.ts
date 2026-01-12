@@ -1,7 +1,8 @@
 import NotFound from "../error/NotFound";
+import { EntregaDetalle } from "../models/EntregaDetalle";
 import entregaDetalleRepository from "../repository/entregaDetalleRepository";
 
-interface EntregaDetalle {
+interface EntregaDetalleInput {
   entregaDetalle_id: number;
   cantidad: number;
   precio_compra: number;
@@ -9,13 +10,13 @@ interface EntregaDetalle {
   entrega_id: number;
 }
 
-export const setEntregaDetalle = async (data: EntregaDetalle) => {
+export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
   return await entregaDetalleRepository.save(data);
 };
 
 export const updateEntregaDetalle = async (
   id: number,
-  data: EntregaDetalle
+  data: EntregaDetalleInput
 ) => {
   return await entregaDetalleRepository.update(id, data);
 };
@@ -37,4 +38,14 @@ export const getEntregaDetalleById = async (id: number) => {
 export const getEntregaDetalles = async () => {
   const entregaDetalles = await entregaDetalleRepository.findAll();
   return entregaDetalles;
+};
+
+const buildEntregaDetalle = (data: EntregaDetalleInput) => {
+  return new EntregaDetalle(
+    data.entregaDetalle_id,
+    data.cantidad,
+    data.precio_compra,
+    data.producto_id,
+    data.entrega_id
+  );
 };

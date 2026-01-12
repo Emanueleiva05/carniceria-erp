@@ -1,21 +1,23 @@
 import NotFound from "../error/NotFound";
+import { Perdida } from "../models/Perdida";
 import perdidaRepository from "../repository/perdidaRepository";
+import { UnidadMedida } from "../utils/tipos";
 
-interface Perdida {
+interface PerdidaInput {
   perdida_id: number;
   tirado: number;
-  unidad_medida: string;
+  unidad_medida: UnidadMedida;
   fecha_perdida: Date;
   motivo: string;
   total: number;
   producto_id: number;
 }
 
-export const setPerdida = async (data: Perdida) => {
+export const setPerdida = async (data: PerdidaInput) => {
   return await perdidaRepository.save(data);
 };
 
-export const updatePerdida = async (id: number, data: Perdida) => {
+export const updatePerdida = async (id: number, data: PerdidaInput) => {
   return await perdidaRepository.update(id, data);
 };
 
@@ -36,4 +38,16 @@ export const getPerdidaById = async (id: number) => {
 export const getPerdidas = async () => {
   const perdidas = await perdidaRepository.findAll();
   return perdidas;
+};
+
+const buildPerdida = (data: PerdidaInput) => {
+  return new Perdida(
+    data.perdida_id,
+    data.tirado,
+    data.unidad_medida,
+    data.fecha_perdida,
+    data.motivo,
+    data.total,
+    data.producto_id
+  );
 };

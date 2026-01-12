@@ -1,7 +1,8 @@
 import NotFound from "../error/NotFound";
+import { VentaDetalla } from "../models/VentaDetalle";
 import ventaDetalleRepository from "../repository/ventaDetalleRepository";
 
-interface VentaDetalle {
+interface VentaDetalleInput {
   ventaDetalle_id: number;
   precio_unitario: number;
   cantidad: number;
@@ -11,11 +12,14 @@ interface VentaDetalle {
   oferta_id: number;
 }
 
-export const setVentaDetalle = async (data: VentaDetalle) => {
+export const setVentaDetalle = async (data: VentaDetalleInput) => {
   return await ventaDetalleRepository.save(data);
 };
 
-export const updateVentaDetalle = async (id: number, data: VentaDetalle) => {
+export const updateVentaDetalle = async (
+  id: number,
+  data: VentaDetalleInput
+) => {
   return await ventaDetalleRepository.update(id, data);
 };
 
@@ -36,4 +40,16 @@ export const getVentaDetalleById = async (id: number) => {
 export const getVentaDetalles = async () => {
   const ventaDetalles = await ventaDetalleRepository.findAll();
   return ventaDetalles;
+};
+
+const buildVentaDetalle = (data: VentaDetalleInput) => {
+  return new VentaDetalla(
+    data.ventaDetalle_id,
+    data.precio_unitario,
+    data.cantidad,
+    data.subtotal,
+    data.producto_id,
+    data.venta_id,
+    data.oferta_id
+  );
 };
