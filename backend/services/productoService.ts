@@ -1,20 +1,26 @@
 import NotFound from "../error/NotFound";
+import { Producto } from "../models/Producto";
 import productoRepository from "../repository/productoRepository";
+import { ProductoInput } from "../utils/contracts";
 
-interface Producto {
-  producto_id: number;
-  nombre: string;
-  categoria: string;
-  stock_actual: number;
-  precio_venta: number;
-  unidad_medida: string;
-}
+export const setProducto = async (data: ProductoInput) => {
+  const producto = Producto.create(
+    data.nombre,
+    data.categoria,
+    data.precio_venta,
+    data.unidad_medida
+  );
 
-export const setProducto = async (data: Producto) => {
-  return await productoRepository.save(data);
+  return await productoRepository.save({
+    nombre: producto.nombre,
+    categoria: producto.categoria,
+    stock_actual: producto.stock_actual,
+    precio_venta: producto.precio_venta,
+    unidad_medida: producto.unidad,
+  });
 };
 
-export const updateProducto = async (id: number, data: Producto) => {
+export const updateProducto = async (id: number, data: ProductoInput) => {
   return await productoRepository.update(id, data);
 };
 

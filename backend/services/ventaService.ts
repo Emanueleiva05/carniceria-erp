@@ -1,20 +1,18 @@
 import NotFound from "../error/NotFound";
+import { Venta } from "../models/Venta";
 import ventaRepository from "../repository/ventaRepository";
+import { VentaInput } from "../utils/contracts";
 
-interface Venta {
-  venta_id: number;
-  fecha_venta: Date;
-  esta_vendida: boolean;
-}
+export const setVenta = async (data: VentaInput) => {
+  const venta = Venta.create();
 
-export const setVenta = async (data: Venta) => {
-  data.fecha_venta = new Date();
-  data.esta_vendida = false;
-
-  return await ventaRepository.save(data);
+  return await ventaRepository.save({
+    fecha_venta: venta.fecha_venta,
+    esta_vendida: venta.vendido,
+  });
 };
 
-export const updateVenta = async (id: number, data: Venta) => {
+export const updateVenta = async (id: number, data: VentaInput) => {
   return await ventaRepository.update(id, data);
 };
 

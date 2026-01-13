@@ -1,23 +1,34 @@
 import NotFound from "../error/NotFound";
+import { StockMovimiento } from "../models/StockMovimiento";
 import stockMovimientoRepository from "../repository/stockMovimientoRepository";
+import { StockMovimientoInput } from "../utils/contracts";
 import { getProductoById } from "./productoService";
 
-interface StockMovimiento {
-  movimiento_id: number;
-  cantidad: number;
-  tipo_movimiento: string;
-  motivo: string;
-  referencia_id: number;
-  referencia_tipo: string;
-  producto_id: number;
-}
-
-export const setMovimiento = async (data: StockMovimiento) => {
+export const setMovimiento = async (data: StockMovimientoInput) => {
   await getProductoById(data.producto_id);
-  return await stockMovimientoRepository.save(data);
+
+  const movimiento = StockMovimiento.create(
+    data.cantidad,
+    data.tipo_movimiento,
+    data.motivo,
+    data.referencia_id,
+    data.referencia_tipo,
+    data.producto_id
+  );
+  return await stockMovimientoRepository.save({
+    cantidad: movimiento.cantidad,
+    tipo_movimiento: movimiento.tipo,
+    motivo: movimiento.motivo,
+    referencia_id: movimiento.referencia_id,
+    referencia_tipo: movimiento.referencia_tipo,
+    producto_id: movimiento.producto_id,
+  });
 };
 
-export const updateMovimiento = async (id: number, data: StockMovimiento) => {
+export const updateMovimiento = async (
+  id: number,
+  data: StockMovimientoInput
+) => {
   return await stockMovimientoRepository.update(id, data);
 };
 

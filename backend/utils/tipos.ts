@@ -1,19 +1,16 @@
-export type Tamanio =
-  | 90
-  | 92.5
-  | 95
-  | 97.5
-  | 100
-  | 102.5
-  | 105
-  | 107.5
-  | 110
-  | 112.5
-  | 115;
+export type Tamanio = 90 | 95 | 100 | 105 | 110 | 115 | 120;
+
+export const transformTamanio = (tamanio: number): Tamanio => {
+  const TAMANIO: Tamanio[] = [90, 95, 100, 105, 110, 115, 120];
+  const encontrado = TAMANIO.find((num) => tamanio < num);
+  return encontrado ?? 120;
+};
 
 export type Categoria = "Carne" | "Pollo" | "Achura";
 
 export type UnidadMedida = "Unidad" | "Kg";
+
+export type TipoVaca = "Novillo" | "Adulta";
 
 export type TipoMovimiento = "";
 

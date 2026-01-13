@@ -1,25 +1,27 @@
 import NotFound from "../error/NotFound";
+import { Oferta } from "../models/Oferta";
 import ofertaRepository from "../repository/ofertaRepository";
 import { getProductoById } from "./productoService";
+import { OfertaInput } from "../utils/contracts";
 
-interface Oferta {
-  oferta_id: number;
-  minKg: number;
-  precio_oferta: number;
-  esta_activo: boolean;
-  producto_id: number;
-}
-
-export const setOferta = async (data: Oferta) => {
+export const setOferta = async (data: OfertaInput) => {
   await getProductoById(data.producto_id);
-  data.esta_activo = true;
 
-  return await ofertaRepository.save(data);
+  const oferta = Oferta.create(
+    data.minKg,
+    data.precio_oferta,
+    data.producto_id
+  );
+
+  return await ofertaRepository.save({
+    minKg: oferta.minKg,
+    precio_oferta: oferta.precio_oferta,
+    esta_activo: oferta.estaActivo,
+    producto_id: oferta.producto_id,
+  });
 };
 
-export const updateOferta = async (id: number, data: Oferta) => {
-  await getProductoById(data.producto_id);
-
+export const updateOferta = async (id: number, data: OfertaInput) => {
   return await ofertaRepository.update(id, data);
 };
 

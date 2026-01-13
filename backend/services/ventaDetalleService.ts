@@ -1,34 +1,35 @@
 import NotFound from "../error/NotFound";
+import { VentaDetalla } from "../models/VentaDetalle";
 import ventaDetalleRepository from "../repository/ventaDetalleRepository";
-import { getOfertaById } from "./ofertaServices";
 import { getProductoById } from "./productoService";
 import { getVentaById } from "./ventaService";
+import { VentaDetalleInput } from "../utils/contracts";
 
-interface VentaDetalle {
-  ventaDetalle_id: number;
-  precio_unitario: number;
-  cantidad: number;
-  subtotal: number;
-  producto_id: number;
-  venta_id: number;
-  oferta_id: number;
-}
-
-export const setVentaDetalle = async (data: VentaDetalle) => {
+export const setVentaDetalle = async (data: VentaDetalleInput) => {
   await getProductoById(data.producto_id);
   await getVentaById(data.venta_id);
 
-  if (data.oferta_id) {
-    await getOfertaById(data.oferta_id);
-  }
+  const ventaDetalle = VentaDetalla.create(
+    data.precio_unitario,
+    data.cantidad,
+    data.producto_id,
+    data.venta_id
+  );
 
-  return await ventaDetalleRepository.save(data);
+  return await ventaDetalleRepository.save({
+    precio_unitario: ventaDetalle.precio_unitario,
+    subtotal: ventaDetalle.subtotal,
+    cantidad: ventaDetalle.cantidad,
+    producto_id: ventaDetalle.producto_id,
+    venta_id: ventaDetalle.venta_id,
+    oferta_id: ventaDetalle.oferta_id,
+  });
 };
 
-export const updateVentaDetalle = async (id: number, data: VentaDetalle) => {
-  await getProductoById(data.producto_id);
-  await getVentaById(data.venta_id);
-
+export const updateVentaDetalle = async (
+  id: number,
+  data: VentaDetalleInput
+) => {
   return await ventaDetalleRepository.update(id, data);
 };
 

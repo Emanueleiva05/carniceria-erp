@@ -1,26 +1,32 @@
 import NotFound from "../error/NotFound";
+import { EntregaDetalle } from "../models/EntregaDetalle";
 import entregaDetalleRepository from "../repository/entregaDetalleRepository";
 import { getEntregaById } from "./entregaService";
 import { getProductoById } from "./productoService";
+import { EntregaDetalleInput } from "../utils/contracts";
 
-interface EntregaDetalle {
-  entregaDetalle_id: number;
-  cantidad: number;
-  precio_compra: number;
-  producto_id: number;
-  entrega_id: number;
-}
-
-export const setEntregaDetalle = async (data: EntregaDetalle) => {
+export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
   await getProductoById(data.producto_id);
   await getEntregaById(data.entrega_id);
 
-  return await entregaDetalleRepository.save(data);
+  const entregaDetalle = EntregaDetalle.create(
+    data.cantidad,
+    data.precio_compra,
+    data.producto_id,
+    data.entrega_id
+  );
+
+  await entregaDetalleRepository.save({
+    cantidad: entregaDetalle.cantidad,
+    precio_compra: entregaDetalle.precio_compra,
+    producto_id: entregaDetalle.producto_id,
+    entrega_id: entregaDetalle.entrega_id,
+  });
 };
 
 export const updateEntregaDetalle = async (
   id: number,
-  data: EntregaDetalle
+  data: EntregaDetalleInput
 ) => {
   await getProductoById(data.producto_id);
   await getEntregaById(data.entrega_id);

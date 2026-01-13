@@ -1,17 +1,18 @@
 import NotFound from "../error/NotFound";
+import Proveedor from "../models/Proveedor";
 import proveedorRepository from "../repository/proveedorRepository";
+import { ProveedorInput } from "../utils/contracts";
 
-interface Proveedor {
-  proveedor_id: number;
-  nombre: string;
-  telefono: string;
-}
+export const setProveedores = async (data: ProveedorInput) => {
+  const proveedor = Proveedor.create(data.nombre, data.telefono);
 
-export const setProveedores = async (data: Proveedor) => {
-  return await proveedorRepository.save(data);
+  return await proveedorRepository.save({
+    nombre: proveedor.nombre,
+    telefono: proveedor.telefono,
+  });
 };
 
-export const updateProveedores = async (id: number, data: Proveedor) => {
+export const updateProveedores = async (id: number, data: ProveedorInput) => {
   return await proveedorRepository.update(id, data);
 };
 
