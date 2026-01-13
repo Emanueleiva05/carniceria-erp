@@ -1,9 +1,17 @@
 import { prisma } from "../config/db";
-import { Mediares } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-class MediaresRepository implements Repository<Mediares, number> {
-  async findById(id: number): Promise<Mediares | null> {
+type MediarePrisma = {
+  peso_carton: number;
+  peso_real: number;
+  tamano: number;
+  precio_compra: number;
+  tipo_vaca: string;
+  entrega_id: number;
+};
+
+class MediaresRepository implements Repository<MediarePrisma, number> {
+  async findById(id: number): Promise<MediarePrisma | null> {
     return await prisma.mediares.findUnique({
       where: {
         mediares_id: id,
@@ -11,11 +19,11 @@ class MediaresRepository implements Repository<Mediares, number> {
     });
   }
 
-  async findAll(): Promise<Mediares[]> {
+  async findAll(): Promise<MediarePrisma[]> {
     return await prisma.mediares.findMany();
   }
 
-  async save(data: Mediares) {
+  async save(data: MediarePrisma) {
     await prisma.mediares.create({
       data: {
         peso_carton: data.peso_carton,
@@ -28,7 +36,7 @@ class MediaresRepository implements Repository<Mediares, number> {
     });
   }
 
-  async update(id: number, data: Mediares): Promise<void> {
+  async update(id: number, data: MediarePrisma): Promise<void> {
     await prisma.mediares.update({
       where: { mediares_id: id },
       data: {

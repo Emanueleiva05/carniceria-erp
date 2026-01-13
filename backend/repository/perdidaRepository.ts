@@ -1,9 +1,17 @@
 import { prisma } from "../config/db";
-import { Perdida } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-class PerdidaRepository implements Repository<Perdida, number> {
-  async findById(id: number): Promise<Perdida | null> {
+type PerdidaPrisma = {
+  tirado: number;
+  unidad_medida: string;
+  fecha_perdida: Date;
+  motivo: string | null;
+  total: number;
+  producto_id: number;
+};
+
+class PerdidaRepository implements Repository<PerdidaPrisma, number> {
+  async findById(id: number): Promise<PerdidaPrisma | null> {
     return await prisma.perdida.findUnique({
       where: {
         perdida_id: id,
@@ -11,11 +19,11 @@ class PerdidaRepository implements Repository<Perdida, number> {
     });
   }
 
-  async findAll(): Promise<Perdida[]> {
+  async findAll(): Promise<PerdidaPrisma[]> {
     return await prisma.perdida.findMany();
   }
 
-  async save(data: Perdida) {
+  async save(data: PerdidaPrisma) {
     await prisma.perdida.create({
       data: {
         unidad_medida: data.unidad_medida,
@@ -28,7 +36,7 @@ class PerdidaRepository implements Repository<Perdida, number> {
     });
   }
 
-  async update(id: number, data: Perdida): Promise<void> {
+  async update(id: number, data: PerdidaPrisma): Promise<void> {
     await prisma.perdida.update({
       where: { perdida_id: id },
       data: {

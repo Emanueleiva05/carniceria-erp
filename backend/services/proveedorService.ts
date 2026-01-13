@@ -1,15 +1,15 @@
 import NotFound from "../error/NotFound";
 import Proveedor from "../models/Proveedor";
 import proveedorRepository from "../repository/proveedorRepository";
-
-interface ProveedorInput {
-  proveedor_id: number;
-  nombre: string;
-  telefono: string;
-}
+import { ProveedorInput } from "../utils/contracts";
 
 export const setProveedores = async (data: ProveedorInput) => {
-  return await proveedorRepository.save(data);
+  const proveedor = Proveedor.create(data.nombre, data.telefono);
+
+  return await proveedorRepository.save({
+    nombre: proveedor.nombre,
+    telefono: proveedor.telefono,
+  });
 };
 
 export const updateProveedores = async (id: number, data: ProveedorInput) => {
@@ -33,8 +33,4 @@ export const getProveedoresById = async (id: number) => {
 export const getProveedores = async () => {
   const proveedores = await proveedorRepository.findAll();
   return proveedores;
-};
-
-const buildProveedor = (data: ProveedorInput) => {
-  return new Proveedor(data.proveedor_id, data.nombre, data.telefono);
 };

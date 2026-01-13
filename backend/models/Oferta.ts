@@ -1,12 +1,12 @@
 export class Oferta {
-  public oferta_id: number;
+  public oferta_id: number | null;
   public minKg: number;
   public precio_oferta: number;
   public estaActivo: boolean;
   public producto_id: number;
 
   constructor(
-    id: number,
+    id: number | null,
     minKg: number,
     precio_oferta: number,
     estaActivo: boolean,
@@ -19,7 +19,23 @@ export class Oferta {
     this.producto_id = producto_id;
   }
 
-  cambiarEstado() {
-    this.estaActivo = !this.estaActivo;
+  static create(minKg: number, precio_oferta: number, producto_id: number) {
+    if (minKg <= 0) {
+      throw new Error("Kilos minimos invalido");
+    }
+
+    if (precio_oferta <= 0) {
+      throw new Error("Precio oferta invalido");
+    }
+
+    if (producto_id <= 0) {
+      throw new Error("Producto ID invalido");
+    }
+
+    return new Oferta(null, minKg, precio_oferta, true, producto_id);
+  }
+
+  inactivo() {
+    this.estaActivo = false;
   }
 }

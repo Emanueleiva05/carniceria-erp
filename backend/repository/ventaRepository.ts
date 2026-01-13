@@ -1,9 +1,13 @@
 import { prisma } from "../config/db";
-import { Venta } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-class VentaRepository implements Repository<Venta, number> {
-  async findById(id: number): Promise<Venta | null> {
+type VentaPrisma = {
+  fecha_venta: Date;
+  esta_vendida: boolean;
+};
+
+class VentaRepository implements Repository<VentaPrisma, number> {
+  async findById(id: number): Promise<VentaPrisma | null> {
     return await prisma.venta.findUnique({
       where: {
         venta_id: id,
@@ -11,11 +15,11 @@ class VentaRepository implements Repository<Venta, number> {
     });
   }
 
-  async findAll(): Promise<Venta[]> {
+  async findAll(): Promise<VentaPrisma[]> {
     return await prisma.venta.findMany();
   }
 
-  async save(data: Venta) {
+  async save(data: VentaPrisma) {
     await prisma.venta.create({
       data: {
         fecha_venta: data.fecha_venta,
@@ -24,7 +28,7 @@ class VentaRepository implements Repository<Venta, number> {
     });
   }
 
-  async update(id: number, data: Venta): Promise<void> {
+  async update(id: number, data: VentaPrisma): Promise<void> {
     await prisma.venta.update({
       where: { venta_id: id },
       data: {

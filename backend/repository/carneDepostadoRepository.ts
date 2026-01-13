@@ -1,9 +1,9 @@
 import { prisma } from "../config/db";
-import { CarneDepostada } from "@prisma/client";
+import { CarneInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
-class CarneDepostadaRepository implements Repository<CarneDepostada, number> {
-  async findById(id: number): Promise<CarneDepostada | null> {
+class CarneDepostadaRepository implements Repository<CarneInput, number> {
+  async findById(id: number): Promise<CarneInput | null> {
     return await prisma.carneDepostada.findUnique({
       where: {
         carne_id: id,
@@ -11,11 +11,11 @@ class CarneDepostadaRepository implements Repository<CarneDepostada, number> {
     });
   }
 
-  async findAll(): Promise<CarneDepostada[]> {
+  async findAll(): Promise<CarneInput[]> {
     return await prisma.carneDepostada.findMany();
   }
 
-  async save(data: CarneDepostada) {
+  async save(data: CarneInput) {
     await prisma.carneDepostada.create({
       data: {
         peso_real: data.peso_real,
@@ -25,7 +25,7 @@ class CarneDepostadaRepository implements Repository<CarneDepostada, number> {
     });
   }
 
-  async update(id: number, data: CarneDepostada): Promise<void> {
+  async update(id: number, data: CarneInput): Promise<void> {
     await prisma.carneDepostada.update({
       where: { carne_id: id },
       data: {

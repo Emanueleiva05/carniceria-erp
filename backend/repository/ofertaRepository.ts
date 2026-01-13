@@ -1,9 +1,15 @@
 import { prisma } from "../config/db";
-import { Oferta } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-class OfertaRepository implements Repository<Oferta, number> {
-  async findById(id: number): Promise<Oferta | null> {
+type OfertaPrisma = {
+  minKg: number;
+  precio_oferta: number;
+  esta_activo: boolean;
+  producto_id: number;
+};
+
+class OfertaRepository implements Repository<OfertaPrisma, number> {
+  async findById(id: number): Promise<OfertaPrisma | null> {
     return await prisma.oferta.findUnique({
       where: {
         oferta_id: id,
@@ -11,11 +17,11 @@ class OfertaRepository implements Repository<Oferta, number> {
     });
   }
 
-  async findAll(): Promise<Oferta[]> {
+  async findAll(): Promise<OfertaPrisma[]> {
     return await prisma.oferta.findMany();
   }
 
-  async save(data: Oferta) {
+  async save(data: OfertaPrisma) {
     await prisma.oferta.create({
       data: {
         minKg: data.minKg,
@@ -26,7 +32,7 @@ class OfertaRepository implements Repository<Oferta, number> {
     });
   }
 
-  async update(id: number, data: Oferta): Promise<void> {
+  async update(id: number, data: OfertaPrisma): Promise<void> {
     await prisma.oferta.update({
       where: { oferta_id: id },
       data: {

@@ -3,19 +3,23 @@ import NotFound from "../error/NotFound";
 import { getMediaresById } from "./mediaresService";
 import { getProductoById } from "./productoService";
 import { CarneDepostada } from "../models/CarneDepostada";
-
-interface CarneInput {
-  carne_id: number;
-  peso_real: number;
-  producto_id: number;
-  mediares_id: number;
-}
+import { CarneInput } from "../utils/contracts";
 
 export const setCarne = async (data: CarneInput) => {
   await getMediaresById(data.mediares_id);
   await getProductoById(data.producto_id);
 
-  return await carneDepostadaRepository.save(data);
+  const carne = CarneDepostada.create(
+    data.peso_real,
+    data.mediares_id,
+    data.producto_id
+  );
+
+  await carneDepostadaRepository.save({
+    peso_real: carne.peso_real,
+    mediares_id: carne.mediares_id,
+    producto_id: carne.producto_id,
+  });
 };
 
 export const updateCarne = async (id: number, data: CarneInput) => {
@@ -39,13 +43,4 @@ export const getCarneById = async (id: number) => {
 export const getCarnes = async () => {
   const carnes = await carneDepostadaRepository.findAll();
   return carnes;
-};
-
-const buildCarne = (data: CarneInput) => {
-  return new CarneDepostada(
-    data.carne_id,
-    data.peso_real,
-    data.mediares_id,
-    data.producto_id
-  );
 };

@@ -1,30 +1,35 @@
 import { EntregaDetalle } from "./EntregaDetalle";
 
 export default class Entrega {
-  public entrega_id: number;
-  public fechaEntrega: Date;
+  public readonly entrega_id: number | null;
+  public readonly fechaEntrega: Date;
   public total: number;
   public pago: boolean;
   public factura: string;
   public proveedor_id: number;
 
   constructor(
-    id: number,
+    id: number | null,
     fechaEntrega: Date,
     pago: boolean,
+    total: number,
     factura: string,
     proveedor_id: number
   ) {
     this.entrega_id = id;
     this.fechaEntrega = fechaEntrega;
-    this.total = 0;
+    this.total = total;
     this.pago = pago;
     this.factura = factura;
     this.proveedor_id = proveedor_id;
   }
 
-  cambioEstado() {
-    this.pago = !this.pago;
+  static create(proveedor_id: number) {
+    return new Entrega(null, new Date(), false, 0, "", proveedor_id);
+  }
+
+  pagado() {
+    this.pago = true;
   }
 
   agregarFactura(archivo: string) {

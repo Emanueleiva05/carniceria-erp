@@ -1,19 +1,15 @@
 import NotFound from "../error/NotFound";
 import { Venta } from "../models/Venta";
 import ventaRepository from "../repository/ventaRepository";
-
-interface VentaInput {
-  venta_id: number;
-  fecha_venta: Date;
-  esta_vendida: boolean;
-  total: number;
-}
+import { VentaInput } from "../utils/contracts";
 
 export const setVenta = async (data: VentaInput) => {
-  data.fecha_venta = new Date();
-  data.esta_vendida = false;
+  const venta = Venta.create();
 
-  return await ventaRepository.save(data);
+  return await ventaRepository.save({
+    fecha_venta: venta.fecha_venta,
+    esta_vendida: venta.vendido,
+  });
 };
 
 export const updateVenta = async (id: number, data: VentaInput) => {
@@ -37,13 +33,4 @@ export const getVentaById = async (id: number) => {
 export const getVentas = async () => {
   const ventas = await ventaRepository.findAll();
   return ventas;
-};
-
-const buildVenta = (data: VentaInput) => {
-  return new Venta(
-    data.venta_id,
-    data.fecha_venta,
-    data.esta_vendida,
-    data.total
-  );
 };

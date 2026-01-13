@@ -1,9 +1,17 @@
 import { prisma } from "../config/db";
-import { VentaDetalle } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-class VentaDetalleRepository implements Repository<VentaDetalle, number> {
-  async findById(id: number): Promise<VentaDetalle | null> {
+type VentaDetallePrisma = {
+  precio_unitario: number;
+  cantidad: number;
+  subtotal: number;
+  producto_id: number;
+  venta_id: number;
+  oferta_id: number | null;
+};
+
+class VentaDetalleRepository implements Repository<VentaDetallePrisma, number> {
+  async findById(id: number): Promise<VentaDetallePrisma | null> {
     return await prisma.ventaDetalle.findUnique({
       where: {
         ventaDetalle_id: id,
@@ -11,11 +19,11 @@ class VentaDetalleRepository implements Repository<VentaDetalle, number> {
     });
   }
 
-  async findAll(): Promise<VentaDetalle[]> {
+  async findAll(): Promise<VentaDetallePrisma[]> {
     return await prisma.ventaDetalle.findMany();
   }
 
-  async save(data: VentaDetalle) {
+  async save(data: VentaDetallePrisma) {
     await prisma.ventaDetalle.create({
       data: {
         precio_unitario: data.precio_unitario,
@@ -28,7 +36,7 @@ class VentaDetalleRepository implements Repository<VentaDetalle, number> {
     });
   }
 
-  async update(id: number, data: VentaDetalle): Promise<void> {
+  async update(id: number, data: VentaDetallePrisma): Promise<void> {
     await prisma.ventaDetalle.update({
       where: { ventaDetalle_id: id },
       data: {

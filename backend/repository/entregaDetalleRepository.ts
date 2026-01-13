@@ -1,9 +1,11 @@
 import { prisma } from "../config/db";
-import { EntregaDetalle } from "@prisma/client";
+import { EntregaDetalleInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
-class EntregaDetalleRepository implements Repository<EntregaDetalle, number> {
-  async findById(id: number): Promise<EntregaDetalle | null> {
+class EntregaDetalleRepository
+  implements Repository<EntregaDetalleInput, number>
+{
+  async findById(id: number): Promise<EntregaDetalleInput | null> {
     return await prisma.entregaDetalle.findUnique({
       where: {
         entregaDetalle_id: id,
@@ -11,11 +13,11 @@ class EntregaDetalleRepository implements Repository<EntregaDetalle, number> {
     });
   }
 
-  async findAll(): Promise<EntregaDetalle[]> {
+  async findAll(): Promise<EntregaDetalleInput[]> {
     return await prisma.entregaDetalle.findMany();
   }
 
-  async save(data: EntregaDetalle) {
+  async save(data: EntregaDetalleInput) {
     await prisma.entregaDetalle.create({
       data: {
         cantidad: data.cantidad,
@@ -26,7 +28,7 @@ class EntregaDetalleRepository implements Repository<EntregaDetalle, number> {
     });
   }
 
-  async update(id: number, data: EntregaDetalle): Promise<void> {
+  async update(id: number, data: EntregaDetalleInput): Promise<void> {
     await prisma.entregaDetalle.update({
       where: { entregaDetalle_id: id },
       data: {

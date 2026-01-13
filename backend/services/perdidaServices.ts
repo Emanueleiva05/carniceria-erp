@@ -2,23 +2,26 @@ import NotFound from "../error/NotFound";
 import { Perdida } from "../models/Perdida";
 import perdidaRepository from "../repository/perdidaRepository";
 import { getProductoById } from "./productoService";
-import { UnidadMedida } from "../utils/tipos";
-
-interface PerdidaInput {
-  perdida_id: number;
-  tirado: number;
-  unidad_medida: UnidadMedida;
-  fecha_perdida: Date;
-  motivo: string;
-  total: number;
-  producto_id: number;
-}
+import { PerdidaInput } from "../utils/contracts";
 
 export const setPerdida = async (data: PerdidaInput) => {
   await getProductoById(data.producto_id);
-  data.fecha_perdida = new Date();
 
-  return await perdidaRepository.save(data);
+  const perdida = Perdida.create(
+    data.tirado,
+    data.unidad_medida,
+    data.producto_id,
+    data.motivo
+  );
+
+  return await perdidaRepository.save({
+    unidad_medida: perdida.unidad,
+    tirado: perdida.tirado,
+    fecha_perdida: perdida.fechaPerdida,
+    motivo: perdida.motivo,
+    total: perdida.total,
+    producto_id: perdida.producto_id,
+  });
 };
 
 export const updatePerdida = async (id: number, data: PerdidaInput) => {
@@ -44,16 +47,4 @@ export const getPerdidaById = async (id: number) => {
 export const getPerdidas = async () => {
   const perdidas = await perdidaRepository.findAll();
   return perdidas;
-};
-
-const buildPerdida = (data: PerdidaInput) => {
-  return new Perdida(
-    data.perdida_id,
-    data.tirado,
-    data.unidad_medida,
-    data.fecha_perdida,
-    data.motivo,
-    data.total,
-    data.producto_id
-  );
 };

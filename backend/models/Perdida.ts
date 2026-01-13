@@ -2,20 +2,20 @@ import { UnidadMedida } from "../utils/tipos";
 import { Producto } from "./Producto";
 
 export class Perdida {
-  public perdida_id: number;
+  public perdida_id: number | null;
   public tirado: number;
   public unidad: UnidadMedida;
   public fechaPerdida: Date;
-  public motivo: string;
+  public motivo: string | null;
   public total: number;
   public producto_id: number;
 
   constructor(
-    id: number,
+    id: number | null,
     tirado: number,
     unidad: UnidadMedida,
     fechaPerdida: Date,
-    motivo: string,
+    motivo: string | null,
     total: number,
     producto_id: number
   ) {
@@ -24,12 +24,40 @@ export class Perdida {
     this.unidad = unidad;
     this.fechaPerdida = fechaPerdida;
     this.motivo = motivo;
-    this.total = 0;
+    this.total = total;
     this.producto_id = producto_id;
   }
 
-  calcularTotal(producto: Producto) {
-    return this.tirado * producto.precio_venta;
+  static create(
+    tirado: number,
+    unidad: UnidadMedida,
+    producto_id: number,
+    motivo: string | null
+  ) {
+    if (tirado <= 0) {
+      throw new Error("Tirado invalido");
+    }
+    if (producto_id <= 0) {
+      throw new Error("Producto ID invalido");
+    }
+
+    return new Perdida(
+      null,
+      tirado,
+      unidad,
+      new Date(),
+      motivo,
+      0,
+      producto_id
+    );
+  }
+
+  calcularTotal(precio_venta: number) {
+    if (precio_venta <= 0) {
+      throw new Error("Precio venta invalido");
+    }
+
+    this.total = this.tirado * precio_venta;
   }
 
   agregarMotivo(motivo: string) {

@@ -1,20 +1,29 @@
 import { VentaDetalla } from "./VentaDetalle";
 
 export class Venta {
-  public venta_id: number;
+  public venta_id: number | null;
   public fecha_venta: Date;
   public vendido: boolean;
   public total: number;
 
-  constructor(id: number, fecha_venta: Date, vendido: boolean, total: number) {
+  constructor(
+    id: number | null,
+    fecha_venta: Date,
+    vendido: boolean,
+    total: number
+  ) {
     this.venta_id = id;
-    this.fecha_venta = new Date();
+    this.fecha_venta = fecha_venta;
     this.vendido = vendido;
     this.total = total;
   }
 
-  cambiarEstado() {
-    this.vendido = !this.vendido;
+  static create() {
+    return new Venta(null, new Date(), false, 0);
+  }
+
+  ventaRealizada() {
+    this.vendido = true;
   }
 
   calcularTotal(ventaDetalle: VentaDetalla[]) {

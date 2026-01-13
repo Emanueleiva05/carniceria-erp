@@ -1,23 +1,29 @@
 import NotFound from "../error/NotFound";
-import Mediares from "../models/Mediares";
 import mediaresRepository from "../repository/mediaresRepository";
 import { getEntregaById } from "./entregaService";
-import { Tamanio } from "../utils/tipos";
-
-interface MediaresInput {
-  mediares_id: number;
-  peso_carton: number;
-  peso_real: number;
-  tamano: Tamanio;
-  precio_compra: number;
-  tipo_vaca: string;
-  entrega_id: number;
-}
+import { MediaresInput } from "../utils/contracts";
+import Mediares from "../models/Mediares";
 
 export const setMediares = async (data: MediaresInput) => {
   await getEntregaById(data.entrega_id);
 
-  return await mediaresRepository.save(data);
+  const mediares = Mediares.create(
+    data.peso_carton,
+    data.tamano,
+    data.precio_compra,
+    data.peso_real,
+    data.tipo_vaca,
+    data.entrega_id
+  );
+
+  await mediaresRepository.save({
+    peso_carton: mediares.peso_carton,
+    precio_compra: mediares.precio_compra,
+    tamano: mediares.tamanio,
+    peso_real: mediares.peso_real,
+    tipo_vaca: mediares.tipo_vaca,
+    entrega_id: mediares.entrega_id,
+  });
 };
 
 export const updateMediares = async (id: number, data: MediaresInput) => {
@@ -41,14 +47,4 @@ export const getMediaresById = async (id: number) => {
 export const getMediares = async () => {
   const mediareses = await mediaresRepository.findAll();
   return mediareses;
-};
-
-const buildMediares = (data: MediaresInput) => {
-  return new Mediares(
-    data.mediares_id,
-    data.peso_carton,
-    data.tamano,
-    data.precio_compra,
-    data.entrega_id
-  );
 };

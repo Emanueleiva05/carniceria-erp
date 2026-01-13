@@ -1,9 +1,16 @@
 import { prisma } from "../config/db";
-import { Producto } from "@prisma/client";
 import { Repository } from "./genericRepository";
 
-class ProductoRepository implements Repository<Producto, number> {
-  async findById(id: number): Promise<Producto | null> {
+type ProductoPrisma = {
+  nombre: string;
+  categoria: string;
+  stock_actual: number;
+  precio_venta: number;
+  unidad_medida: string;
+};
+
+class ProductoRepository implements Repository<ProductoPrisma, number> {
+  async findById(id: number): Promise<ProductoPrisma | null> {
     return await prisma.producto.findUnique({
       where: {
         producto_id: id,
@@ -11,11 +18,11 @@ class ProductoRepository implements Repository<Producto, number> {
     });
   }
 
-  async findAll(): Promise<Producto[]> {
+  async findAll(): Promise<ProductoPrisma[]> {
     return await prisma.producto.findMany();
   }
 
-  async save(data: Producto) {
+  async save(data: ProductoPrisma) {
     await prisma.producto.create({
       data: {
         nombre: data.nombre,
@@ -27,7 +34,7 @@ class ProductoRepository implements Repository<Producto, number> {
     });
   }
 
-  async update(id: number, data: Producto): Promise<void> {
+  async update(id: number, data: ProductoPrisma): Promise<void> {
     await prisma.producto.update({
       where: { producto_id: id },
       data: {

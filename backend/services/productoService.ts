@@ -1,19 +1,23 @@
 import NotFound from "../error/NotFound";
 import { Producto } from "../models/Producto";
 import productoRepository from "../repository/productoRepository";
-import { Categoria, UnidadMedida } from "../utils/tipos";
-
-interface ProductoInput {
-  producto_id: number;
-  nombre: string;
-  categoria: Categoria;
-  stock_actual: number;
-  precio_venta: number;
-  unidad_medida: UnidadMedida;
-}
+import { ProductoInput } from "../utils/contracts";
 
 export const setProducto = async (data: ProductoInput) => {
-  return await productoRepository.save(data);
+  const producto = Producto.create(
+    data.nombre,
+    data.categoria,
+    data.precio_venta,
+    data.unidad_medida
+  );
+
+  return await productoRepository.save({
+    nombre: producto.nombre,
+    categoria: producto.categoria,
+    stock_actual: producto.stock_actual,
+    precio_venta: producto.precio_venta,
+    unidad_medida: producto.unidad,
+  });
 };
 
 export const updateProducto = async (id: number, data: ProductoInput) => {
@@ -37,15 +41,4 @@ export const getProductoById = async (id: number) => {
 export const getProductos = async () => {
   const productos = await productoRepository.findAll();
   return productos;
-};
-
-const buildProducto = (data: ProductoInput) => {
-  return new Producto(
-    data.producto_id,
-    data.nombre,
-    data.categoria,
-    data.stock_actual,
-    data.precio_venta,
-    data.unidad_medida
-  );
 };

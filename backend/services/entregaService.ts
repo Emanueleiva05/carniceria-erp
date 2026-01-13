@@ -1,24 +1,20 @@
 import NotFound from "../error/NotFound";
 import Entrega from "../models/Entrega";
 import entregaRepository from "../repository/entregaRepository";
+import { EntregaInput } from "../utils/contracts";
 import { getProveedoresById } from "./proveedorService";
-
-interface EntregaInput {
-  entrega_id: number;
-  fecha_entrega: Date;
-  total: number;
-  pago: boolean;
-  factura: string;
-  proveedor_id: number;
-}
 
 export const setEntrega = async (data: EntregaInput) => {
   await getProveedoresById(data.proveedor_id);
-  data.pago = false;
-  data.fecha_entrega = new Date();
-  data.total = 0;
+  const entrega = Entrega.create(data.proveedor_id);
 
-  return await entregaRepository.save(data);
+  await entregaRepository.save({
+    fecha_entrega: entrega.fechaEntrega,
+    total: entrega.total,
+    pago: entrega.pago,
+    factura: entrega.factura,
+    proveedor_id: entrega.proveedor_id,
+  });
 };
 
 export const updateEntrega = async (id: number, data: EntregaInput) => {
@@ -44,15 +40,4 @@ export const getEntregaById = async (id: number) => {
 export const getEntregas = async () => {
   const entregas = await entregaRepository.findAll();
   return entregas;
-};
-
-const buildEntrega = (data: EntregaInput) => {
-  return new Entrega(
-    data.entrega_id,
-    data.fecha_entrega,
-    data.total,
-    data.pago,
-    data.factura,
-    data.proveedor_id
-  );
 };
