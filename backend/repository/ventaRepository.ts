@@ -1,13 +1,15 @@
 import { prisma } from "../config/db";
+import { VentaInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
 type VentaPrisma = {
+  venta_id: number;
   fecha_venta: Date;
   esta_vendida: boolean;
 };
 
-class VentaRepository implements Repository<VentaPrisma, number> {
-  async findById(id: number): Promise<VentaPrisma | null> {
+class VentaRepository implements Repository<VentaInput, number> {
+  async findById(id: number): Promise<VentaInput | null> {
     return await prisma.venta.findUnique({
       where: {
         venta_id: id,
@@ -15,27 +17,29 @@ class VentaRepository implements Repository<VentaPrisma, number> {
     });
   }
 
-  async findAll(): Promise<VentaPrisma[]> {
+  async findAll(): Promise<VentaInput[]> {
     return await prisma.venta.findMany();
   }
 
-  async save(data: VentaPrisma) {
-    await prisma.venta.create({
+  async save(data: VentaInput): Promise<VentaPrisma> {
+    const venta = await prisma.venta.create({
       data: {
         fecha_venta: data.fecha_venta,
         esta_vendida: data.esta_vendida,
       },
     });
+    return venta;
   }
 
-  async update(id: number, data: VentaPrisma): Promise<void> {
-    await prisma.venta.update({
+  async update(id: number, data: VentaInput): Promise<VentaPrisma> {
+    const venta = await prisma.venta.update({
       where: { venta_id: id },
       data: {
         fecha_venta: data.fecha_venta,
         esta_vendida: data.esta_vendida,
       },
     });
+    return venta;
   }
 
   async delete(id: number): Promise<void> {

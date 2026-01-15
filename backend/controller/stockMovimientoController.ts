@@ -15,9 +15,9 @@ export const createMovimiento = async (
   try {
     const data = req.body;
 
-    await setMovimiento(data);
+    const movimiento = await setMovimiento(data);
 
-    res.status(202).json({ message: "Movimiento creada con exito" });
+    res.status(202).json(movimiento);
   } catch (err) {
     next(err);
   }
@@ -32,9 +32,9 @@ export const modifyMovimiento = async (
     const data = req.body;
     const id = res.locals.id;
 
-    await updateMovimiento(id, data);
+    const movimiento = await updateMovimiento(id, data);
 
-    res.status(202).json({ message: "Movimiento modificada con exito" });
+    res.status(202).json(movimiento);
   } catch (err) {
     next(err);
   }

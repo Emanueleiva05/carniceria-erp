@@ -15,9 +15,9 @@ export const createVentaDetalle = async (
   try {
     const data = req.body;
 
-    await setVentaDetalle(data);
+    const ventaDetalle = await setVentaDetalle(data);
 
-    res.status(202).json({ message: "Venta detalle creada con exito" });
+    res.status(202).json(ventaDetalle);
   } catch (err) {
     next(err);
   }
@@ -32,9 +32,9 @@ export const modifyVentaDetalle = async (
     const data = req.body;
     const id = res.locals.id;
 
-    await updateVentaDetalle(id, data);
+    const ventaDetalle = await updateVentaDetalle(id, data);
 
-    res.status(202).json({ message: "Venta detalle modificada con exito" });
+    res.status(202).json(ventaDetalle);
   } catch (err) {
     next(err);
   }

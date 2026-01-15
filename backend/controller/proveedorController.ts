@@ -15,9 +15,9 @@ export const createProveedor = async (
   try {
     const data = req.body;
 
-    await setProveedores(data);
+    const proveedor = await setProveedores(data);
 
-    res.status(202).json({ message: "Proveedor detalle creada con exito" });
+    res.status(202).json(proveedor);
   } catch (err) {
     next(err);
   }
@@ -32,9 +32,9 @@ export const modifyProveedor = async (
     const data = req.body;
     const id = res.locals.id;
 
-    await updateProveedores(id, data);
+    const proveedor = await updateProveedores(id, data);
 
-    res.status(202).json({ message: "Proveedor modificada con exito" });
+    res.status(202).json(proveedor);
   } catch (err) {
     next(err);
   }

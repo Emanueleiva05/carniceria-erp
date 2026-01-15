@@ -8,7 +8,7 @@ export const setEntrega = async (data: EntregaInput) => {
   await getProveedoresById(data.proveedor_id);
   const entrega = Entrega.create(data.proveedor_id);
 
-  await entregaRepository.save({
+  return await entregaRepository.save({
     fecha_entrega: entrega.fechaEntrega,
     total: entrega.total,
     pago: entrega.pago,

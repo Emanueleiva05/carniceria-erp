@@ -15,9 +15,9 @@ export const createMediares = async (
   try {
     const data = req.body;
 
-    await setMediares(data);
+    const mediares = await setMediares(data);
 
-    res.status(202).json({ message: "Mediares creada con exito" });
+    res.status(202).json(mediares);
   } catch (err) {
     next(err);
   }
@@ -32,9 +32,9 @@ export const modifyMediares = async (
     const data = req.body;
     const id = res.locals.id;
 
-    await updateMediares(id, data);
+    const mediares = await updateMediares(id, data);
 
-    res.status(202).json({ message: "Mediares modificada con exito" });
+    res.status(202).json(mediares);
   } catch (err) {
     next(err);
   }

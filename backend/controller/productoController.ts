@@ -15,9 +15,9 @@ export const createProducto = async (
   try {
     const data = req.body;
 
-    await setProducto(data);
+    const producto = await setProducto(data);
 
-    res.status(202).json({ message: "Producto detalle creada con exito" });
+    res.status(202).json(producto);
   } catch (err) {
     next(err);
   }
@@ -32,9 +32,9 @@ export const modifyProducto = async (
     const data = req.body;
     const id = res.locals.id;
 
-    await updateProducto(id, data);
+    const producto = await updateProducto(id, data);
 
-    res.status(202).json({ message: "Producto modificada con exito" });
+    res.status(202).json(producto);
   } catch (err) {
     next(err);
   }

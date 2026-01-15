@@ -2,6 +2,13 @@ import { prisma } from "../config/db";
 import { CarneInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
+type CarnePrisma = {
+  carne_id: number;
+  peso_real: number;
+  producto_id: number;
+  mediares_id: number;
+};
+
 class CarneDepostadaRepository implements Repository<CarneInput, number> {
   async findById(id: number): Promise<CarneInput | null> {
     return await prisma.carneDepostada.findUnique({
@@ -15,18 +22,20 @@ class CarneDepostadaRepository implements Repository<CarneInput, number> {
     return await prisma.carneDepostada.findMany();
   }
 
-  async save(data: CarneInput) {
-    await prisma.carneDepostada.create({
+  async save(data: CarneInput): Promise<CarnePrisma> {
+    const carne = await prisma.carneDepostada.create({
       data: {
         peso_real: data.peso_real,
         mediares_id: data.mediares_id,
         producto_id: data.producto_id,
       },
     });
+
+    return carne;
   }
 
-  async update(id: number, data: CarneInput): Promise<void> {
-    await prisma.carneDepostada.update({
+  async update(id: number, data: CarneInput): Promise<CarnePrisma> {
+    const carne = await prisma.carneDepostada.update({
       where: { carne_id: id },
       data: {
         peso_real: data.peso_real,
@@ -34,6 +43,8 @@ class CarneDepostadaRepository implements Repository<CarneInput, number> {
         producto_id: data.producto_id,
       },
     });
+
+    return carne;
   }
 
   async delete(id: number): Promise<void> {

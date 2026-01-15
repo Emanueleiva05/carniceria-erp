@@ -15,6 +15,7 @@ export const setMovimiento = async (data: StockMovimientoInput) => {
     data.referencia_tipo,
     data.producto_id
   );
+
   return await stockMovimientoRepository.save({
     cantidad: movimiento.cantidad,
     tipo_movimiento: movimiento.tipo,

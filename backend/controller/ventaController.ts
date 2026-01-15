@@ -17,9 +17,9 @@ export const createVenta = async (
 
     data.fecha_venta = new Date(data.fecha_venta);
 
-    await setVenta(data);
+    const venta = await setVenta(data);
 
-    res.status(202).json({ message: "Venta detalle creada con exito" });
+    res.status(202).json(venta);
   } catch (err) {
     next(err);
   }
@@ -34,9 +34,9 @@ export const modifyVenta = async (
     const data = req.body;
     const id = res.locals.id;
 
-    await updateVenta(id, data);
+    const venta = await updateVenta(id, data);
 
-    res.status(202).json({ message: "Venta modificada con exito" });
+    res.status(202).json(venta);
   } catch (err) {
     next(err);
   }

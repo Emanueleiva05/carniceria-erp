@@ -2,6 +2,14 @@ import { prisma } from "../config/db";
 import { EntregaDetalleInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
+type EntregaDetallePrisma = {
+  producto_id: number;
+  entregaDetalle_id: number;
+  cantidad: number;
+  precio_compra: number;
+  entrega_id: number;
+};
+
 class EntregaDetalleRepository
   implements Repository<EntregaDetalleInput, number>
 {
@@ -17,8 +25,8 @@ class EntregaDetalleRepository
     return await prisma.entregaDetalle.findMany();
   }
 
-  async save(data: EntregaDetalleInput) {
-    await prisma.entregaDetalle.create({
+  async save(data: EntregaDetalleInput): Promise<EntregaDetallePrisma> {
+    const entregaDetalle = await prisma.entregaDetalle.create({
       data: {
         cantidad: data.cantidad,
         precio_compra: data.precio_compra,
@@ -26,10 +34,14 @@ class EntregaDetalleRepository
         entrega_id: data.entrega_id,
       },
     });
+    return entregaDetalle;
   }
 
-  async update(id: number, data: EntregaDetalleInput): Promise<void> {
-    await prisma.entregaDetalle.update({
+  async update(
+    id: number,
+    data: EntregaDetalleInput
+  ): Promise<EntregaDetallePrisma> {
+    const entregaDetalle = await prisma.entregaDetalle.update({
       where: { entregaDetalle_id: id },
       data: {
         cantidad: data.cantidad,
@@ -38,6 +50,7 @@ class EntregaDetalleRepository
         entrega_id: data.entrega_id,
       },
     });
+    return entregaDetalle;
   }
 
   async delete(id: number): Promise<void> {

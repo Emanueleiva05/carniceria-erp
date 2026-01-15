@@ -1,7 +1,7 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
 
-type StockMovimientoPrisma = {
+type MovimientoPersistenceInput = {
   cantidad: number;
   tipo_movimiento: string;
   motivo: string;
@@ -10,10 +10,14 @@ type StockMovimientoPrisma = {
   producto_id: number;
 };
 
+type MovimientoPersistence = MovimientoPersistenceInput & {
+  movimiento_id: number;
+};
+
 class StockMovimientoRepository
-  implements Repository<StockMovimientoPrisma, number>
+  implements Repository<MovimientoPersistence, number>
 {
-  async findById(id: number): Promise<StockMovimientoPrisma | null> {
+  async findById(id: number): Promise<MovimientoPersistence | null> {
     return await prisma.stockMovimiento.findUnique({
       where: {
         movimiento_id: id,
@@ -21,12 +25,12 @@ class StockMovimientoRepository
     });
   }
 
-  async findAll(): Promise<StockMovimientoPrisma[]> {
+  async findAll(): Promise<MovimientoPersistence[]> {
     return await prisma.stockMovimiento.findMany();
   }
 
-  async save(data: StockMovimientoPrisma) {
-    await prisma.stockMovimiento.create({
+  async save(data: MovimientoPersistenceInput): Promise<MovimientoPersistence> {
+    const movimiento = await prisma.stockMovimiento.create({
       data: {
         cantidad: data.cantidad,
         tipo_movimiento: data.tipo_movimiento,
@@ -36,10 +40,14 @@ class StockMovimientoRepository
         producto_id: data.producto_id,
       },
     });
+    return movimiento;
   }
 
-  async update(id: number, data: StockMovimientoPrisma): Promise<void> {
-    await prisma.stockMovimiento.update({
+  async update(
+    id: number,
+    data: MovimientoPersistenceInput
+  ): Promise<MovimientoPersistence> {
+    const movimiento = await prisma.stockMovimiento.update({
       where: { movimiento_id: id },
       data: {
         cantidad: data.cantidad,
@@ -50,6 +58,7 @@ class StockMovimientoRepository
         producto_id: data.producto_id,
       },
     });
+    return movimiento;
   }
 
   async delete(id: number): Promise<void> {

@@ -79,7 +79,6 @@ export interface StockMovimientoInput {
 export interface VentaInput {
   fecha_venta: Date;
   esta_vendida: boolean;
-  total: number;
 }
 
 export interface VentaDetalleInput {
@@ -88,5 +87,13 @@ export interface VentaDetalleInput {
   subtotal: number;
   producto_id: number;
   venta_id: number;
-  oferta_id: number;
+  oferta_id: number | null;
 }
+
+export const transformToString = (value: any): string => {
+  return value;
+};
+
+export const transformToNumber = (value: any): number => {
+  return value;
+};
