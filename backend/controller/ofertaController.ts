@@ -15,9 +15,9 @@ export const createOferta = async (
   try {
     const data = req.body;
 
-    await setOferta(data);
+    const oferta = await setOferta(data);
 
-    res.status(202).json({ message: "Oferta detalle creada con exito" });
+    res.status(202).json(oferta);
   } catch (err) {
     next(err);
   }
@@ -32,9 +32,9 @@ export const modifyOferta = async (
     const data = req.body;
     const id = res.locals.id;
 
-    await updateOferta(id, data);
+    const oferta = await updateOferta(id, data);
 
-    res.status(202).json({ message: "Oferta modificada con exito" });
+    res.status(202).json(oferta);
   } catch (err) {
     next(err);
   }

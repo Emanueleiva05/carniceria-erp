@@ -16,7 +16,7 @@ export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
     data.entrega_id
   );
 
-  await entregaDetalleRepository.save({
+  return await entregaDetalleRepository.save({
     cantidad: entregaDetalle.cantidad,
     precio_compra: entregaDetalle.precio_compra,
     producto_id: entregaDetalle.producto_id,

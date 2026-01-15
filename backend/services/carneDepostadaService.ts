@@ -15,7 +15,7 @@ export const setCarne = async (data: CarneInput) => {
     data.producto_id
   );
 
-  await carneDepostadaRepository.save({
+  return await carneDepostadaRepository.save({
     peso_real: carne.peso_real,
     mediares_id: carne.mediares_id,
     producto_id: carne.producto_id,

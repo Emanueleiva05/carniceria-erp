@@ -1,7 +1,7 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
 
-type ProductoPrisma = {
+type ProductoPersistenceInput = {
   nombre: string;
   categoria: string;
   stock_actual: number;
@@ -9,8 +9,12 @@ type ProductoPrisma = {
   unidad_medida: string;
 };
 
-class ProductoRepository implements Repository<ProductoPrisma, number> {
-  async findById(id: number): Promise<ProductoPrisma | null> {
+type ProductoPersistence = ProductoPersistenceInput & {
+  producto_id: number;
+};
+
+class ProductoRepository implements Repository<ProductoPersistence, number> {
+  async findById(id: number): Promise<ProductoPersistence | null> {
     return await prisma.producto.findUnique({
       where: {
         producto_id: id,
@@ -18,12 +22,12 @@ class ProductoRepository implements Repository<ProductoPrisma, number> {
     });
   }
 
-  async findAll(): Promise<ProductoPrisma[]> {
+  async findAll(): Promise<ProductoPersistence[]> {
     return await prisma.producto.findMany();
   }
 
-  async save(data: ProductoPrisma) {
-    await prisma.producto.create({
+  async save(data: ProductoPersistenceInput): Promise<ProductoPersistence> {
+    const producto = await prisma.producto.create({
       data: {
         nombre: data.nombre,
         categoria: data.categoria,
@@ -32,10 +36,14 @@ class ProductoRepository implements Repository<ProductoPrisma, number> {
         unidad_medida: data.unidad_medida,
       },
     });
+    return producto;
   }
 
-  async update(id: number, data: ProductoPrisma): Promise<void> {
-    await prisma.producto.update({
+  async update(
+    id: number,
+    data: ProductoPersistenceInput
+  ): Promise<ProductoPersistence> {
+    const producto = await prisma.producto.update({
       where: { producto_id: id },
       data: {
         nombre: data.nombre,
@@ -45,6 +53,7 @@ class ProductoRepository implements Repository<ProductoPrisma, number> {
         unidad_medida: data.unidad_medida,
       },
     });
+    return producto;
   }
 
   async delete(id: number): Promise<void> {

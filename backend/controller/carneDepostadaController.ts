@@ -15,9 +15,9 @@ export const createCarne = async (
   try {
     const data = req.body;
 
-    await setCarne(data);
+    const carne = await setCarne(data);
 
-    res.status(202).json({ message: "Carne creada con exito" });
+    res.status(202).json(carne);
   } catch (err) {
     next(err);
   }
@@ -32,9 +32,9 @@ export const modifyCarne = async (
     const data = req.body;
     const id = res.locals.id;
 
-    await updateCarne(id, data);
+    const carne = await updateCarne(id, data);
 
-    res.status(202).json({ message: "Carne modificada con exito" });
+    res.status(202).json(carne);
   } catch (err) {
     next(err);
   }

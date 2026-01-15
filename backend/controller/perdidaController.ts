@@ -15,9 +15,9 @@ export const createPerdida = async (
   try {
     const data = req.body;
 
-    await setPerdida(data);
+    const perdida = await setPerdida(data);
 
-    res.status(202).json({ message: "Perdida detalle creada con exito" });
+    res.status(202).json(perdida);
   } catch (err) {
     next(err);
   }
@@ -32,9 +32,9 @@ export const modifyPerdida = async (
     const data = req.body;
     const id = res.locals.id;
 
-    await updatePerdida(id, data);
+    const perdida = await updatePerdida(id, data);
 
-    res.status(202).json({ message: "Perdida modificada con exito" });
+    res.status(202).json(perdida);
   } catch (err) {
     next(err);
   }

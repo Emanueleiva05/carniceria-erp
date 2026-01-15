@@ -1,7 +1,11 @@
 import NotFound from "../error/NotFound";
 import mediaresRepository from "../repository/mediaresRepository";
 import { getEntregaById } from "./entregaService";
-import { MediaresInput } from "../utils/contracts";
+import {
+  MediaresInput,
+  transformToNumber,
+  transformToString,
+} from "../utils/contracts";
 import Mediares from "../models/Mediares";
 
 export const setMediares = async (data: MediaresInput) => {
@@ -16,14 +20,19 @@ export const setMediares = async (data: MediaresInput) => {
     data.entrega_id
   );
 
-  await mediaresRepository.save({
+  const tipoVaca = transformToString(mediares.tipo_vaca);
+  const tamanio = transformToNumber(mediares.tamanio);
+
+  const save = await mediaresRepository.save({
     peso_carton: mediares.peso_carton,
     precio_compra: mediares.precio_compra,
-    tamano: mediares.tamanio,
+    tamano: tamanio,
     peso_real: mediares.peso_real,
-    tipo_vaca: mediares.tipo_vaca,
+    tipo_vaca: tipoVaca,
     entrega_id: mediares.entrega_id,
   });
+
+  return save;
 };
 
 export const updateMediares = async (id: number, data: MediaresInput) => {

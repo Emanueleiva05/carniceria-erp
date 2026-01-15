@@ -15,9 +15,9 @@ export const createEntrega = async (
   try {
     const data = req.body;
 
-    await setEntrega(data);
+    const entrega = await setEntrega(data);
 
-    res.status(202).json({ message: "Entrega creada con exito" });
+    res.status(202).json(entrega);
   } catch (err) {
     next(err);
   }
@@ -32,9 +32,9 @@ export const modifyEntrega = async (
     const data = req.body;
     const id = res.locals.id;
 
-    await updateEntrega(id, data);
+    const entrega = await updateEntrega(id, data);
 
-    res.status(202).json({ message: "Entrega modificada con exito" });
+    res.status(202).json(entrega);
   } catch (err) {
     next(err);
   }

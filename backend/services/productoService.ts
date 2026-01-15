@@ -1,7 +1,7 @@
 import NotFound from "../error/NotFound";
 import { Producto } from "../models/Producto";
 import productoRepository from "../repository/productoRepository";
-import { ProductoInput } from "../utils/contracts";
+import { ProductoInput, transformToString } from "../utils/contracts";
 
 export const setProducto = async (data: ProductoInput) => {
   const producto = Producto.create(
@@ -11,12 +11,15 @@ export const setProducto = async (data: ProductoInput) => {
     data.unidad_medida
   );
 
+  const categoria = transformToString(producto.categoria);
+  const unidad = transformToString(producto.unidad);
+
   return await productoRepository.save({
     nombre: producto.nombre,
-    categoria: producto.categoria,
+    categoria: categoria,
     stock_actual: producto.stock_actual,
     precio_venta: producto.precio_venta,
-    unidad_medida: producto.unidad,
+    unidad_medida: unidad,
   });
 };
 

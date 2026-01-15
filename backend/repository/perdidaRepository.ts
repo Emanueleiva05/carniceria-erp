@@ -1,7 +1,7 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
 
-type PerdidaPrisma = {
+type PerdidaPersistenceInput = {
   tirado: number;
   unidad_medida: string;
   fecha_perdida: Date;
@@ -10,8 +10,12 @@ type PerdidaPrisma = {
   producto_id: number;
 };
 
-class PerdidaRepository implements Repository<PerdidaPrisma, number> {
-  async findById(id: number): Promise<PerdidaPrisma | null> {
+type PerdidaPersistence = PerdidaPersistenceInput & {
+  perdida_id: number;
+};
+
+class PerdidaRepository implements Repository<PerdidaPersistence, number> {
+  async findById(id: number): Promise<PerdidaPersistence | null> {
     return await prisma.perdida.findUnique({
       where: {
         perdida_id: id,
@@ -19,12 +23,12 @@ class PerdidaRepository implements Repository<PerdidaPrisma, number> {
     });
   }
 
-  async findAll(): Promise<PerdidaPrisma[]> {
+  async findAll(): Promise<PerdidaPersistence[]> {
     return await prisma.perdida.findMany();
   }
 
-  async save(data: PerdidaPrisma) {
-    await prisma.perdida.create({
+  async save(data: PerdidaPersistenceInput): Promise<PerdidaPersistence> {
+    const perdida = await prisma.perdida.create({
       data: {
         unidad_medida: data.unidad_medida,
         tirado: data.tirado,
@@ -34,10 +38,14 @@ class PerdidaRepository implements Repository<PerdidaPrisma, number> {
         producto_id: data.producto_id,
       },
     });
+    return perdida;
   }
 
-  async update(id: number, data: PerdidaPrisma): Promise<void> {
-    await prisma.perdida.update({
+  async update(
+    id: number,
+    data: PerdidaPersistenceInput
+  ): Promise<PerdidaPersistence> {
+    const perdida = await prisma.perdida.update({
       where: { perdida_id: id },
       data: {
         unidad_medida: data.unidad_medida,
@@ -48,6 +56,7 @@ class PerdidaRepository implements Repository<PerdidaPrisma, number> {
         producto_id: data.producto_id,
       },
     });
+    return perdida;
   }
 
   async delete(id: number): Promise<void> {

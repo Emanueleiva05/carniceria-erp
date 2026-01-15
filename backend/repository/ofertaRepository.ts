@@ -1,14 +1,16 @@
 import { prisma } from "../config/db";
+import { OfertaInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
 type OfertaPrisma = {
+  oferta_id: number;
   minKg: number;
   precio_oferta: number;
   esta_activo: boolean;
   producto_id: number;
 };
 
-class OfertaRepository implements Repository<OfertaPrisma, number> {
+class OfertaRepository implements Repository<OfertaInput, number> {
   async findById(id: number): Promise<OfertaPrisma | null> {
     return await prisma.oferta.findUnique({
       where: {
@@ -17,12 +19,12 @@ class OfertaRepository implements Repository<OfertaPrisma, number> {
     });
   }
 
-  async findAll(): Promise<OfertaPrisma[]> {
+  async findAll(): Promise<OfertaInput[]> {
     return await prisma.oferta.findMany();
   }
 
-  async save(data: OfertaPrisma) {
-    await prisma.oferta.create({
+  async save(data: OfertaInput): Promise<OfertaPrisma> {
+    const oferta = await prisma.oferta.create({
       data: {
         minKg: data.minKg,
         precio_oferta: data.precio_oferta,
@@ -30,10 +32,11 @@ class OfertaRepository implements Repository<OfertaPrisma, number> {
         producto_id: data.producto_id,
       },
     });
+    return oferta;
   }
 
-  async update(id: number, data: OfertaPrisma): Promise<void> {
-    await prisma.oferta.update({
+  async update(id: number, data: OfertaInput): Promise<OfertaPrisma> {
+    const oferta = await prisma.oferta.update({
       where: { oferta_id: id },
       data: {
         minKg: data.minKg,
@@ -42,6 +45,7 @@ class OfertaRepository implements Repository<OfertaPrisma, number> {
         producto_id: data.producto_id,
       },
     });
+    return oferta;
   }
 
   async delete(id: number): Promise<void> {

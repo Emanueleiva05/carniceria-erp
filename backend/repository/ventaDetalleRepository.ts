@@ -1,4 +1,5 @@
 import { prisma } from "../config/db";
+import { VentaDetalleInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
 type VentaDetallePrisma = {
@@ -10,8 +11,8 @@ type VentaDetallePrisma = {
   oferta_id: number | null;
 };
 
-class VentaDetalleRepository implements Repository<VentaDetallePrisma, number> {
-  async findById(id: number): Promise<VentaDetallePrisma | null> {
+class VentaDetalleRepository implements Repository<VentaDetalleInput, number> {
+  async findById(id: number): Promise<VentaDetalleInput | null> {
     return await prisma.ventaDetalle.findUnique({
       where: {
         ventaDetalle_id: id,
@@ -19,12 +20,12 @@ class VentaDetalleRepository implements Repository<VentaDetallePrisma, number> {
     });
   }
 
-  async findAll(): Promise<VentaDetallePrisma[]> {
+  async findAll(): Promise<VentaDetalleInput[]> {
     return await prisma.ventaDetalle.findMany();
   }
 
-  async save(data: VentaDetallePrisma) {
-    await prisma.ventaDetalle.create({
+  async save(data: VentaDetalleInput): Promise<VentaDetallePrisma> {
+    const ventaDetalle = await prisma.ventaDetalle.create({
       data: {
         precio_unitario: data.precio_unitario,
         subtotal: data.subtotal,
@@ -34,10 +35,14 @@ class VentaDetalleRepository implements Repository<VentaDetallePrisma, number> {
         oferta_id: data.oferta_id,
       },
     });
+    return ventaDetalle;
   }
 
-  async update(id: number, data: VentaDetallePrisma): Promise<void> {
-    await prisma.ventaDetalle.update({
+  async update(
+    id: number,
+    data: VentaDetalleInput
+  ): Promise<VentaDetallePrisma> {
+    const ventaDetalle = await prisma.ventaDetalle.update({
       where: { ventaDetalle_id: id },
       data: {
         precio_unitario: data.precio_unitario,
@@ -48,6 +53,7 @@ class VentaDetalleRepository implements Repository<VentaDetallePrisma, number> {
         oferta_id: data.oferta_id,
       },
     });
+    return ventaDetalle;
   }
 
   async delete(id: number): Promise<void> {

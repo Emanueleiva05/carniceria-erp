@@ -1,7 +1,7 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
 
-type MediarePrisma = {
+type MediaresPersistenceInput = {
   peso_carton: number;
   peso_real: number;
   tamano: number;
@@ -10,8 +10,12 @@ type MediarePrisma = {
   entrega_id: number;
 };
 
-class MediaresRepository implements Repository<MediarePrisma, number> {
-  async findById(id: number): Promise<MediarePrisma | null> {
+type MediaresPersistence = MediaresPersistenceInput & {
+  mediares_id: number;
+};
+
+class MediaresRepository implements Repository<MediaresPersistence, number> {
+  async findById(id: number): Promise<MediaresPersistence | null> {
     return await prisma.mediares.findUnique({
       where: {
         mediares_id: id,
@@ -19,12 +23,12 @@ class MediaresRepository implements Repository<MediarePrisma, number> {
     });
   }
 
-  async findAll(): Promise<MediarePrisma[]> {
+  async findAll(): Promise<MediaresPersistence[]> {
     return await prisma.mediares.findMany();
   }
 
-  async save(data: MediarePrisma) {
-    await prisma.mediares.create({
+  async save(data: MediaresPersistenceInput): Promise<MediaresPersistence> {
+    const mediares = await prisma.mediares.create({
       data: {
         peso_carton: data.peso_carton,
         peso_real: data.peso_real,
@@ -34,10 +38,14 @@ class MediaresRepository implements Repository<MediarePrisma, number> {
         entrega_id: data.entrega_id,
       },
     });
+    return mediares;
   }
 
-  async update(id: number, data: MediarePrisma): Promise<void> {
-    await prisma.mediares.update({
+  async update(
+    id: number,
+    data: MediaresPersistenceInput
+  ): Promise<MediaresPersistence> {
+    const mediares = await prisma.mediares.update({
       where: { mediares_id: id },
       data: {
         peso_carton: data.peso_carton,
@@ -48,6 +56,7 @@ class MediaresRepository implements Repository<MediarePrisma, number> {
         entrega_id: data.entrega_id,
       },
     });
+    return mediares;
   }
 
   async delete(id: number): Promise<void> {
