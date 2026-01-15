@@ -48,3 +48,8 @@ export const getPerdidas = async () => {
   const perdidas = await perdidaRepository.findAll();
   return perdidas;
 };
+
+export const getProductosPerdidos = async (id: number) => {
+  const productos = await perdidaRepository.findByProductoId(id);
+  return productos;
+};

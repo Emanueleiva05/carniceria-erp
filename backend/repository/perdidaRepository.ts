@@ -10,7 +10,7 @@ type PerdidaPersistenceInput = {
   producto_id: number;
 };
 
-type PerdidaPersistence = PerdidaPersistenceInput & {
+export type PerdidaPersistence = PerdidaPersistenceInput & {
   perdida_id: number;
 };
 
@@ -64,6 +64,13 @@ class PerdidaRepository implements Repository<PerdidaPersistence, number> {
       where: {
         perdida_id: id,
       },
+    });
+  }
+
+  async findByProductoId(id: number): Promise<PerdidaPersistence[]> {
+    return await prisma.perdida.findMany({
+      include: { productos: true },
+      where: { producto_id: id },
     });
   }
 }

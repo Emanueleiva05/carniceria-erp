@@ -2,7 +2,7 @@ import { prisma } from "../config/db";
 import { OfertaInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
-type OfertaPrisma = {
+export type OfertaPrisma = {
   oferta_id: number;
   minKg: number;
   precio_oferta: number;
@@ -53,6 +53,21 @@ class OfertaRepository implements Repository<OfertaInput, number> {
       where: {
         oferta_id: id,
       },
+    });
+  }
+
+  async findByEstadoActivo(): Promise<OfertaPrisma[]> {
+    return await prisma.oferta.findMany({
+      where: {
+        esta_activo: true,
+      },
+    });
+  }
+
+  async findByProductoId(id: number): Promise<OfertaPrisma[]> {
+    return await prisma.oferta.findMany({
+      include: { producto: true },
+      where: { producto_id: id },
     });
   }
 }
