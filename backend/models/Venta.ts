@@ -4,22 +4,15 @@ export class Venta {
   public venta_id: number | null;
   public fecha_venta: Date;
   public vendido: boolean;
-  public total: number;
 
-  constructor(
-    id: number | null,
-    fecha_venta: Date,
-    vendido: boolean,
-    total: number
-  ) {
+  constructor(id: number | null, fecha_venta: Date, vendido: boolean) {
     this.venta_id = id;
     this.fecha_venta = fecha_venta;
     this.vendido = vendido;
-    this.total = total;
   }
 
   static create() {
-    return new Venta(null, new Date(), false, 0);
+    return new Venta(null, new Date(), false);
   }
 
   ventaRealizada() {
@@ -33,6 +26,6 @@ export class Venta {
       throw new Error("Calculo del total es invalido");
     }
 
-    this.total = total;
+    return total;
   }
 }

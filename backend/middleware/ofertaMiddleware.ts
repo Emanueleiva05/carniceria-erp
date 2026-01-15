@@ -7,7 +7,7 @@ export const validateBody = (
   res: Response,
   next: NextFunction
 ) => {
-  const { minKg, precio_oferta, esta_activo, producto_id } = req.body;
+  const { minKg, precio_oferta, producto_id } = req.body;
 
   if (minKg === null || minKg === 0 || minKg === "")
     throw new EmptyRequest("Minimo kilos");
@@ -20,10 +20,6 @@ export const validateBody = (
 
   if (typeof precio_oferta !== "number" || precio_oferta <= 0)
     throw new BadRequest("Precio oferta");
-
-  if (esta_activo === null) throw new EmptyRequest("Esta activo");
-
-  if (typeof esta_activo !== "boolean") throw new BadRequest("Esta activo");
 
   if (producto_id === null || producto_id === 0 || producto_id === "")
     throw new EmptyRequest("Producto ID");

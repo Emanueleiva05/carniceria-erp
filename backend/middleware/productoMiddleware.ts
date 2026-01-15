@@ -7,8 +7,7 @@ export const validateBody = (
   res: Response,
   next: NextFunction
 ) => {
-  const { nombre, categoria, stock_actual, precio_venta, unidad_medida } =
-    req.body;
+  const { nombre, categoria, precio_venta, unidad_medida } = req.body;
 
   if (!nombre) throw new EmptyRequest("Nombre");
 
@@ -19,12 +18,6 @@ export const validateBody = (
 
   if (typeof categoria !== "string" || categoria.trim().length === 0)
     throw new BadRequest("Categoria");
-
-  if (stock_actual === null || stock_actual === 0 || stock_actual === "")
-    throw new EmptyRequest("Stock actual");
-
-  if (typeof stock_actual !== "number" || stock_actual < 0)
-    throw new BadRequest("Stock actual");
 
   if (precio_venta === null || precio_venta === 0 || precio_venta === "")
     throw new EmptyRequest("Precio venta");

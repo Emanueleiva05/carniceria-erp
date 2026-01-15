@@ -7,13 +7,7 @@ export const validateBody = (
   res: Response,
   next: NextFunction
 ) => {
-  const { producto_id, tirado, unidad_medida, fecha_perdida, motivo, total } =
-    req.body;
-
-  if (!fecha_perdida) throw new EmptyRequest("Fecha perdida");
-
-  if (typeof fecha_perdida !== "string" || fecha_perdida.trim().length === 0)
-    throw new BadRequest("Fecha perdida");
+  const { producto_id, tirado, unidad_medida, motivo } = req.body;
 
   if (!unidad_medida) throw new EmptyRequest("Unidad medida");
 
@@ -24,11 +18,6 @@ export const validateBody = (
     throw new EmptyRequest("Tirado");
 
   if (typeof tirado !== "number" || tirado < 0) throw new BadRequest("Tirado");
-
-  if (total === null || total === 0 || total === "")
-    throw new EmptyRequest("Total");
-
-  if (typeof total !== "number" || total <= 0) throw new BadRequest("Total");
 
   if (producto_id === null || producto_id === 0 || producto_id === "")
     throw new EmptyRequest("Producto ID");
