@@ -1,5 +1,4 @@
 import { UnidadMedida } from "../utils/tipos";
-import { Producto } from "./Producto";
 
 export class Perdida {
   public perdida_id: number | null;

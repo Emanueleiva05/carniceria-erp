@@ -6,7 +6,7 @@ import {
   modifyVentaDetalle,
   createVentaDetalle,
 } from "../controller/ventaDetalleController";
-import { validateBody } from "../middleware/proveedorMiddleware";
+import { validateBody } from "../middleware/ventaDetalleMiddleware";
 import { validateIdParams } from "../middleware/genericMiddleware";
 
 const router = Router();

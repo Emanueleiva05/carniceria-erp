@@ -33,6 +33,14 @@ export class EntregaDetalle {
       throw new Error("Precio compra inválido");
     }
 
+    if (producto_id <= 0) {
+      throw new Error("Producto ID inválido");
+    }
+
+    if (entrega_id <= 0) {
+      throw new Error("Entrega ID inválido");
+    }
+
     return new EntregaDetalle(
       null,
       cantidad,

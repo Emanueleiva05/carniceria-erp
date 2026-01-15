@@ -6,17 +6,19 @@ import {
   modifyMediares,
   removeMediares,
 } from "../controller/mediaresController";
+import { validateBody } from "../middleware/mediaresMiddleware";
+import { validateIdParams } from "../middleware/genericMiddleware";
 
 const router = Router();
 
-router.post("/", createMediares);
+router.post("/", validateBody, createMediares);
 
 router.get("/", obtainMediares);
 
-router.get("/:id", obtainMediaresById);
+router.get("/:id", validateIdParams, obtainMediaresById);
 
-router.put("/:id/", modifyMediares);
+router.put("/:id/", validateBody, validateIdParams, modifyMediares);
 
-router.delete("/:id", removeMediares);
+router.delete("/:id", validateIdParams, removeMediares);
 
 export default router;

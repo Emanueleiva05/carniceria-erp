@@ -7,20 +7,7 @@ export const validateBody = (
   res: Response,
   next: NextFunction
 ) => {
-  const {
-    precio_unitario,
-    subtotal,
-    cantidad,
-    producto_id,
-    venta_id,
-    oferta_id,
-  } = req.body;
-
-  if (subtotal === null || subtotal === 0 || subtotal === "")
-    throw new EmptyRequest("Subtotal");
-
-  if (typeof subtotal !== "number" || subtotal <= 0)
-    throw new BadRequest("Subtotal");
+  const { precio_unitario, cantidad, producto_id, venta_id } = req.body;
 
   if (cantidad === null || cantidad === 0 || cantidad === "")
     throw new EmptyRequest("Cantidad");
@@ -48,9 +35,6 @@ export const validateBody = (
 
   if (typeof venta_id !== "number" || venta_id <= 0)
     throw new BadRequest("Venta ID");
-
-  if (typeof oferta_id !== "number" || oferta_id <= 0)
-    throw new BadRequest("Oferta IDs");
 
   next();
 };
