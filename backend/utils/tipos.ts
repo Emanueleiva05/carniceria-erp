@@ -1,13 +1,45 @@
-export type Tamanio = 90 | 95 | 100 | 105 | 110 | 115 | 120;
+export enum Tamanio {
+  KG_90 = 90,
+  KG_95 = 95,
+  KG_100 = 100,
+  KG_105 = 105,
+  KG_110 = 110,
+  KG_115 = 115,
+  KG_120 = 120,
+}
 
-export type Categoria = "Carne" | "Pollo" | "Achura";
+export enum Categoria {
+  CARNE = "Carne",
+  POLLO = "Pollo",
+  ACHURA = "Achura",
+}
 
-export type UnidadMedida = "Unidad" | "Kg";
+export enum UnidadMedida {
+  UNIDAD = "Unidad",
+  KG = "Kg",
+}
 
-export type TipoVaca = "Novillo" | "Adulta";
+export enum TipoVaca {
+  NOVILLO = "Novillo",
+  ADULTA = "Adulta",
+}
 
-export type TipoMovimiento = "";
+export enum TipoMovimiento {
+  ENTRADA = "Entrada",
+  SALIDA = "Salida",
+  AJUSTE = "Ajuste",
+}
 
-export type Operacion = "";
+export enum Operacion {
+  COMPRA = "Compra",
+  VENTA = "Venta",
+  PERDIDA = "Perdida",
+  DEVOLUCION = "Devolucion",
+}
 
-export type TipoReferencia = "";
+export enum TipoReferencia {
+  ENTREGA = "Entrega",
+  VENTA = "Venta",
+  PERDIDA = "Perdida",
+  RECLAMO = "Reclamo",
+}
