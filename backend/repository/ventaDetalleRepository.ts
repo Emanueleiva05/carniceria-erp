@@ -2,7 +2,7 @@ import { prisma } from "../config/db";
 import { VentaDetalleInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
-type VentaDetallePrisma = {
+export type VentaDetallePrisma = {
   precio_unitario: number;
   cantidad: number;
   subtotal: number;

@@ -34,3 +34,8 @@ export const getProveedores = async () => {
   const proveedores = await proveedorRepository.findAll();
   return proveedores;
 };
+
+export const getEntregasByProveedor = async (id: number) => {
+  const entregas = await proveedorRepository.findEntregasByProveedor(id);
+  return entregas;
+};

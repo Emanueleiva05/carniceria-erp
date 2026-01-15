@@ -1,5 +1,6 @@
 import { prisma } from "../config/db";
 import { ProveedorInput } from "../utils/contracts";
+import { EntregaPrisma } from "./entregaRepository";
 import { Repository } from "./genericRepository";
 
 type ProveedorPrisma = {
@@ -45,6 +46,14 @@ class ProveedorRepository implements Repository<ProveedorInput, number> {
         proveedor_id: id,
       },
     });
+  }
+
+  async findEntregasByProveedor(id: number): Promise<EntregaPrisma[]> {
+    const entregas = await prisma.entrega.findMany({
+      where: { proveedor_id: id },
+    });
+
+    return entregas;
   }
 }
 

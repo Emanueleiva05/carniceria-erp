@@ -6,6 +6,7 @@ import {
   removeProveedor,
   obtainProveedorById,
   obtainProveedores,
+  obtainEntregaByProveedor,
 } from "../controller/proveedorController";
 
 import { validateBody } from "../middleware/proveedorMiddleware";
@@ -19,6 +20,8 @@ router.post("/", validateBody, createProveedor);
 router.get("/", obtainProveedores);
 
 router.get("/:id", validateIdParams, obtainProveedorById);
+
+router.get("/:id/entregas", validateIdParams, obtainEntregaByProveedor);
 
 router.put("/:id/", validateIdParams, validateBody, modifyProveedor);
 

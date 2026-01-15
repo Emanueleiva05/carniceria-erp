@@ -6,6 +6,7 @@ import {
   obtainEntregaById,
   createEntrega,
   removeEntrega,
+  obtainDetallesEntregas,
 } from "../controller/entregaController";
 import { validateBody } from "../middleware/entregaMiddleware";
 import {
@@ -20,6 +21,8 @@ router.post("/", validateBody, validateFecha, createEntrega);
 router.get("/", obtainEntrega);
 
 router.get("/:id", validateIdParams, obtainEntregaById);
+
+router.get("/:id/detalles", validateIdParams, obtainDetallesEntregas);
 
 router.put("/:id/", validateIdParams, validateFecha, modifyEntrega);
 
