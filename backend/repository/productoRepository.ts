@@ -26,6 +26,14 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
     return await prisma.producto.findMany();
   }
 
+  async findByName(name: string): Promise<ProductoPersistence | null> {
+    return await prisma.producto.findFirst({
+      where: {
+        nombre: name,
+      },
+    });
+  }
+
   async save(data: ProductoPersistenceInput): Promise<ProductoPersistence> {
     const producto = await prisma.producto.create({
       data: {

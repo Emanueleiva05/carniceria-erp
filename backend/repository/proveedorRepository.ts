@@ -22,6 +22,14 @@ class ProveedorRepository implements Repository<ProveedorInput, number> {
     return await prisma.proveedor.findMany();
   }
 
+  async findByName(name: string): Promise<ProveedorPrisma | null> {
+    return await prisma.proveedor.findFirst({
+      where: {
+        nombre: name,
+      },
+    });
+  }
+
   async save(data: ProveedorInput): Promise<ProveedorPrisma> {
     const proveedor = await prisma.proveedor.create({
       data: { nombre: data.nombre, telefono: data.telefono },
