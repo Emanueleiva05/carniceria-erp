@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import {
   deleteOferta,
+  getActiveOfertas,
   getOfertaById,
   getOfertas,
+  getProductosEnOferta,
   setOferta,
   updateOferta,
 } from "../services/ofertaServices";
@@ -81,6 +83,36 @@ export const obtainOfertas = async (
     const ofertas = await getOfertas();
 
     res.status(202).json(ofertas);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainActiveOferta = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const ofertasActivas = await getActiveOfertas();
+
+    res.status(202).json(ofertasActivas);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainProductosEnOferta = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = res.locals.id;
+
+    const productos = await getProductosEnOferta(id);
+
+    res.status(202).json(productos);
   } catch (err) {
     next(err);
   }

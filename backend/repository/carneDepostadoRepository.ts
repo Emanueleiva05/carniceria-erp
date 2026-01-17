@@ -2,7 +2,7 @@ import { prisma } from "../config/db";
 import { CarneInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
-type CarnePrisma = {
+export type CarnePrisma = {
   carne_id: number;
   peso_real: number;
   producto_id: number;

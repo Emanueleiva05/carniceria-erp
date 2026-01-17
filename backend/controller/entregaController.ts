@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import {
   deleteEntrega,
+  getDetallesByEntrega,
   getEntregaById,
   getEntregas,
   setEntrega,
@@ -81,6 +82,22 @@ export const obtainEntrega = async (
     const entregas = await getEntregas();
 
     res.status(202).json(entregas);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainDetallesEntregas = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = res.locals.id;
+
+    const detalles = await getDetallesByEntrega(id);
+
+    res.status(202).json(detalles);
   } catch (err) {
     next(err);
   }

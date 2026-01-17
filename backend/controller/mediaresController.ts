@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import {
   deleteMediares,
+  getCarnesMediares,
   getMediares,
   getMediaresById,
   setMediares,
@@ -81,6 +82,22 @@ export const obtainMediares = async (
     const mediares = await getMediares();
 
     res.status(202).json(mediares);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainCarnesMediares = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = res.locals.id;
+
+    const carnes = await getCarnesMediares(id);
+
+    res.status(202).json(carnes);
   } catch (err) {
     next(err);
   }

@@ -6,6 +6,7 @@ import {
   obtainVentas,
   modifyVenta,
   removeVenta,
+  obtainDetallesVenta,
 } from "../controller/ventaController";
 import { validateBody } from "../middleware/ventaMiddleware";
 import {
@@ -18,6 +19,8 @@ const router = Router();
 router.post("/", validateBody, validateFecha, createVenta);
 
 router.get("/", obtainVentas);
+
+router.get("/:id/detalles", validateIdParams, obtainDetallesVenta);
 
 router.get("/:id", validateIdParams, obtainVentaById);
 

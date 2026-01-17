@@ -5,6 +5,7 @@ import {
   getPerdidas,
   setPerdida,
   updatePerdida,
+  getProductosPerdidos,
 } from "../services/perdidaServices";
 
 export const createPerdida = async (
@@ -81,6 +82,22 @@ export const obtainPerdidas = async (
     const perdidas = await getPerdidas();
 
     res.status(202).json(perdidas);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainProductosPerdida = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = res.locals.id;
+
+    const productos = await getProductosPerdidos(id);
+
+    res.status(202).json(productos);
   } catch (err) {
     next(err);
   }

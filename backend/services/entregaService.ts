@@ -41,3 +41,8 @@ export const getEntregas = async () => {
   const entregas = await entregaRepository.findAll();
   return entregas;
 };
+
+export const getDetallesByEntrega = async (id: number) => {
+  const detalles = await entregaRepository.findDetallesVenta(id);
+  return detalles;
+};

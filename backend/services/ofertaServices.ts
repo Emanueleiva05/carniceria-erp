@@ -43,3 +43,13 @@ export const getOfertas = async () => {
   const ofertas = await ofertaRepository.findAll();
   return ofertas;
 };
+
+export const getActiveOfertas = async () => {
+  const ofertaActivas = await ofertaRepository.findByEstadoActivo();
+  return ofertaActivas;
+};
+
+export const getProductosEnOferta = async (id: number) => {
+  const productos = await ofertaRepository.findByProductoId(id);
+  return productos;
+};

@@ -63,6 +63,16 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
       },
     });
   }
+
+  async filterCatergoria(filter: string): Promise<ProductoPersistence[]> {
+    return await prisma.producto.findMany({
+      where: {
+        categoria: {
+          contains: filter,
+        },
+      },
+    });
+  }
 }
 
 const productoRepository = new ProductoRepository();

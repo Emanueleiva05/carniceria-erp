@@ -5,6 +5,7 @@ import {
   getProveedores,
   setProveedores,
   updateProveedores,
+  getEntregasByProveedor,
 } from "../services/proveedorService";
 
 export const createProveedor = async (
@@ -81,6 +82,20 @@ export const obtainProveedores = async (
     const proveedores = await getProveedores();
 
     res.status(202).json(proveedores);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainEntregaByProveedor = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = res.locals.id;
+    const entregas = await getEntregasByProveedor(id);
+    res.status(201).json(entregas);
   } catch (err) {
     next(err);
   }

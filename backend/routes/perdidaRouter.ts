@@ -5,6 +5,7 @@ import {
   createPerdida,
   removePerdida,
   modifyPerdida,
+  obtainProductosPerdida,
 } from "../controller/perdidaController";
 import { validateBody } from "../middleware/perdidaMiddleware";
 import {
@@ -17,6 +18,8 @@ const router = Router();
 router.post("/", validateBody, validateFecha, createPerdida);
 
 router.get("/", obtainPerdidas);
+
+router.get("/producto/:id", validateIdParams, obtainProductosPerdida);
 
 router.get(
   "/:id",

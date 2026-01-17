@@ -45,3 +45,8 @@ export const getProductos = async () => {
   const productos = await productoRepository.findAll();
   return productos;
 };
+
+export const getProductoByCategoria = async (data: string) => {
+  const productos = await productoRepository.filterCatergoria(data);
+  return productos;
+};
