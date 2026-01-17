@@ -57,3 +57,8 @@ export const getMediares = async () => {
   const mediareses = await mediaresRepository.findAll();
   return mediareses;
 };
+
+export const getCarnesMediares = async (id: number) => {
+  const carnes = await mediaresRepository.findCarneByMediares(id);
+  return carnes;
+};

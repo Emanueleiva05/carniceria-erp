@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import {
   deleteProducto,
+  getProductoByCategoria,
   getProductoById,
   getProductos,
   setProducto,
@@ -79,6 +80,26 @@ export const obtainProductos = async (
 ) => {
   try {
     const productos = await getProductos();
+
+    res.status(202).json(productos);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainProductoByCategoria = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const data = req.params.data;
+
+    if (!data) {
+      return "Tranqui";
+    }
+
+    const productos = await getProductoByCategoria(data);
 
     res.status(202).json(productos);
   } catch (err) {

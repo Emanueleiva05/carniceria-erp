@@ -34,3 +34,8 @@ export const getVentas = async () => {
   const ventas = await ventaRepository.findAll();
   return ventas;
 };
+
+export const getDetallesByVenta = async (id: number) => {
+  const detalles = await ventaRepository.findDetallesEntrega(id);
+  return detalles;
+};

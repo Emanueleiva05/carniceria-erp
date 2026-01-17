@@ -5,6 +5,7 @@ import {
   removeProducto,
   obtainProductoById,
   obtainProductos,
+  obtainProductoByCategoria,
 } from "../controller/productoController";
 import { validateBody } from "../middleware/productoMiddleware";
 import { validateIdParams } from "../middleware/genericMiddleware";
@@ -14,6 +15,8 @@ const router = Router();
 router.post("/", validateBody, createProducto);
 
 router.get("/", obtainProductos);
+
+router.get("/categoria/:data", obtainProductoByCategoria);
 
 router.get("/:id", validateIdParams, obtainProductoById);
 

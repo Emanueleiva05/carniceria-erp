@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import {
   deleteVenta,
+  getDetallesByVenta,
   getVentaById,
   getVentas,
   setVenta,
@@ -83,6 +84,22 @@ export const obtainVentas = async (
     const ventas = await getVentas();
 
     res.status(202).json(ventas);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainDetallesVenta = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = res.locals.id;
+
+    const detalles = await getDetallesByVenta(id);
+
+    res.status(202).json(detalles);
   } catch (err) {
     next(err);
   }
