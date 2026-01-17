@@ -1,9 +1,20 @@
+import AppError from "../error/AppError";
 import NotFound from "../error/NotFound";
 import Proveedor from "../models/Proveedor";
 import proveedorRepository from "../repository/proveedorRepository";
 import { ProveedorInput } from "../utils/contracts";
 
 export const setProveedores = async (data: ProveedorInput) => {
+  const existencia = await proveedorRepository.findByName(data.nombre);
+
+  if (existencia) {
+    throw new AppError(
+      "Ya existe un proveedor con este nombre",
+      409,
+      "DuplicateResource"
+    );
+  }
+
   const proveedor = Proveedor.create(data.nombre, data.telefono);
 
   return await proveedorRepository.save({

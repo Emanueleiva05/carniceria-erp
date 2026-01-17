@@ -24,6 +24,19 @@ class VentaDetalleRepository implements Repository<VentaDetalleInput, number> {
     return await prisma.ventaDetalle.findMany();
   }
 
+  async findByEntregaIdProductoId(
+    ventaId: number,
+    productoId: number
+  ): Promise<VentaDetallePrisma | null> {
+    const detalle = await prisma.ventaDetalle.findFirst({
+      where: {
+        producto_id: productoId,
+        venta_id: ventaId,
+      },
+    });
+    return detalle;
+  }
+
   async save(data: VentaDetalleInput): Promise<VentaDetallePrisma> {
     const ventaDetalle = await prisma.ventaDetalle.create({
       data: {

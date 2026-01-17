@@ -4,10 +4,24 @@ import ventaDetalleRepository from "../repository/ventaDetalleRepository";
 import { getProductoById } from "./productoService";
 import { getVentaById } from "./ventaService";
 import { VentaDetalleInput } from "../utils/contracts";
+import AppError from "../error/AppError";
 
 export const setVentaDetalle = async (data: VentaDetalleInput) => {
   await getProductoById(data.producto_id);
   await getVentaById(data.venta_id);
+
+  const existencia = await ventaDetalleRepository.findByEntregaIdProductoId(
+    data.venta_id,
+    data.producto_id
+  );
+
+  if (existencia) {
+    throw new AppError(
+      "Ya esta creado este detalle para la venta y producto",
+      409,
+      "DuplicateResource"
+    );
+  }
 
   const ventaDetalle = VentaDetalla.create(
     data.precio_unitario,

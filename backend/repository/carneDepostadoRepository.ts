@@ -22,6 +22,19 @@ class CarneDepostadaRepository implements Repository<CarneInput, number> {
     return await prisma.carneDepostada.findMany();
   }
 
+  async findByProductoIdMediaresId(
+    mediaresId: number,
+    productoId: number
+  ): Promise<CarnePrisma | null> {
+    const carne = await prisma.carneDepostada.findFirst({
+      where: {
+        producto_id: productoId,
+        mediares_id: mediaresId,
+      },
+    });
+    return carne;
+  }
+
   async save(data: CarneInput): Promise<CarnePrisma> {
     const carne = await prisma.carneDepostada.create({
       data: {

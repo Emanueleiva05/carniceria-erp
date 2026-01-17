@@ -25,6 +25,19 @@ class EntregaDetalleRepository
     return await prisma.entregaDetalle.findMany();
   }
 
+  async findByEntregaIdProductoId(
+    entregaId: number,
+    productoId: number
+  ): Promise<EntregaDetallePrisma | null> {
+    const detalle = await prisma.entregaDetalle.findFirst({
+      where: {
+        producto_id: productoId,
+        entrega_id: entregaId,
+      },
+    });
+    return detalle;
+  }
+
   async save(data: EntregaDetalleInput): Promise<EntregaDetallePrisma> {
     const entregaDetalle = await prisma.entregaDetalle.create({
       data: {
