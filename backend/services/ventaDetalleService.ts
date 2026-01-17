@@ -30,6 +30,8 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
     data.venta_id
   );
 
+  ventaDetalle.calcularSubtotal();
+
   return await ventaDetalleRepository.save({
     precio_unitario: ventaDetalle.precio_unitario,
     subtotal: ventaDetalle.subtotal,

@@ -19,6 +19,18 @@ export enum UnidadMedida {
   KG = "Kg",
 }
 
+export const transformToUnidadMedida = (data: string): UnidadMedida | null => {
+  if (data === UnidadMedida.KG) {
+    return data;
+  }
+
+  if (data === UnidadMedida.KG) {
+    return data;
+  }
+
+  return null;
+};
+
 export enum TipoVaca {
   NOVILLO = "Novillo",
   ADULTA = "Adulta",

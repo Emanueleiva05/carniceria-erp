@@ -3,16 +3,19 @@ import { Perdida } from "../models/Perdida";
 import perdidaRepository from "../repository/perdidaRepository";
 import { getProductoById } from "./productoService";
 import { PerdidaInput } from "../utils/contracts";
+import { transformToUnidadMedida } from "../utils/tipos";
+import BadRequest from "../error/BadRequest";
 
 export const setPerdida = async (data: PerdidaInput) => {
-  await getProductoById(data.producto_id);
+  const producto = await getProductoById(data.producto_id);
 
   const perdida = Perdida.create(
     data.tirado,
     data.unidad_medida,
-    data.producto_id,
-    data.motivo
+    data.producto_id
   );
+
+  perdida.calcularTotal(producto.precio_venta);
 
   return await perdidaRepository.save({
     unidad_medida: perdida.unidad,
@@ -21,6 +24,29 @@ export const setPerdida = async (data: PerdidaInput) => {
     motivo: perdida.motivo,
     total: perdida.total,
     producto_id: perdida.producto_id,
+  });
+};
+
+export const addMotivo = async (id: number, motivo: string) => {
+  const raw = await getPerdidaById(id);
+
+  const unidad = transformToUnidadMedida(raw.unidad_medida);
+
+  if (!unidad) {
+    throw new BadRequest("Unidad de medida");
+  }
+
+  const perdida = Perdida.create(raw.tirado, unidad, raw.producto_id);
+
+  perdida.agregarMotivo(motivo);
+
+  return await perdidaRepository.update(id, {
+    unidad_medida: raw.unidad_medida,
+    tirado: raw.tirado,
+    fecha_perdida: raw.fecha_perdida,
+    motivo: perdida.motivo,
+    total: raw.total,
+    producto_id: raw.producto_id,
   });
 };
 

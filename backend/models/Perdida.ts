@@ -27,12 +27,7 @@ export class Perdida {
     this.producto_id = producto_id;
   }
 
-  static create(
-    tirado: number,
-    unidad: UnidadMedida,
-    producto_id: number,
-    motivo: string | null
-  ) {
+  static create(tirado: number, unidad: UnidadMedida, producto_id: number) {
     if (tirado <= 0) {
       throw new Error("Tirado invalido");
     }
@@ -40,15 +35,7 @@ export class Perdida {
       throw new Error("Producto ID invalido");
     }
 
-    return new Perdida(
-      null,
-      tirado,
-      unidad,
-      new Date(),
-      motivo,
-      0,
-      producto_id
-    );
+    return new Perdida(null, tirado, unidad, new Date(), null, 0, producto_id);
   }
 
   calcularTotal(precio_venta: number) {
