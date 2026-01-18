@@ -1,4 +1,5 @@
-import { TipoVaca } from "../utils/tipos";
+import { MediaresPersistence } from "../repository/mediaresRepository";
+import { TipoVaca, transformToTipoVaca } from "../utils/tipos";
 
 export default class Mediares {
   public mediares_id: number | null;
@@ -16,7 +17,7 @@ export default class Mediares {
     precio_compra: number,
     peso_real: number,
     tipo_vaca: TipoVaca,
-    entrega_id: number
+    entrega_id: number,
   ) {
     this.mediares_id = id;
     this.peso_carton = peso_carton;
@@ -33,7 +34,7 @@ export default class Mediares {
     precio_compra: number,
     peso_real: number,
     tipo_vaca: TipoVaca,
-    entrega_id: number
+    entrega_id: number,
   ) {
     if (peso_carton <= 0) {
       throw new Error("Peso carton invalido");
@@ -58,7 +59,22 @@ export default class Mediares {
       precio_compra,
       peso_real,
       tipo_vaca,
-      entrega_id
+      entrega_id,
     );
+  }
+  static fromPersistence(mediaresRaw: MediaresPersistence) {
+    const tipoVacaString = transformToTipoVaca(mediaresRaw.tipo_vaca);
+
+    const mediares = new Mediares(
+      mediaresRaw.mediares_id,
+      mediaresRaw.peso_carton,
+      mediaresRaw.tamano,
+      mediaresRaw.precio_compra,
+      mediaresRaw.peso_real,
+      tipoVacaString,
+      mediaresRaw.entrega_id,
+    );
+
+    return mediares;
   }
 }

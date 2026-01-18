@@ -1,3 +1,4 @@
+import { VentaDetallePersistence } from "../repository/ventaDetalleRepository";
 import { Oferta } from "./Oferta";
 
 export class VentaDetalla {
@@ -16,7 +17,7 @@ export class VentaDetalla {
     subtotal: number,
     producto_id: number,
     venta_id: number,
-    oferta_id: number | null
+    oferta_id: number | null,
   ) {
     this.detalle_id = id;
     this.precio_unitario = precio_unitario;
@@ -31,7 +32,7 @@ export class VentaDetalla {
     precio_unitario: number,
     cantidad: number,
     producto_id: number,
-    venta_id: number
+    venta_id: number,
   ) {
     if (precio_unitario <= 0) {
       throw new Error("Precio unitario invalido");
@@ -56,8 +57,21 @@ export class VentaDetalla {
       0,
       producto_id,
       venta_id,
-      null
+      null,
     );
+  }
+
+  static fromPersistence(ventaDetalleRaw: VentaDetallePersistence) {
+    const detalle = new VentaDetalla(
+      ventaDetalleRaw.ventaDetalle_id,
+      ventaDetalleRaw.precio_unitario,
+      ventaDetalleRaw.cantidad,
+      ventaDetalleRaw.subtotal,
+      ventaDetalleRaw.producto_id,
+      ventaDetalleRaw.venta_id,
+      ventaDetalleRaw.oferta_id,
+    );
+    return detalle;
   }
 
   calcularSubtotal() {

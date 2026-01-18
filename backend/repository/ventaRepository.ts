@@ -3,7 +3,7 @@ import { VentaInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 import { VentaDetallePrisma } from "./ventaDetalleRepository";
 
-type VentaPrisma = {
+export type VentaPrisma = {
   venta_id: number;
   fecha_venta: Date;
   total: number;

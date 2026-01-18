@@ -1,3 +1,5 @@
+import { CarnePrisma } from "../repository/carneDepostadoRepository";
+
 export class CarneDepostada {
   public readonly carne_id: number | null;
   public peso_real: number;
@@ -8,7 +10,7 @@ export class CarneDepostada {
     carne_id: number | null,
     peso_real: number,
     mediares_id: number,
-    producto_id: number
+    producto_id: number,
   ) {
     this.carne_id = carne_id;
     this.peso_real = peso_real;
@@ -19,7 +21,7 @@ export class CarneDepostada {
   static create(
     peso_real: number,
     mediares_id: number,
-    producto_id: number
+    producto_id: number,
   ): CarneDepostada {
     if (peso_real <= 0) {
       throw new Error("Peso real inválido");
@@ -34,5 +36,15 @@ export class CarneDepostada {
     }
 
     return new CarneDepostada(null, peso_real, mediares_id, producto_id);
+  }
+
+  static fromPersistence(data: CarnePrisma) {
+    const carne = new CarneDepostada(
+      data.carne_id,
+      data.peso_real,
+      data.mediares_id,
+      data.producto_id,
+    );
+    return carne;
   }
 }

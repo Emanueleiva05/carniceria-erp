@@ -11,10 +11,10 @@ export type EntregaDetallePrisma = {
 };
 
 class EntregaDetalleRepository implements Repository<
-  EntregaDetalleInput,
+  EntregaDetallePrisma,
   number
 > {
-  async findById(id: number): Promise<EntregaDetalleInput | null> {
+  async findById(id: number): Promise<EntregaDetallePrisma | null> {
     return await prisma.entregaDetalle.findUnique({
       where: {
         entregaDetalle_id: id,
@@ -22,7 +22,7 @@ class EntregaDetalleRepository implements Repository<
     });
   }
 
-  async findAll(): Promise<EntregaDetalleInput[]> {
+  async findAll(): Promise<EntregaDetallePrisma[]> {
     return await prisma.entregaDetalle.findMany();
   }
 

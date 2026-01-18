@@ -1,4 +1,5 @@
-import { UnidadMedida } from "../utils/tipos";
+import { PerdidaPersistence } from "../repository/perdidaRepository";
+import { transformToUnidadMedida, UnidadMedida } from "../utils/tipos";
 
 export class Perdida {
   public perdida_id: number | null;
@@ -16,7 +17,7 @@ export class Perdida {
     fechaPerdida: Date,
     motivo: string | null,
     total: number,
-    producto_id: number
+    producto_id: number,
   ) {
     this.perdida_id = id;
     this.tirado = tirado;
@@ -36,6 +37,21 @@ export class Perdida {
     }
 
     return new Perdida(null, tirado, unidad, new Date(), null, 0, producto_id);
+  }
+
+  static fromPersistence(perdidaRaw: PerdidaPersistence) {
+    const unidadMedida = transformToUnidadMedida(perdidaRaw.unidad_medida);
+
+    const perdida = new Perdida(
+      perdidaRaw.perdida_id,
+      perdidaRaw.tirado,
+      unidadMedida,
+      perdidaRaw.fecha_perdida,
+      perdidaRaw.motivo,
+      perdidaRaw.total,
+      perdidaRaw.producto_id,
+    );
+    return perdida;
   }
 
   calcularTotal(precio_venta: number) {

@@ -12,7 +12,7 @@ export const setPerdida = async (data: PerdidaInput) => {
   const perdida = Perdida.create(
     data.tirado,
     data.unidad_medida,
-    data.producto_id
+    data.producto_id,
   );
 
   perdida.calcularTotal(producto.precio_venta);
@@ -36,7 +36,7 @@ export const addMotivo = async (id: number, motivo: string) => {
     throw new BadRequest("Unidad de medida");
   }
 
-  const perdida = Perdida.create(raw.tirado, unidad, raw.producto_id);
+  const perdida = Perdida.fromPersistence(raw);
 
   perdida.agregarMotivo(motivo);
 

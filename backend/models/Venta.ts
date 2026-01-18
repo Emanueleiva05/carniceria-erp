@@ -1,3 +1,4 @@
+import { VentaPrisma } from "../repository/ventaRepository";
 import { VentaDetalla } from "./VentaDetalle";
 
 export class Venta {
@@ -20,6 +21,17 @@ export class Venta {
 
   static create() {
     return new Venta(null, new Date(), false, 0);
+  }
+
+  static fromPersistence(ventaRaw: VentaPrisma) {
+    const venta = new Venta(
+      ventaRaw.venta_id,
+      ventaRaw.fecha_venta,
+      ventaRaw.esta_vendida,
+      ventaRaw.total,
+    );
+
+    return venta;
   }
 
   ventaRealizada() {

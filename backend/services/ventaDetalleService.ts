@@ -52,14 +52,9 @@ const recalcularTotal = async (ventaId: number) => {
   const rawVenta = await getVentaById(ventaId);
   const rawDetalles = await ventaDetalleRepository.findByVentaId(ventaId);
 
-  const venta = Venta.create();
+  const venta = Venta.fromPersistence(rawVenta);
   const detalles: VentaDetalla[] = rawDetalles.map((detalle) =>
-    VentaDetalla.create(
-      detalle.precio_unitario,
-      detalle.cantidad,
-      detalle.producto_id,
-      detalle.venta_id,
-    ),
+    VentaDetalla.fromPersistence(detalle),
   );
 
   venta.calcularTotal(detalles);

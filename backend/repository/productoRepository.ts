@@ -10,7 +10,7 @@ type ProductoPersistenceInput = {
   unidad_medida: string;
 };
 
-type ProductoPersistence = ProductoPersistenceInput & {
+export type ProductoPersistence = ProductoPersistenceInput & {
   producto_id: number;
 };
 

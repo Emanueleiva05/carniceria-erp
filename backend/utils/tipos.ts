@@ -8,18 +8,56 @@ export enum Tamanio {
   KG_120 = 120,
 }
 
+export const transformToTamanio = (data: number): Tamanio => {
+  if (data === Tamanio.KG_90) {
+    return data;
+  }
+  if (data === Tamanio.KG_95) {
+    return data;
+  }
+  if (data === Tamanio.KG_100) {
+    return data;
+  }
+  if (data === Tamanio.KG_105) {
+    return data;
+  }
+  if (data === Tamanio.KG_110) {
+    return data;
+  }
+  if (data === Tamanio.KG_115) {
+    return data;
+  }
+  if (data === Tamanio.KG_120) {
+    return data;
+  }
+
+  return Tamanio.KG_100;
+};
+
 export enum Categoria {
   CARNE = "Carne",
   POLLO = "Pollo",
   ACHURA = "Achura",
 }
 
+export const transformToCategoria = (data: string): Categoria => {
+  if (data === Categoria.CARNE) {
+    return data;
+  }
+
+  if (data === Categoria.POLLO) {
+    return data;
+  }
+
+  return Categoria.ACHURA;
+};
+
 export enum UnidadMedida {
   UNIDAD = "Unidad",
   KG = "Kg",
 }
 
-export const transformToUnidadMedida = (data: string): UnidadMedida | null => {
+export const transformToUnidadMedida = (data: string): UnidadMedida => {
   if (data === UnidadMedida.KG) {
     return data;
   }
@@ -28,13 +66,25 @@ export const transformToUnidadMedida = (data: string): UnidadMedida | null => {
     return data;
   }
 
-  return null;
+  return UnidadMedida.KG;
 };
 
 export enum TipoVaca {
   NOVILLO = "Novillo",
   ADULTA = "Adulta",
 }
+
+export const transformToTipoVaca = (data: string): TipoVaca => {
+  if (data === TipoVaca.NOVILLO) {
+    return data;
+  }
+
+  if (data === TipoVaca.ADULTA) {
+    return data;
+  }
+
+  return TipoVaca.ADULTA;
+};
 
 export enum TipoMovimiento {
   ENTRADA = "Entrada",

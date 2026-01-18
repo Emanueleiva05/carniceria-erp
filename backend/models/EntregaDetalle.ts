@@ -1,3 +1,5 @@
+import { EntregaDetallePrisma } from "../repository/entregaDetalleRepository";
+
 export class EntregaDetalle {
   public readonly id: number | null;
   public cantidad: number;
@@ -10,7 +12,7 @@ export class EntregaDetalle {
     cantidad: number,
     precio_compra: number,
     producto_id: number,
-    entrega_id: number
+    entrega_id: number,
   ) {
     this.id = id;
     this.cantidad = cantidad;
@@ -23,7 +25,7 @@ export class EntregaDetalle {
     cantidad: number,
     precio_compra: number,
     producto_id: number,
-    entrega_id: number
+    entrega_id: number,
   ) {
     if (cantidad <= 0) {
       throw new Error("Cantidad inválido");
@@ -46,8 +48,20 @@ export class EntregaDetalle {
       cantidad,
       precio_compra,
       producto_id,
-      entrega_id
+      entrega_id,
     );
+  }
+
+  static fromPersistence(detalle: EntregaDetallePrisma) {
+    const detalleEntrega = new EntregaDetalle(
+      detalle.entregaDetalle_id,
+      detalle.cantidad,
+      detalle.precio_compra,
+      detalle.producto_id,
+      detalle.entrega_id,
+    );
+
+    return detalleEntrega;
   }
 
   calcularSubtotal() {

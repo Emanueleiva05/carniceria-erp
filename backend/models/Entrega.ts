@@ -1,3 +1,4 @@
+import { EntregaPrisma } from "../repository/entregaRepository";
 import { EntregaDetalle } from "./EntregaDetalle";
 
 export default class Entrega {
@@ -5,7 +6,7 @@ export default class Entrega {
   public readonly fechaEntrega: Date;
   public total: number;
   public pago: boolean;
-  public factura: string;
+  public factura: string | null;
   public proveedor_id: number;
 
   constructor(
@@ -13,8 +14,8 @@ export default class Entrega {
     fechaEntrega: Date,
     pago: boolean,
     total: number,
-    factura: string,
-    proveedor_id: number
+    factura: string | null,
+    proveedor_id: number,
   ) {
     this.entrega_id = id;
     this.fechaEntrega = fechaEntrega;
@@ -26,6 +27,18 @@ export default class Entrega {
 
   static create(proveedor_id: number) {
     return new Entrega(null, new Date(), false, 0, "", proveedor_id);
+  }
+
+  static fromPersistence(data: EntregaPrisma) {
+    const entrega = new Entrega(
+      data.entrega_id,
+      data.fecha_entrega,
+      data.pago,
+      data.total,
+      data.factura,
+      data.proveedor_id,
+    );
+    return entrega;
   }
 
   pagado() {
@@ -43,7 +56,7 @@ export default class Entrega {
   calcularTotal(entregaDetalle: EntregaDetalle[]) {
     const total = entregaDetalle.reduce(
       (acu, sum) => acu + sum.calcularSubtotal(),
-      0
+      0,
     );
 
     if (total <= 0) {

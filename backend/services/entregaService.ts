@@ -21,47 +21,47 @@ export const setEntrega = async (data: EntregaInput) => {
 export const updatePago = async (id: number) => {
   const raw = await getEntregaById(id);
 
-  const entrega = Entrega.create(raw.proveedor_id);
+  const entrega = Entrega.fromPersistence(raw);
 
   entrega.pagado();
 
   return await entregaRepository.update(id, {
-    fecha_entrega: raw.fecha_entrega,
-    total: raw.total,
+    fecha_entrega: entrega.fechaEntrega,
+    total: entrega.total,
     pago: entrega.pago,
-    factura: raw.factura,
-    proveedor_id: raw.proveedor_id,
+    factura: entrega.factura,
+    proveedor_id: entrega.proveedor_id,
   });
 };
 
 export const addFactura = async (id: number, archivo: string) => {
   const raw = await getEntregaById(id);
 
-  const entrega = Entrega.create(raw.proveedor_id);
+  const entrega = Entrega.fromPersistence(raw);
 
   entrega.agregarFactura(archivo);
 
   return await entregaRepository.update(id, {
-    fecha_entrega: raw.fecha_entrega,
-    total: raw.total,
-    pago: raw.pago,
+    fecha_entrega: entrega.fechaEntrega,
+    total: entrega.total,
+    pago: entrega.pago,
     factura: entrega.factura,
-    proveedor_id: raw.proveedor_id,
+    proveedor_id: entrega.proveedor_id,
   });
 };
 
 export const changeProveedor = async (id: number, proveedorId: number) => {
   const raw = await getEntregaById(id);
 
-  const entrega = Entrega.create(raw.proveedor_id);
+  const entrega = Entrega.fromPersistence(raw);
 
   entrega.cambiarProveedor(proveedorId);
 
   return await entregaRepository.update(id, {
-    fecha_entrega: raw.fecha_entrega,
-    total: raw.total,
-    pago: raw.pago,
-    factura: raw.factura,
+    fecha_entrega: entrega.fechaEntrega,
+    total: entrega.total,
+    pago: entrega.pago,
+    factura: entrega.factura,
     proveedor_id: entrega.proveedor_id,
   });
 };

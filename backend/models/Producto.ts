@@ -1,4 +1,10 @@
-import { Categoria, UnidadMedida } from "../utils/tipos";
+import { ProductoPersistence } from "../repository/productoRepository";
+import {
+  Categoria,
+  transformToCategoria,
+  transformToUnidadMedida,
+  UnidadMedida,
+} from "../utils/tipos";
 
 export class Producto {
   public producto_id: number | null;
@@ -49,5 +55,20 @@ export class Producto {
       stock_minimo,
       unidad,
     );
+  }
+
+  static fromPersistence(productoRaw: ProductoPersistence) {
+    const unidadMedida = transformToUnidadMedida(productoRaw.unidad_medida);
+    const categoria = transformToCategoria(productoRaw.categoria);
+    const producto = new Producto(
+      productoRaw.producto_id,
+      productoRaw.nombre,
+      categoria,
+      productoRaw.stock_actual,
+      productoRaw.precio_venta,
+      productoRaw.stock_minimo,
+      unidadMedida,
+    );
+    return producto;
   }
 }

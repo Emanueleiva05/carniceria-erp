@@ -36,7 +36,7 @@ export const setOferta = async (data: OfertaInput) => {
 export const updateEstado = async (id: number) => {
   const raw = await getOfertaById(id);
 
-  const entrega = Oferta.create(raw.minKg, raw.precio_oferta, raw.producto_id);
+  const entrega = Oferta.fromPersistence(raw);
 
   entrega.inactivo();
 

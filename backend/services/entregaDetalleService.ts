@@ -48,14 +48,9 @@ const recalcularTotal = async (entregaId: number) => {
   const rawEntrega = await getEntregaById(entregaId);
   const rawDetalles = await entregaDetalleRepository.findByEntregaId(entregaId);
 
-  const entrega = Entrega.create(rawEntrega.proveedor_id);
+  const entrega = Entrega.fromPersistence(rawEntrega);
   const detalles: EntregaDetalle[] = rawDetalles.map((detalle) =>
-    EntregaDetalle.create(
-      detalle.cantidad,
-      detalle.precio_compra,
-      detalle.producto_id,
-      detalle.entrega_id,
-    ),
+    EntregaDetalle.fromPersistence(detalle),
   );
 
   entrega.calcularTotal(detalles);
