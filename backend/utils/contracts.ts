@@ -58,6 +58,7 @@ export interface ProductoInput {
   nombre: string;
   categoria: Categoria;
   stock_actual: number;
+  stock_minimo: number;
   precio_venta: number;
   unidad_medida: UnidadMedida;
 }

@@ -77,6 +77,7 @@ model Producto {
   nombre           String
   categoria        String
   stock_actual     Float
+  stock_minimo     Float             @default(0)
   precio_venta     Float
   unidad_medida    String
   entregaDetalles  EntregaDetalle[]

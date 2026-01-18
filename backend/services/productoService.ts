@@ -11,7 +11,7 @@ export const setProducto = async (data: ProductoInput) => {
     throw new AppError(
       "Ya existe un proveedor con este nombre",
       409,
-      "DuplicateResource"
+      "DuplicateResource",
     );
   }
 
@@ -19,7 +19,8 @@ export const setProducto = async (data: ProductoInput) => {
     data.nombre,
     data.categoria,
     data.precio_venta,
-    data.unidad_medida
+    data.unidad_medida,
+    data.stock_minimo,
   );
 
   const categoria = transformToString(producto.categoria);
@@ -28,6 +29,7 @@ export const setProducto = async (data: ProductoInput) => {
   return await productoRepository.save({
     nombre: producto.nombre,
     categoria: categoria,
+    stock_minimo: producto.stock_minimo,
     stock_actual: producto.stock_actual,
     precio_venta: producto.precio_venta,
     unidad_medida: unidad,
