@@ -10,9 +10,10 @@ export type EntregaDetallePrisma = {
   entrega_id: number;
 };
 
-class EntregaDetalleRepository
-  implements Repository<EntregaDetalleInput, number>
-{
+class EntregaDetalleRepository implements Repository<
+  EntregaDetalleInput,
+  number
+> {
   async findById(id: number): Promise<EntregaDetalleInput | null> {
     return await prisma.entregaDetalle.findUnique({
       where: {
@@ -27,7 +28,7 @@ class EntregaDetalleRepository
 
   async findByEntregaIdProductoId(
     entregaId: number,
-    productoId: number
+    productoId: number,
   ): Promise<EntregaDetallePrisma | null> {
     const detalle = await prisma.entregaDetalle.findFirst({
       where: {
@@ -36,6 +37,14 @@ class EntregaDetalleRepository
       },
     });
     return detalle;
+  }
+
+  async findByEntregaId(entregaId: number): Promise<EntregaDetallePrisma[]> {
+    return await prisma.entregaDetalle.findMany({
+      where: {
+        entrega_id: entregaId,
+      },
+    });
   }
 
   async save(data: EntregaDetalleInput): Promise<EntregaDetallePrisma> {
@@ -52,7 +61,7 @@ class EntregaDetalleRepository
 
   async update(
     id: number,
-    data: EntregaDetalleInput
+    data: EntregaDetalleInput,
   ): Promise<EntregaDetallePrisma> {
     const entregaDetalle = await prisma.entregaDetalle.update({
       where: { entregaDetalle_id: id },

@@ -5,6 +5,8 @@ import { getProductoById } from "./productoService";
 import { getVentaById } from "./ventaService";
 import { VentaDetalleInput } from "../utils/contracts";
 import AppError from "../error/AppError";
+import { Venta } from "../models/Venta";
+import ventaRepository from "../repository/ventaRepository";
 
 export const setVentaDetalle = async (data: VentaDetalleInput) => {
   await getProductoById(data.producto_id);
@@ -12,14 +14,14 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
 
   const existencia = await ventaDetalleRepository.findByEntregaIdProductoId(
     data.venta_id,
-    data.producto_id
+    data.producto_id,
   );
 
   if (existencia) {
     throw new AppError(
       "Ya esta creado este detalle para la venta y producto",
       409,
-      "DuplicateResource"
+      "DuplicateResource",
     );
   }
 
@@ -27,12 +29,12 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
     data.precio_unitario,
     data.cantidad,
     data.producto_id,
-    data.venta_id
+    data.venta_id,
   );
 
   ventaDetalle.calcularSubtotal();
 
-  return await ventaDetalleRepository.save({
+  const saved = await ventaDetalleRepository.save({
     precio_unitario: ventaDetalle.precio_unitario,
     subtotal: ventaDetalle.subtotal,
     cantidad: ventaDetalle.cantidad,
@@ -40,11 +42,37 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
     venta_id: ventaDetalle.venta_id,
     oferta_id: ventaDetalle.oferta_id,
   });
+
+  await recalcularTotal(data.venta_id);
+
+  return saved;
+};
+
+export const recalcularTotal = async (ventaId: number) => {
+  const rawVenta = await getVentaById(ventaId);
+  const rawDetalles = await ventaDetalleRepository.findByVentaId(ventaId);
+
+  const venta = Venta.create();
+  const detalles: VentaDetalla[] = rawDetalles.map((detalle) =>
+    VentaDetalla.create(
+      detalle.precio_unitario,
+      detalle.cantidad,
+      detalle.producto_id,
+      detalle.venta_id,
+    ),
+  );
+
+  venta.calcularTotal(detalles);
+
+  return ventaRepository.update(ventaId, {
+    fecha_venta: rawVenta.fecha_venta,
+    esta_vendida: rawVenta.esta_vendida,
+  });
 };
 
 export const updateVentaDetalle = async (
   id: number,
-  data: VentaDetalleInput
+  data: VentaDetalleInput,
 ) => {
   return await ventaDetalleRepository.update(id, data);
 };

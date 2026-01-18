@@ -3,14 +3,26 @@ import { Oferta } from "../models/Oferta";
 import ofertaRepository from "../repository/ofertaRepository";
 import { getProductoById } from "./productoService";
 import { OfertaInput } from "../utils/contracts";
+import AppError from "../error/AppError";
 
 export const setOferta = async (data: OfertaInput) => {
   await getProductoById(data.producto_id);
+  const existencia = await ofertaRepository.findByEstadoActivoProductoId(
+    data.producto_id,
+  );
+
+  if (existencia) {
+    throw new AppError(
+      "Ya hay una oferta activa para este producto",
+      409,
+      "DuplicateResource",
+    );
+  }
 
   const oferta = Oferta.create(
     data.minKg,
     data.precio_oferta,
-    data.producto_id
+    data.producto_id,
   );
 
   return await ofertaRepository.save({

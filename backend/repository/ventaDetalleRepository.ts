@@ -26,7 +26,7 @@ class VentaDetalleRepository implements Repository<VentaDetalleInput, number> {
 
   async findByEntregaIdProductoId(
     ventaId: number,
-    productoId: number
+    productoId: number,
   ): Promise<VentaDetallePrisma | null> {
     const detalle = await prisma.ventaDetalle.findFirst({
       where: {
@@ -35,6 +35,14 @@ class VentaDetalleRepository implements Repository<VentaDetalleInput, number> {
       },
     });
     return detalle;
+  }
+
+  async findByVentaId(ventaId: number): Promise<VentaDetallePrisma[]> {
+    return await prisma.ventaDetalle.findMany({
+      where: {
+        venta_id: ventaId,
+      },
+    });
   }
 
   async save(data: VentaDetalleInput): Promise<VentaDetallePrisma> {
@@ -53,7 +61,7 @@ class VentaDetalleRepository implements Repository<VentaDetalleInput, number> {
 
   async update(
     id: number,
-    data: VentaDetalleInput
+    data: VentaDetalleInput,
   ): Promise<VentaDetallePrisma> {
     const ventaDetalle = await prisma.ventaDetalle.update({
       where: { ventaDetalle_id: id },
