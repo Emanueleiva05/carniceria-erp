@@ -44,7 +44,7 @@ export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
   return saved;
 };
 
-export const recalcularTotal = async (entregaId: number) => {
+const recalcularTotal = async (entregaId: number) => {
   const rawEntrega = await getEntregaById(entregaId);
   const rawDetalles = await entregaDetalleRepository.findByEntregaId(entregaId);
 

@@ -6,11 +6,12 @@ import { VentaDetallePrisma } from "./ventaDetalleRepository";
 type VentaPrisma = {
   venta_id: number;
   fecha_venta: Date;
+  total: number;
   esta_vendida: boolean;
 };
 
-class VentaRepository implements Repository<VentaInput, number> {
-  async findById(id: number): Promise<VentaInput | null> {
+class VentaRepository implements Repository<VentaPrisma, number> {
+  async findById(id: number): Promise<VentaPrisma | null> {
     return await prisma.venta.findUnique({
       where: {
         venta_id: id,
@@ -18,7 +19,7 @@ class VentaRepository implements Repository<VentaInput, number> {
     });
   }
 
-  async findAll(): Promise<VentaInput[]> {
+  async findAll(): Promise<VentaPrisma[]> {
     return await prisma.venta.findMany();
   }
 
@@ -27,6 +28,7 @@ class VentaRepository implements Repository<VentaInput, number> {
       data: {
         fecha_venta: data.fecha_venta,
         esta_vendida: data.esta_vendida,
+        total: data.total,
       },
     });
     return venta;
@@ -38,6 +40,7 @@ class VentaRepository implements Repository<VentaInput, number> {
       data: {
         fecha_venta: data.fecha_venta,
         esta_vendida: data.esta_vendida,
+        total: data.total,
       },
     });
     return venta;

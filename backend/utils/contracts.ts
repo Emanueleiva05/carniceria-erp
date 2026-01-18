@@ -79,6 +79,7 @@ export interface StockMovimientoInput {
 export interface VentaInput {
   fecha_venta: Date;
   esta_vendida: boolean;
+  total: number;
 }
 
 export interface VentaDetalleInput {

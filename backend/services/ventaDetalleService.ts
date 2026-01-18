@@ -48,7 +48,7 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
   return saved;
 };
 
-export const recalcularTotal = async (ventaId: number) => {
+const recalcularTotal = async (ventaId: number) => {
   const rawVenta = await getVentaById(ventaId);
   const rawDetalles = await ventaDetalleRepository.findByVentaId(ventaId);
 
@@ -67,6 +67,7 @@ export const recalcularTotal = async (ventaId: number) => {
   return ventaRepository.update(ventaId, {
     fecha_venta: rawVenta.fecha_venta,
     esta_vendida: rawVenta.esta_vendida,
+    total: rawVenta.total,
   });
 };
 

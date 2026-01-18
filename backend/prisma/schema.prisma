@@ -133,6 +133,7 @@ model Venta {
   venta_id      Int            @id @default(autoincrement())
   fecha_venta   DateTime
   esta_vendida  Boolean
+  total         Float          @default(0)
   ventaDetalles VentaDetalle[]
 
   @@map("ventas")

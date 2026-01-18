@@ -9,6 +9,7 @@ export const setVenta = async (data: VentaInput) => {
   return await ventaRepository.save({
     fecha_venta: venta.fecha_venta,
     esta_vendida: venta.vendido,
+    total: venta.total,
   });
 };
 
