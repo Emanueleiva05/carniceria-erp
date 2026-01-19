@@ -71,4 +71,8 @@ export class Producto {
     );
     return producto;
   }
+
+  cambiarStockMinimo(cantidadMinima: number) {
+    this.stock_minimo = cantidadMinima;
+  }
 }

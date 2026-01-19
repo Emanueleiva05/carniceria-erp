@@ -1,7 +1,7 @@
 import { prisma } from "../config/db";
 import { VentaInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
-import { VentaDetallePrisma } from "./ventaDetalleRepository";
+import { VentaDetallePersistence } from "./ventaDetalleRepository";
 
 export type VentaPrisma = {
   venta_id: number;
@@ -54,7 +54,7 @@ class VentaRepository implements Repository<VentaPrisma, number> {
     });
   }
 
-  async findDetallesEntrega(id: number): Promise<VentaDetallePrisma[]> {
+  async findDetallesEntrega(id: number): Promise<VentaDetallePersistence[]> {
     const ventaDetalles = prisma.ventaDetalle.findMany({
       where: { venta_id: id },
       include: {

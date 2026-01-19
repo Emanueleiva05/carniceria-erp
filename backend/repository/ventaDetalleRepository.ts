@@ -1,5 +1,4 @@
 import { prisma } from "../config/db";
-import { VentaDetalleInput } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
 export type VentaDetallePersistenceInput = {

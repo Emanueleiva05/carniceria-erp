@@ -2,10 +2,10 @@ import NotFound from "../error/NotFound";
 import { StockMovimiento } from "../models/StockMovimiento";
 import stockMovimientoRepository from "../repository/stockMovimientoRepository";
 import { StockMovimientoInput } from "../utils/contracts";
-import { getProductoById } from "./productoService";
+import { changeCantidad, getProductoById } from "./productoService";
 
 export const setMovimiento = async (data: StockMovimientoInput) => {
-  await getProductoById(data.producto_id);
+  const producto = await getProductoById(data.producto_id);
 
   const movimiento = StockMovimiento.create(
     data.cantidad,
@@ -13,10 +13,13 @@ export const setMovimiento = async (data: StockMovimientoInput) => {
     data.motivo,
     data.referencia_id,
     data.referencia_tipo,
-    data.producto_id
+    data.producto_id,
   );
 
-  return await stockMovimientoRepository.save({
+  const cantidadNueva = movimiento.calcularStock(producto);
+  await changeCantidad(movimiento.producto_id, cantidadNueva);
+
+  const movimientoPersistence = await stockMovimientoRepository.save({
     cantidad: movimiento.cantidad,
     tipo_movimiento: movimiento.tipo,
     motivo: movimiento.motivo,
@@ -24,11 +27,13 @@ export const setMovimiento = async (data: StockMovimientoInput) => {
     referencia_tipo: movimiento.referencia_tipo,
     producto_id: movimiento.producto_id,
   });
+
+  return movimientoPersistence;
 };
 
 export const updateMovimiento = async (
   id: number,
-  data: StockMovimientoInput
+  data: StockMovimientoInput,
 ) => {
   return await stockMovimientoRepository.update(id, data);
 };

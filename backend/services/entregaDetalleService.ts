@@ -7,6 +7,12 @@ import { EntregaDetalleInput } from "../utils/contracts";
 import AppError from "../error/AppError";
 import Entrega from "../models/Entrega";
 import entregaRepository from "../repository/entregaRepository";
+import { setMovimiento } from "./stockMovimientoServices";
+import {
+  transformToOperacion,
+  transformToTipoMovimiento,
+  transformToTipoReferencia,
+} from "../utils/tipos";
 
 export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
   await getProductoById(data.producto_id);
@@ -40,6 +46,19 @@ export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
   });
 
   await recalcularTotal(data.entrega_id);
+
+  const tipoMovimiento = transformToTipoMovimiento("Entrada");
+  const operacion = transformToOperacion("Compra");
+  const tipoReferencia = transformToTipoReferencia("Entrega");
+
+  await setMovimiento({
+    cantidad: saved.cantidad,
+    tipo_movimiento: tipoMovimiento,
+    motivo: operacion,
+    referencia_id: saved.entregaDetalle_id,
+    referencia_tipo: tipoReferencia,
+    producto_id: saved.producto_id,
+  });
 
   return saved;
 };

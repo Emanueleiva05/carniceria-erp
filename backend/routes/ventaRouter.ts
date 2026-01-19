@@ -16,7 +16,7 @@ import {
 
 const router = Router();
 
-router.post("/", validateBody, validateFecha, createVenta);
+router.post("/", createVenta);
 
 router.get("/", obtainVentas);
 

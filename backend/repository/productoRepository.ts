@@ -67,6 +67,19 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
     return producto;
   }
 
+  async updateCantidad(
+    id: number,
+    stockNuevo: number,
+  ): Promise<ProductoPersistence> {
+    const producto = await prisma.producto.update({
+      where: { producto_id: id },
+      data: {
+        stock_actual: stockNuevo,
+      },
+    });
+    return producto;
+  }
+
   async delete(id: number): Promise<void> {
     await prisma.producto.delete({
       where: {

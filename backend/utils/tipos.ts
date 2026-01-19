@@ -92,6 +92,18 @@ export enum TipoMovimiento {
   AJUSTE = "Ajuste",
 }
 
+export const transformToTipoMovimiento = (data: string): TipoMovimiento => {
+  if (data === TipoMovimiento.ENTRADA) {
+    return data;
+  }
+
+  if (data === TipoMovimiento.SALIDA) {
+    return data;
+  }
+
+  return TipoMovimiento.AJUSTE;
+};
+
 export enum Operacion {
   COMPRA = "Compra",
   VENTA = "Venta",
@@ -99,9 +111,33 @@ export enum Operacion {
   DEVOLUCION = "Devolucion",
 }
 
+export const transformToOperacion = (data: string): Operacion => {
+  if (data === Operacion.COMPRA) {
+    return data;
+  }
+
+  if (data === Operacion.VENTA) {
+    return data;
+  }
+
+  return Operacion.PERDIDA;
+};
+
 export enum TipoReferencia {
   ENTREGA = "Entrega",
   VENTA = "Venta",
   PERDIDA = "Perdida",
   RECLAMO = "Reclamo",
 }
+
+export const transformToTipoReferencia = (data: string): TipoReferencia => {
+  if (data === TipoReferencia.ENTREGA) {
+    return data;
+  }
+
+  if (data === TipoReferencia.VENTA) {
+    return data;
+  }
+
+  return TipoReferencia.PERDIDA;
+};

@@ -7,6 +7,12 @@ import { VentaDetalleInput } from "../utils/contracts";
 import AppError from "../error/AppError";
 import { Venta } from "../models/Venta";
 import ventaRepository from "../repository/ventaRepository";
+import {
+  transformToOperacion,
+  transformToTipoMovimiento,
+  transformToTipoReferencia,
+} from "../utils/tipos";
+import { setMovimiento } from "./stockMovimientoServices";
 
 export const setVentaDetalle = async (data: VentaDetalleInput) => {
   await getProductoById(data.producto_id);
@@ -44,6 +50,19 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
   });
 
   await recalcularTotal(data.venta_id);
+
+  const tipoMovimiento = transformToTipoMovimiento("Salida");
+  const operacion = transformToOperacion("Venta");
+  const tipoReferencia = transformToTipoReferencia("Venta");
+
+  await setMovimiento({
+    cantidad: saved.cantidad,
+    tipo_movimiento: tipoMovimiento,
+    motivo: operacion,
+    referencia_id: saved.ventaDetalle_id,
+    referencia_tipo: tipoReferencia,
+    producto_id: saved.producto_id,
+  });
 
   return saved;
 };

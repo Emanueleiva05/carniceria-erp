@@ -10,13 +10,14 @@ type MovimientoPersistenceInput = {
   producto_id: number;
 };
 
-type MovimientoPersistence = MovimientoPersistenceInput & {
+export type MovimientoPersistence = MovimientoPersistenceInput & {
   movimiento_id: number;
 };
 
-class StockMovimientoRepository
-  implements Repository<MovimientoPersistence, number>
-{
+class StockMovimientoRepository implements Repository<
+  MovimientoPersistence,
+  number
+> {
   async findById(id: number): Promise<MovimientoPersistence | null> {
     return await prisma.stockMovimiento.findUnique({
       where: {
@@ -45,7 +46,7 @@ class StockMovimientoRepository
 
   async update(
     id: number,
-    data: MovimientoPersistenceInput
+    data: MovimientoPersistenceInput,
   ): Promise<MovimientoPersistence> {
     const movimiento = await prisma.stockMovimiento.update({
       where: { movimiento_id: id },

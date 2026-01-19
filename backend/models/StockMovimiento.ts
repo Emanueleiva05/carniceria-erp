@@ -1,4 +1,14 @@
-import { TipoMovimiento, Operacion, TipoReferencia } from "../utils/tipos";
+import AppError from "../error/AppError";
+import { ProductoPersistence } from "../repository/productoRepository";
+import { MovimientoPersistence } from "../repository/stockMovimientoRepository";
+import {
+  TipoMovimiento,
+  Operacion,
+  TipoReferencia,
+  transformToTipoMovimiento,
+  transformToOperacion,
+  transformToTipoReferencia,
+} from "../utils/tipos";
 
 export class StockMovimiento {
   public movimiento_id: number | null;
@@ -16,7 +26,7 @@ export class StockMovimiento {
     motivo: Operacion,
     referencia_id: number,
     referencia_tipo: TipoReferencia,
-    producto_id: number
+    producto_id: number,
   ) {
     this.movimiento_id = id;
     this.cantidad = cantidad;
@@ -33,7 +43,7 @@ export class StockMovimiento {
     motivo: Operacion,
     referencia_id: number,
     referencia_tipo: TipoReferencia,
-    producto_id: number
+    producto_id: number,
   ) {
     if (cantidad <= 0) {
       throw new Error("Cantidad invalido");
@@ -54,7 +64,49 @@ export class StockMovimiento {
       motivo,
       referencia_id,
       referencia_tipo,
-      producto_id
+      producto_id,
     );
+  }
+
+  static fromPersistence(movimientoRaw: MovimientoPersistence) {
+    const tipoMovimiento = transformToTipoMovimiento(
+      movimientoRaw.tipo_movimiento,
+    );
+    const motivo = transformToOperacion(movimientoRaw.motivo);
+    const tipoReferencia = transformToTipoReferencia(
+      movimientoRaw.referencia_tipo,
+    );
+
+    const movimiento = new StockMovimiento(
+      movimientoRaw.movimiento_id,
+      movimientoRaw.cantidad,
+      tipoMovimiento,
+      motivo,
+      movimientoRaw.referencia_id,
+      tipoReferencia,
+      movimientoRaw.producto_id,
+    );
+
+    return movimiento;
+  }
+
+  calcularStock(producto: ProductoPersistence): number {
+    if (this.tipo === "Entrada") {
+      return producto.stock_actual + this.cantidad;
+    }
+
+    if (producto.stock_actual < this.cantidad) {
+      throw new AppError(
+        "La cantidad vendida es menor al stock actual",
+        400,
+        "LogicNegocio",
+      );
+    }
+
+    if (this.tipo === "Salida") {
+      return producto.stock_actual - this.cantidad;
+    }
+
+    return producto.stock_actual;
   }
 }
