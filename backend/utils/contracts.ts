@@ -6,6 +6,8 @@ import {
   TipoMovimiento,
   Operacion,
   TipoReferencia,
+  ReclamoMotivo,
+  ReclamoEstado,
 } from "../utils/tipos";
 
 export interface CarneInput {
@@ -90,6 +92,18 @@ export interface VentaDetalleInput {
   producto_id: number;
   venta_id: number;
   oferta_id: number | null;
+}
+
+export interface ReclamoInput {
+  fecha_reclamo: Date;
+  motivo: ReclamoMotivo;
+  estado: ReclamoEstado;
+  genera_perdida: boolean;
+  genera_compensacion: boolean;
+  descripcion: string | null;
+  evidencia: string | null;
+  producto_id: number;
+  proveedor_id: number;
 }
 
 export const transformToString = (value: any): string => {
