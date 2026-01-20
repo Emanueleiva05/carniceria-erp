@@ -3,8 +3,14 @@ import { Perdida } from "../models/Perdida";
 import perdidaRepository from "../repository/perdidaRepository";
 import { getProductoById } from "./productoService";
 import { PerdidaInput } from "../utils/contracts";
-import { transformToUnidadMedida } from "../utils/tipos";
+import {
+  transformToOperacion,
+  transformToTipoMovimiento,
+  transformToTipoReferencia,
+  transformToUnidadMedida,
+} from "../utils/tipos";
 import BadRequest from "../error/BadRequest";
+import { setMovimiento, updateMovimiento } from "./stockMovimientoServices";
 
 export const setPerdida = async (data: PerdidaInput) => {
   const producto = await getProductoById(data.producto_id);
@@ -17,7 +23,20 @@ export const setPerdida = async (data: PerdidaInput) => {
 
   perdida.calcularTotal(producto.precio_venta);
 
-  return await perdidaRepository.save({
+  const tipoMovimiento = transformToTipoMovimiento("Salida");
+  const operacion = transformToOperacion("Perdida");
+  const tipoReferencia = transformToTipoReferencia("Perdida");
+
+  const movimiento = await setMovimiento({
+    cantidad: perdida.tirado,
+    tipo_movimiento: tipoMovimiento,
+    motivo: operacion,
+    referencia_id: 0,
+    referencia_tipo: tipoReferencia,
+    producto_id: perdida.producto_id,
+  });
+
+  const saved = await perdidaRepository.save({
     unidad_medida: perdida.unidad,
     tirado: perdida.tirado,
     fecha_perdida: perdida.fechaPerdida,
@@ -25,6 +44,17 @@ export const setPerdida = async (data: PerdidaInput) => {
     total: perdida.total,
     producto_id: perdida.producto_id,
   });
+
+  await updateMovimiento(movimiento.movimiento_id, {
+    cantidad: perdida.tirado,
+    tipo_movimiento: tipoMovimiento,
+    motivo: operacion,
+    referencia_id: saved.perdida_id,
+    referencia_tipo: tipoReferencia,
+    producto_id: perdida.producto_id,
+  });
+
+  return saved;
 };
 
 export const addMotivo = async (id: number, motivo: string) => {
