@@ -63,7 +63,7 @@ export default class Mediares {
     );
   }
   static fromPersistence(mediaresRaw: MediaresPersistence) {
-    const tipoVacaString = transformToTipoVaca(mediaresRaw.tipo_vaca);
+    const tipoVacaString = transformToTipoVaca(mediaresRaw.peso_carton);
 
     const mediares = new Mediares(
       mediaresRaw.mediares_id,

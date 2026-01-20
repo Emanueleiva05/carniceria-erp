@@ -1,3 +1,5 @@
+import AppError from "../error/AppError";
+
 export enum Tamanio {
   KG_90 = 90,
   KG_95 = 95,
@@ -9,81 +11,113 @@ export enum Tamanio {
 }
 
 export const transformToTamanio = (data: number): Tamanio => {
-  if (data === Tamanio.KG_90) {
-    return data;
+  if (data < 92.5) {
+    return Tamanio.KG_90;
   }
-  if (data === Tamanio.KG_95) {
-    return data;
+  if (data >= 92.5 && data < 97.5) {
+    return Tamanio.KG_95;
   }
-  if (data === Tamanio.KG_100) {
-    return data;
+  if (data >= 97.5 && data < 102.5) {
+    return Tamanio.KG_100;
   }
-  if (data === Tamanio.KG_105) {
-    return data;
+  if (data >= 102.5 && data < 107.5) {
+    return Tamanio.KG_105;
   }
-  if (data === Tamanio.KG_110) {
-    return data;
+  if (data >= 107.5 && data < 112.5) {
+    return Tamanio.KG_110;
   }
-  if (data === Tamanio.KG_115) {
-    return data;
-  }
-  if (data === Tamanio.KG_120) {
-    return data;
+  if (data >= 112.5 && data < 117.5) {
+    return Tamanio.KG_115;
   }
 
-  return Tamanio.KG_100;
+  return Tamanio.KG_120;
 };
 
 export enum Categoria {
   CARNE = "Carne",
   POLLO = "Pollo",
   ACHURA = "Achura",
+  CERDO = "Cerdo",
+  EMBUTIDO = "Embutido",
+  BEBIDA = "Bebida",
+  CONDIMENTO = "Condimento",
+  CONGELADO = "Congelado",
+  VARIOS = "Varios",
 }
 
 export const transformToCategoria = (data: string): Categoria => {
-  if (data === Categoria.CARNE) {
-    return data;
+  if (data.trim().toLowerCase() === "carne") {
+    return Categoria.CARNE;
   }
 
-  if (data === Categoria.POLLO) {
-    return data;
+  if (data.trim().toLowerCase() === "pollo") {
+    return Categoria.POLLO;
   }
 
-  return Categoria.ACHURA;
+  if (data.trim().toLowerCase() === "achura") {
+    return Categoria.ACHURA;
+  }
+
+  if (data.trim().toLowerCase() === "embutido") {
+    return Categoria.EMBUTIDO;
+  }
+
+  if (data.trim().toLowerCase() === "bebida") {
+    return Categoria.BEBIDA;
+  }
+
+  if (data.trim().toLowerCase() === "condimento") {
+    return Categoria.CONDIMENTO;
+  }
+
+  if (data.trim().toLowerCase() === "congelado") {
+    return Categoria.CONGELADO;
+  }
+
+  if (data.trim().toLowerCase() === "cerdo") {
+    return Categoria.CERDO;
+  }
+
+  return Categoria.VARIOS;
 };
 
 export enum UnidadMedida {
   UNIDAD = "Unidad",
-  KG = "Kg",
+  KG = "KG",
 }
 
 export const transformToUnidadMedida = (data: string): UnidadMedida => {
-  if (data === UnidadMedida.KG) {
-    return data;
-  }
-
-  if (data === UnidadMedida.KG) {
-    return data;
+  if (data.trim().toLowerCase() === "unidad") {
+    return UnidadMedida.UNIDAD;
   }
 
   return UnidadMedida.KG;
 };
 
 export enum TipoVaca {
-  NOVILLO = "Novillo",
-  ADULTA = "Adulta",
+  TERNERO = "Ternero", // 70 a 85
+  NOVILLITO = "Novillito", // 86 a 120
+  NOVILLO = "Novillo", // mas de 120
 }
 
-export const transformToTipoVaca = (data: string): TipoVaca => {
-  if (data === TipoVaca.NOVILLO) {
-    return data;
+export const transformToTipoVaca = (data: number): TipoVaca => {
+  if (data < 70) {
+    throw new AppError(
+      "Peso invalido para la clasificacion de la vaca",
+      400,
+      "ErrorPeso",
+    );
   }
 
-  if (data === TipoVaca.ADULTA) {
-    return data;
+  if (data >= 70 && data < 85) {
+    return TipoVaca.TERNERO;
   }
 
-  return TipoVaca.ADULTA;
+  if (data >= 85 && data < 120) {
+    return TipoVaca.NOVILLITO;
+  }
+
+  return TipoVaca.NOVILLO;
 };
 
 export enum TipoMovimiento {
@@ -93,12 +127,12 @@ export enum TipoMovimiento {
 }
 
 export const transformToTipoMovimiento = (data: string): TipoMovimiento => {
-  if (data === TipoMovimiento.ENTRADA) {
-    return data;
+  if (data.trim().toLowerCase() === "entrada") {
+    return TipoMovimiento.ENTRADA;
   }
 
-  if (data === TipoMovimiento.SALIDA) {
-    return data;
+  if (data.trim().toLowerCase() === "salida") {
+    return TipoMovimiento.SALIDA;
   }
 
   return TipoMovimiento.AJUSTE;
@@ -112,12 +146,16 @@ export enum Operacion {
 }
 
 export const transformToOperacion = (data: string): Operacion => {
-  if (data === Operacion.COMPRA) {
-    return data;
+  if (data.trim().toLowerCase() === "compra") {
+    return Operacion.COMPRA;
   }
 
-  if (data === Operacion.VENTA) {
-    return data;
+  if (data.trim().toLowerCase() === "venta") {
+    return Operacion.VENTA;
+  }
+
+  if (data.trim().toLowerCase() === "devolucion") {
+    return Operacion.DEVOLUCION;
   }
 
   return Operacion.PERDIDA;
@@ -131,12 +169,16 @@ export enum TipoReferencia {
 }
 
 export const transformToTipoReferencia = (data: string): TipoReferencia => {
-  if (data === TipoReferencia.ENTREGA) {
-    return data;
+  if (data.trim().toLowerCase() === "entrega") {
+    return TipoReferencia.ENTREGA;
   }
 
-  if (data === TipoReferencia.VENTA) {
-    return data;
+  if (data.trim().toLowerCase() === "venta") {
+    return TipoReferencia.VENTA;
+  }
+
+  if (data.trim().toLowerCase() === "reclamo") {
+    return TipoReferencia.RECLAMO;
   }
 
   return TipoReferencia.PERDIDA;
