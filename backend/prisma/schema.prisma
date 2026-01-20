@@ -17,6 +17,7 @@ model Proveedor {
   nombre       String
   telefono     String
   entregas     Entrega[]
+  reclamos     Reclamo[]
 
   @@map("proveedores")
 }
@@ -86,6 +87,7 @@ model Producto {
   ofertas          Oferta[]
   ventaDetalles    VentaDetalle[]
   stockMovimientos StockMovimiento[]
+  reclamos         Reclamo[]
 
   @@map("productos")
 }
@@ -151,4 +153,19 @@ model StockMovimiento {
   productos       Producto @relation(fields: [producto_id], references: [producto_id])
 
   @@map("stockMovimiento")
+}
+
+model Reclamo {
+  reclamo_id          Int       @id @default(autoincrement())
+  fecha_reclamo       DateTime  @default(now())
+  motivo              String
+  estado              String
+  genera_perdida      Boolean
+  genera_compensacion Boolean
+  descripcion         String?
+  evidencia           String?
+  producto_id         Int
+  proveedor_id        Int
+  producto            Producto  @relation(fields: [producto_id], references: [producto_id])
+  proveedor           Proveedor @relation(fields: [proveedor_id], references: [proveedor_id])
 }

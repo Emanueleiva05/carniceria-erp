@@ -183,3 +183,53 @@ export const transformToTipoReferencia = (data: string): TipoReferencia => {
 
   return TipoReferencia.PERDIDA;
 };
+
+export enum ReclamoEstado {
+  PENDIENTE = "Pendiente",
+  ACEPTADA = "Aceptada",
+  RECHAZADA = "Rechazada",
+}
+
+export const transformToReclamoEstado = (data: string): ReclamoEstado => {
+  if (data.trim().toLowerCase() === "pendiente") {
+    return ReclamoEstado.PENDIENTE;
+  }
+
+  if (data.trim().toLowerCase() === "aceptada") {
+    return ReclamoEstado.ACEPTADA;
+  }
+
+  return ReclamoEstado.RECHAZADA;
+};
+
+export enum ReclamoMotivo {
+  PRODUCTO_PODRIDO = "Producto podrido",
+  MAL_ESTADO = "Mal estado",
+  ERROR_CORTE = "Error de corte",
+  ERROR_PESO = "Error de peso",
+  VENCIDO = "Vencido",
+  OTRO = "Otro",
+}
+
+export const transformToReclamoMotivo = (data: string): ReclamoMotivo => {
+  if (data.trim().toLowerCase() === "producto podrido") {
+    return ReclamoMotivo.PRODUCTO_PODRIDO;
+  }
+
+  if (data.trim().toLowerCase() === "mal estado") {
+    return ReclamoMotivo.MAL_ESTADO;
+  }
+
+  if (data.trim().toLowerCase() === "error de corte") {
+    return ReclamoMotivo.ERROR_CORTE;
+  }
+
+  if (data.trim().toLowerCase() === "error de peso") {
+    return ReclamoMotivo.ERROR_PESO;
+  }
+  if (data.trim().toLowerCase() === "vencido") {
+    return ReclamoMotivo.VENCIDO;
+  }
+
+  return ReclamoMotivo.OTRO;
+};
