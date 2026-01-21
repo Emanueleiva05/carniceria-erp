@@ -1,4 +1,4 @@
-import { ReclamoPrisma } from "../repository/reclamoRepository";
+import { ReclamoPersistence } from "../repository/reclamoRepository";
 import {
   ReclamoEstado,
   ReclamoMotivo,
@@ -11,6 +11,7 @@ export default class Reclamo {
   fecha_reclamo: Date;
   motivo: ReclamoMotivo;
   estado: ReclamoEstado;
+  cantidad: number;
   genera_perdida: boolean;
   genera_compensacion: boolean;
   descripcion: string | null;
@@ -23,6 +24,7 @@ export default class Reclamo {
     fechaReclamo: Date,
     motivo: ReclamoMotivo,
     estado: ReclamoEstado,
+    cantidad: number,
     generaPerdida: boolean,
     generaCompensacion: boolean,
     producto_id: number,
@@ -33,6 +35,7 @@ export default class Reclamo {
     this.reclamo_id = id;
     this.fecha_reclamo = fechaReclamo;
     this.motivo = motivo;
+    this.cantidad = cantidad;
     this.estado = estado;
     this.genera_perdida = generaPerdida;
     this.genera_compensacion = generaCompensacion;
@@ -45,6 +48,7 @@ export default class Reclamo {
   static create(
     motivo: ReclamoMotivo,
     estado: ReclamoEstado,
+    cantidad: number,
     genera_perdida: boolean,
     genera_compensacion: boolean,
     producto_id: number,
@@ -58,11 +62,16 @@ export default class Reclamo {
       throw new Error("Proveedor ID invalido");
     }
 
+    if (cantidad <= 0) {
+      throw new Error("Cantidad invalido");
+    }
+
     return new Reclamo(
       null,
       new Date(),
       motivo,
       estado,
+      cantidad,
       genera_perdida,
       genera_compensacion,
       producto_id,
@@ -72,7 +81,7 @@ export default class Reclamo {
     );
   }
 
-  static fromPersistence(reclamoRaw: ReclamoPrisma) {
+  static fromPersistence(reclamoRaw: ReclamoPersistence) {
     const motivo = transformToReclamoMotivo(reclamoRaw.motivo);
     const estado = transformToReclamoEstado(reclamoRaw.estado);
 
@@ -81,6 +90,7 @@ export default class Reclamo {
       reclamoRaw.fecha_reclamo,
       motivo,
       estado,
+      reclamoRaw.cantidad,
       reclamoRaw.genera_perdida,
       reclamoRaw.genera_compensacion,
       reclamoRaw.producto_id,

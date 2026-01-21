@@ -160,6 +160,7 @@ model Reclamo {
   fecha_reclamo       DateTime  @default(now())
   motivo              String
   estado              String
+  cantidad            Float     @default(0)
   genera_perdida      Boolean
   genera_compensacion Boolean
   descripcion         String?

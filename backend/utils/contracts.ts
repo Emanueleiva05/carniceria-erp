@@ -98,6 +98,7 @@ export interface ReclamoInput {
   fecha_reclamo: Date;
   motivo: ReclamoMotivo;
   estado: ReclamoEstado;
+  cantidad: number;
   genera_perdida: boolean;
   genera_compensacion: boolean;
   descripcion: string | null;

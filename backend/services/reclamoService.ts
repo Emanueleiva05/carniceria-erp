@@ -12,6 +12,7 @@ export const setReclamo = async (data: ReclamoInput) => {
   const reclamo = Reclamo.create(
     data.motivo,
     data.estado,
+    data.cantidad,
     data.genera_perdida,
     data.genera_compensacion,
     data.producto_id,
@@ -22,6 +23,7 @@ export const setReclamo = async (data: ReclamoInput) => {
     fecha_reclamo: reclamo.fecha_reclamo,
     motivo: reclamo.motivo,
     estado: reclamo.estado,
+    cantidad: reclamo.cantidad,
     genera_compensacion: reclamo.genera_compensacion,
     genera_perdida: reclamo.genera_perdida,
     descripcion: reclamo.descripcion,

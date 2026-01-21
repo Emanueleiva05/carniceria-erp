@@ -5,6 +5,7 @@ export type ReclamoPersistenceInput = {
   fecha_reclamo: Date;
   motivo: string;
   estado: string;
+  cantidad: number;
   genera_perdida: boolean;
   genera_compensacion: boolean;
   descripcion: string | null;
@@ -36,6 +37,7 @@ class ReclamoRepository implements Repository<ReclamoPersistence, number> {
         fecha_reclamo: data.fecha_reclamo,
         motivo: data.motivo,
         estado: data.estado,
+        cantidad: data.cantidad,
         genera_compensacion: data.genera_compensacion,
         genera_perdida: data.genera_perdida,
         descripcion: data.descripcion,
@@ -57,6 +59,7 @@ class ReclamoRepository implements Repository<ReclamoPersistence, number> {
         fecha_reclamo: data.fecha_reclamo,
         motivo: data.motivo,
         estado: data.estado,
+        cantidad: data.cantidad,
         genera_compensacion: data.genera_compensacion,
         genera_perdida: data.genera_perdida,
         descripcion: data.descripcion,

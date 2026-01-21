@@ -10,6 +10,7 @@ export const validateBody = (
   const {
     motivo,
     estado,
+    cantidad,
     genera_compensacion,
     genera_perdida,
     descripcion,
@@ -28,6 +29,9 @@ export const validateBody = (
   if (proveedor_id === null || proveedor_id === 0 || proveedor_id === "")
     throw new EmptyRequest("Producto ID");
 
+  if (cantidad === null || cantidad === 0 || cantidad === "")
+    throw new EmptyRequest("Cantidad");
+
   if (typeof genera_compensacion !== "boolean")
     throw new BadRequest("Genera compensación");
 
@@ -39,6 +43,9 @@ export const validateBody = (
 
   if (typeof proveedor_id !== "number" || proveedor_id < 0)
     throw new BadRequest("Proveedor ID");
+
+  if (typeof cantidad !== "number" || cantidad < 0)
+    throw new BadRequest("Cantidad");
 
   if (typeof motivo !== "string" || motivo.trim().length === 0)
     throw new BadRequest("Motivo");

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Reclamo` ADD COLUMN `cantidad` DOUBLE NOT NULL DEFAULT 0;
