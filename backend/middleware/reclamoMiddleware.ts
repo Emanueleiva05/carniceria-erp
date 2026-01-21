@@ -21,8 +21,6 @@ export const validateBody = (
 
   if (!motivo) throw new EmptyRequest("Motivo");
 
-  if (!estado) throw new EmptyRequest("Estado");
-
   if (producto_id === null || producto_id === 0 || producto_id === "")
     throw new EmptyRequest("Producto ID");
 
@@ -31,12 +29,6 @@ export const validateBody = (
 
   if (cantidad === null || cantidad === 0 || cantidad === "")
     throw new EmptyRequest("Cantidad");
-
-  if (typeof genera_compensacion !== "boolean")
-    throw new BadRequest("Genera compensación");
-
-  if (typeof genera_perdida !== "boolean")
-    throw new BadRequest("Genera pérdida");
 
   if (typeof producto_id !== "number" || producto_id < 0)
     throw new BadRequest("Producto ID");
@@ -49,9 +41,6 @@ export const validateBody = (
 
   if (typeof motivo !== "string" || motivo.trim().length === 0)
     throw new BadRequest("Motivo");
-
-  if (typeof estado !== "string" || estado.trim().length === 0)
-    throw new BadRequest("Estado");
 
   if (typeof descripcion !== "string" || descripcion.trim().length === 0)
     throw new BadRequest("Descripcion");

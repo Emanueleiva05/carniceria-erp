@@ -6,8 +6,8 @@ export type ReclamoPersistenceInput = {
   motivo: string;
   estado: string;
   cantidad: number;
-  genera_perdida: boolean;
-  genera_compensacion: boolean;
+  producto_destino_id: number | null;
+  diferencia_cantidad: number | null;
   descripcion: string | null;
   evidencia: string | null;
   producto_id: number;
@@ -38,8 +38,8 @@ class ReclamoRepository implements Repository<ReclamoPersistence, number> {
         motivo: data.motivo,
         estado: data.estado,
         cantidad: data.cantidad,
-        genera_compensacion: data.genera_compensacion,
-        genera_perdida: data.genera_perdida,
+        diferencia_cantidad: data.diferencia_cantidad,
+        producto_destino_id: data.producto_destino_id,
         descripcion: data.descripcion,
         evidencia: data.evidencia,
         producto_id: data.producto_id,
@@ -60,8 +60,8 @@ class ReclamoRepository implements Repository<ReclamoPersistence, number> {
         motivo: data.motivo,
         estado: data.estado,
         cantidad: data.cantidad,
-        genera_compensacion: data.genera_compensacion,
-        genera_perdida: data.genera_perdida,
+        diferencia_cantidad: data.diferencia_cantidad,
+        producto_destino_id: data.producto_destino_id,
         descripcion: data.descripcion,
         evidencia: data.evidencia,
         producto_id: data.producto_id,

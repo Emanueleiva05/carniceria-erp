@@ -161,8 +161,8 @@ model Reclamo {
   motivo              String
   estado              String
   cantidad            Float     @default(0)
-  genera_perdida      Boolean
-  genera_compensacion Boolean
+  producto_destino_id Int?
+  diferencia_cantidad Float?
   descripcion         String?
   evidencia           String?
   producto_id         Int

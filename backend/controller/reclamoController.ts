@@ -5,6 +5,8 @@ import {
   setReclamo,
   getReclamoById,
   getReclamos,
+  rejectReclamo,
+  acceptReclamo,
 } from "../services/reclamoService";
 
 export const createReclamo = async (
@@ -16,6 +18,38 @@ export const createReclamo = async (
     const data = req.body;
 
     const reclamo = await setReclamo(data);
+
+    res.status(202).json(reclamo);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const changeEstadoAceptado = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = res.locals.id;
+
+    const reclamo = await acceptReclamo(id);
+
+    res.status(202).json(reclamo);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const changeEstadoRechazado = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = res.locals.id;
+
+    const reclamo = await rejectReclamo(id);
 
     res.status(202).json(reclamo);
   } catch (err) {

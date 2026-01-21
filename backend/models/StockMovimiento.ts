@@ -45,8 +45,10 @@ export class StockMovimiento {
     referencia_tipo: TipoReferencia,
     producto_id: number,
   ) {
-    if (cantidad <= 0) {
-      throw new Error("Cantidad invalido");
+    if (tipo !== TipoMovimiento.AJUSTE) {
+      if (cantidad <= 0) {
+        throw new Error("Cantidad invalido");
+      }
     }
 
     if (referencia_id <= 0) {
@@ -91,20 +93,23 @@ export class StockMovimiento {
   }
 
   calcularStock(producto: ProductoPersistence): number {
-    if (this.tipo === "Entrada") {
+    if (this.tipo === TipoMovimiento.ENTRADA) {
       return producto.stock_actual + this.cantidad;
     }
 
-    if (producto.stock_actual < this.cantidad) {
-      throw new AppError(
-        "La cantidad vendida es menor al stock actual",
-        400,
-        "LogicNegocio",
-      );
+    if (this.tipo === TipoMovimiento.SALIDA) {
+      if (producto.stock_actual < this.cantidad) {
+        throw new AppError(
+          "Stock insuficiente para realizar la operación",
+          400,
+          "StockInsuficiente",
+        );
+      }
+      return producto.stock_actual - this.cantidad;
     }
 
-    if (this.tipo === "Salida") {
-      return producto.stock_actual - this.cantidad;
+    if (this.tipo === TipoMovimiento.AJUSTE) {
+      return producto.stock_actual + this.cantidad;
     }
 
     return producto.stock_actual;

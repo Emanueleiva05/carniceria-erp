@@ -12,8 +12,8 @@ export default class Reclamo {
   motivo: ReclamoMotivo;
   estado: ReclamoEstado;
   cantidad: number;
-  genera_perdida: boolean;
-  genera_compensacion: boolean;
+  producto_destino_id: number | null;
+  diferencia_cantidad: number | null;
   descripcion: string | null;
   evidencia: string | null;
   producto_id: number;
@@ -25,8 +25,8 @@ export default class Reclamo {
     motivo: ReclamoMotivo,
     estado: ReclamoEstado,
     cantidad: number,
-    generaPerdida: boolean,
-    generaCompensacion: boolean,
+    producto_destino_id: number | null,
+    diferencia_cantidad: number | null,
     producto_id: number,
     proveedor_id: number,
     evidencia: string | null,
@@ -37,8 +37,8 @@ export default class Reclamo {
     this.motivo = motivo;
     this.cantidad = cantidad;
     this.estado = estado;
-    this.genera_perdida = generaPerdida;
-    this.genera_compensacion = generaCompensacion;
+    this.producto_destino_id = producto_destino_id;
+    this.diferencia_cantidad = diferencia_cantidad;
     this.producto_id = producto_id;
     this.proveedor_id = proveedor_id;
     this.evidencia = evidencia;
@@ -47,10 +47,9 @@ export default class Reclamo {
 
   static create(
     motivo: ReclamoMotivo,
-    estado: ReclamoEstado,
     cantidad: number,
-    genera_perdida: boolean,
-    genera_compensacion: boolean,
+    producto_destino_id: number | null,
+    diferencia_cantidad: number | null,
     producto_id: number,
     proveedor_id: number,
   ) {
@@ -70,10 +69,10 @@ export default class Reclamo {
       null,
       new Date(),
       motivo,
-      estado,
+      ReclamoEstado.PENDIENTE,
       cantidad,
-      genera_perdida,
-      genera_compensacion,
+      producto_destino_id,
+      diferencia_cantidad,
       producto_id,
       proveedor_id,
       null,
@@ -91,14 +90,22 @@ export default class Reclamo {
       motivo,
       estado,
       reclamoRaw.cantidad,
-      reclamoRaw.genera_perdida,
-      reclamoRaw.genera_compensacion,
-      reclamoRaw.producto_id,
+      reclamoRaw.producto_destino_id,
+      reclamoRaw.diferencia_cantidad,
+      reclamoRaw.cantidad,
       reclamoRaw.proveedor_id,
       reclamoRaw.evidencia,
       reclamoRaw.descripcion,
     );
 
     return reclamo;
+  }
+
+  changeEstadoAceptado() {
+    this.estado = ReclamoEstado.ACEPTADA;
+  }
+
+  changeEstadoRechazado() {
+    this.estado = ReclamoEstado.RECHAZADA;
   }
 }
