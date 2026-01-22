@@ -1,6 +1,10 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
 
+type ReclamoAccept = {
+  estado: string;
+};
+
 export type ReclamoPersistenceInput = {
   fecha_reclamo: Date;
   motivo: string;
@@ -71,10 +75,23 @@ class ReclamoRepository implements Repository<ReclamoPersistence, number> {
     return reclamo;
   }
 
+  async updateEstado(
+    id: number,
+    data: ReclamoAccept,
+  ): Promise<ReclamoPersistence> {
+    const reclamo = await prisma.reclamo.update({
+      where: { reclamo_id: id },
+      data: {
+        estado: data.estado,
+      },
+    });
+    return reclamo;
+  }
+
   async delete(id: number): Promise<void> {
-    await prisma.proveedor.delete({
+    await prisma.reclamo.delete({
       where: {
-        proveedor_id: id,
+        reclamo_id: id,
       },
     });
   }

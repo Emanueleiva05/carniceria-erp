@@ -88,18 +88,22 @@ export const acceptReclamo = async (reclamo_id: number) => {
     fecha_reclamo: reclamoRaw.fecha_reclamo,
     motivo: reclamoRaw.motivo,
     estado: reclamoRaw.estado,
-    producto_destino_id: reclamoRaw.producto_destino_id,
-    diferencia_cantidad: reclamoRaw.diferencia_cantidad,
     cantidad: reclamoRaw.cantidad,
-    evidencia: reclamoRaw.evidencia,
+    diferencia_cantidad: reclamoRaw.diferencia_cantidad,
+    producto_destino_id: reclamoRaw.producto_destino_id,
     descripcion: reclamoRaw.descripcion,
+    evidencia: reclamoRaw.evidencia,
     producto_id: reclamoRaw.producto_id,
     proveedor_id: reclamoRaw.proveedor_id,
   });
 
   reclamo.changeEstadoAceptado();
 
-  const saved = await reclamoRepository.update(reclamo_id, reclamo);
+  const saved = await reclamoRepository.updateEstado(reclamo_id, {
+    estado: reclamo.estado,
+  });
+
+  console.log(saved);
 
   await procesarReclamoAceptado(saved);
 
@@ -133,7 +137,9 @@ export const rejectReclamo = async (reclamo_id: number) => {
 
   reclamo.changeEstadoRechazado();
 
-  const saved = await reclamoRepository.update(reclamo_id, reclamo);
+  const saved = await reclamoRepository.updateEstado(reclamo_id, {
+    estado: reclamo.estado,
+  });
 
   return saved;
 };
@@ -169,6 +175,8 @@ const generarPerdida = async (reclamo: ReclamoPersistence) => {
     total: 0,
     producto_id: reclamo.producto_id,
   };
+
+  console.log(perdida);
 
   await setPerdida(perdida);
 };

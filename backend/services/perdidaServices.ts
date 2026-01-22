@@ -31,7 +31,7 @@ export const setPerdida = async (data: PerdidaInput) => {
     cantidad: perdida.tirado,
     tipo_movimiento: tipoMovimiento,
     motivo: operacion,
-    referencia_id: 0,
+    referencia_id: 1,
     referencia_tipo: tipoReferencia,
     producto_id: perdida.producto_id,
   });
