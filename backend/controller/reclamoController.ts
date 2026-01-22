@@ -7,6 +7,7 @@ import {
   getReclamos,
   rejectReclamo,
   acceptReclamo,
+  getReclamosByProveedor,
 } from "../services/reclamoService";
 
 export const createReclamo = async (
@@ -113,6 +114,22 @@ export const obtainReclamos = async (
 ) => {
   try {
     const reclamos = await getReclamos();
+
+    res.status(202).json(reclamos);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainReclamoByProveedor = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = res.locals.id;
+
+    const reclamos = await getReclamosByProveedor(id);
 
     res.status(202).json(reclamos);
   } catch (err) {

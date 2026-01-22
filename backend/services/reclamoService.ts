@@ -69,6 +69,23 @@ export const getReclamoById = async (id: number) => {
 
 export const getReclamos = async () => {
   const reclamos = await reclamoRepository.findAll();
+
+  if (reclamos.length === 0) {
+    throw new NotFound("Reclamos");
+  }
+
+  return reclamos;
+};
+
+export const getReclamosByProveedor = async (
+  proveedorId: number,
+): Promise<ReclamoPersistence[]> => {
+  const reclamos = await reclamoRepository.findByProveedor(proveedorId);
+
+  if (reclamos.length === 0) {
+    throw new NotFound("Reclamos para ese proveedor");
+  }
+
   return reclamos;
 };
 

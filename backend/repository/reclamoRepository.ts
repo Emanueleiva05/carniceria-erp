@@ -35,6 +35,14 @@ class ReclamoRepository implements Repository<ReclamoPersistence, number> {
     return await prisma.reclamo.findMany();
   }
 
+  async findByProveedor(proveedorId: number): Promise<ReclamoPersistence[]> {
+    return await prisma.reclamo.findMany({
+      where: {
+        proveedor_id: proveedorId,
+      },
+    });
+  }
+
   async save(data: ReclamoPersistenceInput): Promise<ReclamoPersistence> {
     const reclamo = await prisma.reclamo.create({
       data: {

@@ -8,6 +8,7 @@ import {
   obtainReclamos,
   changeEstadoAceptado,
   changeEstadoRechazado,
+  obtainReclamoByProveedor,
 } from "../controller/reclamoController";
 
 import { validateBody } from "../middleware/reclamoMiddleware";
@@ -19,6 +20,8 @@ const router = Router();
 router.post("/", validateBody, createReclamo);
 
 router.get("/", obtainReclamos);
+
+router.get("/:id/proveedor", validateIdParams, obtainReclamoByProveedor);
 
 router.get("/:id", validateIdParams, obtainReclamoById);
 
