@@ -67,6 +67,26 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
     return producto;
   }
 
+  async updatePrecioVenta(id: number, precioNuevo: number) {
+    const producto = await prisma.producto.update({
+      where: { producto_id: id },
+      data: {
+        precio_venta: precioNuevo,
+      },
+    });
+    return producto;
+  }
+
+  async updatePrecioVentaByCategoria(precioNuevo: number, categoria: string) {
+    const producto = await prisma.producto.updateMany({
+      where: { categoria: categoria },
+      data: {
+        precio_venta: { increment: precioNuevo },
+      },
+    });
+    return producto;
+  }
+
   async updateCantidad(
     id: number,
     stockNuevo: number,

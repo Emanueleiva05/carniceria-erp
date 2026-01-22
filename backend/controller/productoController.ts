@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import {
+  changePrecioVenta,
+  changePrecioVentaByCategoria,
   deleteProducto,
   getProductoByCategoria,
   getProductoById,
@@ -11,7 +13,7 @@ import {
 export const createProducto = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
@@ -27,7 +29,7 @@ export const createProducto = async (
 export const modifyProducto = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
@@ -41,10 +43,43 @@ export const modifyProducto = async (
   }
 };
 
+export const modifyPrecio = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = res.locals.id;
+    const precioNuevo = req.body.precioNuevo;
+
+    await changePrecioVenta(id, precioNuevo);
+
+    res.status(202).json({ message: "Precio de venta modificado con exito" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const modifyPrecioByCategoria = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { precioNuevo, categoria } = req.body;
+
+    await changePrecioVentaByCategoria(precioNuevo, categoria);
+
+    res.status(202).json({ message: "Precio de venta modificado con exito" });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const removeProducto = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
@@ -60,7 +95,7 @@ export const removeProducto = async (
 export const obtainProductoById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
@@ -76,7 +111,7 @@ export const obtainProductoById = async (
 export const obtainProductos = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const productos = await getProductos();
@@ -90,7 +125,7 @@ export const obtainProductos = async (
 export const obtainProductoByCategoria = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.params.data;
