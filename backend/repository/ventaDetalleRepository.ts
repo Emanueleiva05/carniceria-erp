@@ -85,6 +85,18 @@ class VentaDetalleRepository implements Repository<
     return ventaDetalle;
   }
 
+  async updateCantidad(id: number, cantidad: number, subtotal: number) {
+    return await prisma.ventaDetalle.update({
+      where: {
+        ventaDetalle_id: id,
+      },
+      data: {
+        cantidad: cantidad,
+        subtotal: subtotal,
+      },
+    });
+  }
+
   async delete(id: number): Promise<void> {
     await prisma.ventaDetalle.delete({
       where: {

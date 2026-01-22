@@ -106,6 +106,18 @@ export const getVentaDetalleById = async (id: number) => {
   return ventaDetalle;
 };
 
+export const updateCantidad = async (id: number, cantidad: number) => {
+  const detalle = await ventaDetalleRepository.findById(id);
+
+  if (!detalle) {
+    throw new NotFound("Detalle de venta");
+  }
+
+  const subtotal = detalle.precio_unitario * cantidad;
+
+  return await ventaDetalleRepository.updateCantidad(id, cantidad, subtotal);
+};
+
 export const getVentaDetalles = async () => {
   const ventaDetalles = await ventaDetalleRepository.findAll();
   return ventaDetalles;
