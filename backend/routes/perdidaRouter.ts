@@ -6,6 +6,8 @@ import {
   removePerdida,
   modifyPerdida,
   obtainProductosPerdida,
+  obtainPerdidaLastWeek,
+  obtainPerdidaMonth,
 } from "../controller/perdidaController";
 import { validateBody } from "../middleware/perdidaMiddleware";
 import {
@@ -19,6 +21,10 @@ router.post("/", validateBody, validateFecha, createPerdida);
 
 router.get("/", obtainPerdidas);
 
+router.get("/ultimaSemana", obtainPerdidaLastWeek);
+
+router.get("/mes", obtainPerdidaMonth);
+
 router.get("/producto/:id", validateIdParams, obtainProductosPerdida);
 
 router.get(
@@ -26,7 +32,7 @@ router.get(
   validateIdParams,
   validateBody,
   validateFecha,
-  obtainPerdidaById
+  obtainPerdidaById,
 );
 
 router.put("/:id/", validateIdParams, modifyPerdida);

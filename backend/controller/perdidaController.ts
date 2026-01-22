@@ -6,12 +6,14 @@ import {
   setPerdida,
   updatePerdida,
   getProductosPerdidos,
+  getPerdidasLastWeek,
+  getPerdidasMounth,
 } from "../services/perdidaServices";
 
 export const createPerdida = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
@@ -27,7 +29,7 @@ export const createPerdida = async (
 export const modifyPerdida = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
@@ -44,7 +46,7 @@ export const modifyPerdida = async (
 export const removePerdida = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
@@ -60,7 +62,7 @@ export const removePerdida = async (
 export const obtainPerdidaById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
@@ -76,7 +78,7 @@ export const obtainPerdidaById = async (
 export const obtainPerdidas = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const perdidas = await getPerdidas();
@@ -90,7 +92,7 @@ export const obtainPerdidas = async (
 export const obtainProductosPerdida = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
@@ -98,6 +100,38 @@ export const obtainProductosPerdida = async (
     const productos = await getProductosPerdidos(id);
 
     res.status(202).json(productos);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainPerdidaLastWeek = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = res.locals.id;
+
+    const perdida = await getPerdidasLastWeek();
+
+    res.status(202).json(perdida);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obtainPerdidaMonth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const mes = req.body.mes;
+    const anio = req.body.anio;
+    const perdida = await getPerdidasMounth(parseInt(mes), parseInt(anio));
+
+    res.status(202).json(perdida);
   } catch (err) {
     next(err);
   }

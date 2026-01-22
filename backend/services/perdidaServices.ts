@@ -109,3 +109,23 @@ export const getProductosPerdidos = async (id: number) => {
   const productos = await perdidaRepository.findByProductoId(id);
   return productos;
 };
+
+export const getPerdidasLastWeek = async () => {
+  const perdidas = await perdidaRepository.findByLastWeek();
+
+  if (perdidas.length === 0) {
+    throw new NotFound("Peridas en la ultima semana");
+  }
+
+  return perdidas;
+};
+
+export const getPerdidasMounth = async (mes: number, anio: number) => {
+  const perdidas = await perdidaRepository.findByMonth(mes, anio);
+
+  if (perdidas.length === 0) {
+    throw new NotFound("Peridas en el mes");
+  }
+
+  return perdidas;
+};
