@@ -107,6 +107,13 @@ export interface ReclamoInput {
   proveedor_id: number;
 }
 
+export interface CorteRealInput {
+  nombre: string;
+  peso_real: number;
+  create_at: Date;
+  mediares_id: number;
+}
+
 export const transformToString = (value: any): string => {
   return value;
 };
