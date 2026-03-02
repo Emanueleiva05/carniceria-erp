@@ -19,8 +19,6 @@ router.get("/", obtainOfertas);
 
 router.get("/active", obtainActiveOferta);
 
-router.get("/active", obtainActiveOferta);
-
 router.get("/producto/:id", validateIdParams, obtainProductosEnOferta);
 
 router.get("/:id", validateIdParams, obtainOfertaById);

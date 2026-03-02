@@ -21,9 +21,9 @@ router.post("/", validateBody, validateFecha, createPerdida);
 
 router.get("/", obtainPerdidas);
 
-router.get("/ultimaSemana", obtainPerdidaLastWeek);
+router.get("/lastWeek", obtainPerdidaLastWeek);
 
-router.get("/mes", obtainPerdidaMonth);
+router.get("/mounth", obtainPerdidaMonth);
 
 router.get("/producto/:id", validateIdParams, obtainProductosPerdida);
 

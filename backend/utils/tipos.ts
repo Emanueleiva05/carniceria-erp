@@ -166,6 +166,7 @@ export enum TipoReferencia {
   VENTA = "Venta",
   PERDIDA = "Perdida",
   RECLAMO = "Reclamo",
+  MEDIARES = "Mediares",
 }
 
 export const transformToTipoReferencia = (data: string): TipoReferencia => {
@@ -179,6 +180,10 @@ export const transformToTipoReferencia = (data: string): TipoReferencia => {
 
   if (data.trim().toLowerCase() === "reclamo") {
     return TipoReferencia.RECLAMO;
+  }
+
+  if (data.trim().toLowerCase() === "mediares") {
+    return TipoReferencia.MEDIARES;
   }
 
   return TipoReferencia.PERDIDA;
