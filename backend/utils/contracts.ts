@@ -6,6 +6,8 @@ import {
   TipoMovimiento,
   Operacion,
   TipoReferencia,
+  ReclamoMotivo,
+  ReclamoEstado,
 } from "../utils/tipos";
 
 export interface CarneInput {
@@ -58,6 +60,7 @@ export interface ProductoInput {
   nombre: string;
   categoria: Categoria;
   stock_actual: number;
+  stock_minimo: number;
   precio_venta: number;
   unidad_medida: UnidadMedida;
 }
@@ -79,6 +82,7 @@ export interface StockMovimientoInput {
 export interface VentaInput {
   fecha_venta: Date;
   esta_vendida: boolean;
+  total: number;
 }
 
 export interface VentaDetalleInput {
@@ -88,6 +92,26 @@ export interface VentaDetalleInput {
   producto_id: number;
   venta_id: number;
   oferta_id: number | null;
+}
+
+export interface ReclamoInput {
+  fecha_reclamo: Date;
+  motivo: ReclamoMotivo;
+  estado: ReclamoEstado;
+  cantidad: number;
+  producto_destino_id: number | null;
+  diferencia_cantidad: number | null;
+  descripcion: string | null;
+  evidencia: string | null;
+  producto_id: number;
+  proveedor_id: number;
+}
+
+export interface CorteRealInput {
+  nombre: string;
+  peso_real: number;
+  create_at: Date;
+  mediares_id: number;
 }
 
 export const transformToString = (value: any): string => {

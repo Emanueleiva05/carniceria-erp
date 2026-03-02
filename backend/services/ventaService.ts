@@ -3,12 +3,13 @@ import { Venta } from "../models/Venta";
 import ventaRepository from "../repository/ventaRepository";
 import { VentaInput } from "../utils/contracts";
 
-export const setVenta = async (data: VentaInput) => {
+export const setVenta = async () => {
   const venta = Venta.create();
 
   return await ventaRepository.save({
     fecha_venta: venta.fecha_venta,
     esta_vendida: venta.vendido,
+    total: venta.total,
   });
 };
 

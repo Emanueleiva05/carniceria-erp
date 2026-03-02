@@ -5,7 +5,7 @@ const errorHandler = (
   err: unknown,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   if (err instanceof AppError) {
     return res.status(err.status || 500).json({
@@ -13,6 +13,8 @@ const errorHandler = (
       message: err.message,
     });
   }
+
+  console.log(err);
 
   return res.status(500).json({
     name: "Error inesperado",

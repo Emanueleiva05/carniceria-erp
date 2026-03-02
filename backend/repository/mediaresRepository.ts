@@ -2,7 +2,7 @@ import { prisma } from "../config/db";
 import { CarnePrisma } from "./carneDepostadoRepository";
 import { Repository } from "./genericRepository";
 
-type MediaresPersistenceInput = {
+export type MediaresPersistenceInput = {
   peso_carton: number;
   peso_real: number;
   tamano: number;
@@ -11,7 +11,7 @@ type MediaresPersistenceInput = {
   entrega_id: number;
 };
 
-type MediaresPersistence = MediaresPersistenceInput & {
+export type MediaresPersistence = MediaresPersistenceInput & {
   mediares_id: number;
 };
 
@@ -44,7 +44,7 @@ class MediaresRepository implements Repository<MediaresPersistence, number> {
 
   async update(
     id: number,
-    data: MediaresPersistenceInput
+    data: MediaresPersistenceInput,
   ): Promise<MediaresPersistence> {
     const mediares = await prisma.mediares.update({
       where: { mediares_id: id },

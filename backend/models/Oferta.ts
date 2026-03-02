@@ -1,3 +1,5 @@
+import { OfertaPrisma } from "../repository/ofertaRepository";
+
 export class Oferta {
   public oferta_id: number | null;
   public minKg: number;
@@ -10,7 +12,7 @@ export class Oferta {
     minKg: number,
     precio_oferta: number,
     estaActivo: boolean,
-    producto_id: number
+    producto_id: number,
   ) {
     this.oferta_id = id;
     this.minKg = minKg;
@@ -33,6 +35,17 @@ export class Oferta {
     }
 
     return new Oferta(null, minKg, precio_oferta, true, producto_id);
+  }
+
+  static fromPersistence(ofertaRaw: OfertaPrisma) {
+    const oferta = new Oferta(
+      ofertaRaw.oferta_id,
+      ofertaRaw.minKg,
+      ofertaRaw.precio_oferta,
+      ofertaRaw.esta_activo,
+      ofertaRaw.producto_id,
+    );
+    return oferta;
   }
 
   inactivo() {

@@ -5,6 +5,14 @@ import { getProductoById } from "./productoService";
 import { getVentaById } from "./ventaService";
 import { VentaDetalleInput } from "../utils/contracts";
 import AppError from "../error/AppError";
+import { Venta } from "../models/Venta";
+import ventaRepository from "../repository/ventaRepository";
+import {
+  transformToOperacion,
+  transformToTipoMovimiento,
+  transformToTipoReferencia,
+} from "../utils/tipos";
+import { setMovimiento } from "./stockMovimientoServices";
 
 export const setVentaDetalle = async (data: VentaDetalleInput) => {
   await getProductoById(data.producto_id);
@@ -12,14 +20,14 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
 
   const existencia = await ventaDetalleRepository.findByEntregaIdProductoId(
     data.venta_id,
-    data.producto_id
+    data.producto_id,
   );
 
   if (existencia) {
     throw new AppError(
       "Ya esta creado este detalle para la venta y producto",
       409,
-      "DuplicateResource"
+      "DuplicateResource",
     );
   }
 
@@ -27,10 +35,12 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
     data.precio_unitario,
     data.cantidad,
     data.producto_id,
-    data.venta_id
+    data.venta_id,
   );
 
-  return await ventaDetalleRepository.save({
+  ventaDetalle.calcularSubtotal();
+
+  const saved = await ventaDetalleRepository.save({
     precio_unitario: ventaDetalle.precio_unitario,
     subtotal: ventaDetalle.subtotal,
     cantidad: ventaDetalle.cantidad,
@@ -38,11 +48,46 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
     venta_id: ventaDetalle.venta_id,
     oferta_id: ventaDetalle.oferta_id,
   });
+
+  await recalcularTotal(data.venta_id);
+
+  const tipoMovimiento = transformToTipoMovimiento("Salida");
+  const operacion = transformToOperacion("Venta");
+  const tipoReferencia = transformToTipoReferencia("Venta");
+
+  await setMovimiento({
+    cantidad: saved.cantidad,
+    tipo_movimiento: tipoMovimiento,
+    motivo: operacion,
+    referencia_id: saved.ventaDetalle_id,
+    referencia_tipo: tipoReferencia,
+    producto_id: saved.producto_id,
+  });
+
+  return saved;
+};
+
+const recalcularTotal = async (ventaId: number) => {
+  const rawVenta = await getVentaById(ventaId);
+  const rawDetalles = await ventaDetalleRepository.findByVentaId(ventaId);
+
+  const venta = Venta.fromPersistence(rawVenta);
+  const detalles: VentaDetalla[] = rawDetalles.map((detalle) =>
+    VentaDetalla.fromPersistence(detalle),
+  );
+
+  venta.calcularTotal(detalles);
+
+  return ventaRepository.update(ventaId, {
+    fecha_venta: rawVenta.fecha_venta,
+    esta_vendida: rawVenta.esta_vendida,
+    total: rawVenta.total,
+  });
 };
 
 export const updateVentaDetalle = async (
   id: number,
-  data: VentaDetalleInput
+  data: VentaDetalleInput,
 ) => {
   return await ventaDetalleRepository.update(id, data);
 };
@@ -59,6 +104,18 @@ export const getVentaDetalleById = async (id: number) => {
   }
 
   return ventaDetalle;
+};
+
+export const updateCantidad = async (id: number, cantidad: number) => {
+  const detalle = await ventaDetalleRepository.findById(id);
+
+  if (!detalle) {
+    throw new NotFound("Detalle de venta");
+  }
+
+  const subtotal = detalle.precio_unitario * cantidad;
+
+  return await ventaDetalleRepository.updateCantidad(id, cantidad, subtotal);
 };
 
 export const getVentaDetalles = async () => {

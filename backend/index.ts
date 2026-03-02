@@ -10,6 +10,8 @@ import stockMovimientoRouter from "./routes/stockMovimientoRouter";
 import ventaDetalleRouter from "./routes/ventaDetalleRouter";
 import ventaRouter from "./routes/ventaRouter";
 import ofertaRouter from "./routes/ofertaRouter";
+import reclamoRouter from "./routes/reclamoRouter";
+import corteRealRouter from "./routes/corteRealRouter";
 import errorHandler from "./middleware/errorHandler";
 
 const app = express();
@@ -28,6 +30,8 @@ app.use("/api/producto/", productoRouter);
 app.use("/api/ventaDetalle/", ventaDetalleRouter);
 app.use("/api/movimiento/", stockMovimientoRouter);
 app.use("/api/venta/", ventaRouter);
+app.use("/api/reclamo/", reclamoRouter);
+app.use("/api/corteReal/", corteRealRouter);
 
 app.use(errorHandler);
 

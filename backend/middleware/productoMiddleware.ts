@@ -5,9 +5,10 @@ import BadRequest from "../error/BadRequest";
 export const validateBody = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
-  const { nombre, categoria, precio_venta, unidad_medida } = req.body;
+  const { nombre, categoria, precio_venta, unidad_medida, stock_minimo } =
+    req.body;
 
   if (!nombre) throw new EmptyRequest("Nombre");
 
@@ -24,6 +25,12 @@ export const validateBody = (
 
   if (typeof precio_venta !== "number" || precio_venta < 0)
     throw new BadRequest("Precio venta");
+
+  if (stock_minimo === null || stock_minimo === 0 || stock_minimo === "")
+    throw new EmptyRequest("Stock minimo");
+
+  if (typeof stock_minimo !== "number" || stock_minimo < 0)
+    throw new BadRequest("Stock minimo");
 
   if (!unidad_medida) throw new EmptyRequest("Unidad medida");
 

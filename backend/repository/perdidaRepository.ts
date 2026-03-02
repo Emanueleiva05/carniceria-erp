@@ -27,6 +27,30 @@ class PerdidaRepository implements Repository<PerdidaPersistence, number> {
     return await prisma.perdida.findMany();
   }
 
+  async findByLastWeek(): Promise<PerdidaPersistence[]> {
+    const haceUnaSemana = new Date();
+    haceUnaSemana.setDate(haceUnaSemana.getDate() - 7);
+
+    return await prisma.perdida.findMany({
+      where: {
+        fecha_perdida: {
+          gte: haceUnaSemana,
+        },
+      },
+    });
+  }
+
+  async findByMonth(mes: number, anio: number): Promise<PerdidaPersistence[]> {
+    return await prisma.perdida.findMany({
+      where: {
+        fecha_perdida: {
+          gte: new Date(anio, mes - 1, 1),
+          lt: new Date(anio, mes, 1),
+        },
+      },
+    });
+  }
+
   async save(data: PerdidaPersistenceInput): Promise<PerdidaPersistence> {
     const perdida = await prisma.perdida.create({
       data: {
@@ -43,7 +67,7 @@ class PerdidaRepository implements Repository<PerdidaPersistence, number> {
 
   async update(
     id: number,
-    data: PerdidaPersistenceInput
+    data: PerdidaPersistenceInput,
   ): Promise<PerdidaPersistence> {
     const perdida = await prisma.perdida.update({
       where: { perdida_id: id },

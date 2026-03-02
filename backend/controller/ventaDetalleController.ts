@@ -4,13 +4,14 @@ import {
   getVentaDetalleById,
   getVentaDetalles,
   setVentaDetalle,
+  updateCantidad,
   updateVentaDetalle,
 } from "../services/ventaDetalleService";
 
 export const createVentaDetalle = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
@@ -26,7 +27,7 @@ export const createVentaDetalle = async (
 export const modifyVentaDetalle = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
@@ -40,10 +41,27 @@ export const modifyVentaDetalle = async (
   }
 };
 
+export const modifyCantidad = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const cantidad = req.body.cantidad;
+    const id = res.locals.id;
+
+    const ventaDetalle = await updateCantidad(id, cantidad);
+
+    res.status(202).json(ventaDetalle);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const removeVentaDetalle = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
@@ -59,7 +77,7 @@ export const removeVentaDetalle = async (
 export const obtainVentaDetalleById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
@@ -75,7 +93,7 @@ export const obtainVentaDetalleById = async (
 export const obtainVentaDetalle = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const venta_detalles = await getVentaDetalles();

@@ -5,6 +5,12 @@ import { getProductoById } from "./productoService";
 import { CarneDepostada } from "../models/CarneDepostada";
 import { CarneInput } from "../utils/contracts";
 import AppError from "../error/AppError";
+import { setMovimiento } from "./stockMovimientoServices";
+import {
+  transformToOperacion,
+  transformToTipoMovimiento,
+  transformToTipoReferencia,
+} from "../utils/tipos";
 
 export const setCarne = async (data: CarneInput) => {
   await getMediaresById(data.mediares_id);
@@ -12,28 +18,39 @@ export const setCarne = async (data: CarneInput) => {
 
   const existencia = await carneDepostadaRepository.findByProductoIdMediaresId(
     data.mediares_id,
-    data.producto_id
+    data.producto_id,
   );
 
   if (existencia) {
     throw new AppError(
       "Ya está creada la carne para esta media res y producto",
       409,
-      "DuplicateResource"
+      "DuplicateResource",
     );
   }
-
   const carne = CarneDepostada.create(
     data.peso_real,
     data.mediares_id,
-    data.producto_id
+    data.producto_id,
   );
-
-  return await carneDepostadaRepository.save({
+  const saved = await carneDepostadaRepository.save({
     peso_real: carne.peso_real,
     mediares_id: carne.mediares_id,
     producto_id: carne.producto_id,
   });
+  const tipoMovimiento = transformToTipoMovimiento("Entrada");
+  const operacion = transformToOperacion("Compra");
+  const tipoReferencia = transformToTipoReferencia("Mediares");
+
+  await setMovimiento({
+    cantidad: saved.peso_real,
+    tipo_movimiento: tipoMovimiento,
+    motivo: operacion,
+    referencia_id: saved.mediares_id,
+    referencia_tipo: tipoReferencia,
+    producto_id: saved.producto_id,
+  });
+  return saved;
 };
 
 export const updateCarne = async (id: number, data: CarneInput) => {

@@ -11,14 +11,10 @@ import {
 export const createVenta = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const data = req.body;
-
-    data.fecha_venta = new Date(data.fecha_venta);
-
-    const venta = await setVenta(data);
+    const venta = await setVenta();
 
     res.status(202).json(venta);
   } catch (err) {
@@ -29,7 +25,7 @@ export const createVenta = async (
 export const modifyVenta = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
@@ -46,7 +42,7 @@ export const modifyVenta = async (
 export const removeVenta = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
@@ -62,7 +58,7 @@ export const removeVenta = async (
 export const obtainVentaById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
@@ -78,7 +74,7 @@ export const obtainVentaById = async (
 export const obtainVentas = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const ventas = await getVentas();
@@ -92,7 +88,7 @@ export const obtainVentas = async (
 export const obtainDetallesVenta = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;

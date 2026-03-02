@@ -70,6 +70,17 @@ class OfertaRepository implements Repository<OfertaInput, number> {
       where: { producto_id: id },
     });
   }
+
+  async findByEstadoActivoProductoId(
+    productoId: number,
+  ): Promise<OfertaPrisma | null> {
+    return await prisma.oferta.findFirst({
+      where: {
+        esta_activo: true,
+        producto_id: productoId,
+      },
+    });
+  }
 }
 
 const ofertaRepository = new OfertaRepository();

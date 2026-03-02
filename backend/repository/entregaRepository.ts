@@ -12,8 +12,8 @@ export type EntregaPrisma = {
   proveedor_id: number;
 };
 
-class EntregaRepository implements Repository<EntregaInput, number> {
-  async findById(id: number): Promise<EntregaInput | null> {
+class EntregaRepository implements Repository<EntregaPrisma, number> {
+  async findById(id: number): Promise<EntregaPrisma | null> {
     return await prisma.entrega.findUnique({
       where: {
         entrega_id: id,
@@ -21,7 +21,7 @@ class EntregaRepository implements Repository<EntregaInput, number> {
     });
   }
 
-  async findAll(): Promise<EntregaInput[]> {
+  async findAll(): Promise<EntregaPrisma[]> {
     return await prisma.entrega.findMany();
   }
 

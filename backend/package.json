@@ -4,7 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --watch index.js"
+    "dev": "bun --watch index.js",
+    "migrate": "bunx --bun prisma migrate dev",
+    "generate": "bunx --bun prisma generate"
   },
   "devDependencies": {
     "@types/bun": "latest",

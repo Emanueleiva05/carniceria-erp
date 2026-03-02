@@ -1,3 +1,5 @@
+import { ProveedorPrisma } from "../repository/proveedorRepository";
+
 export default class Proveedor {
   public proveedor_id: number | null;
   public nombre: string;
@@ -11,5 +13,14 @@ export default class Proveedor {
 
   static create(nombre: string, telefono: string) {
     return new Proveedor(null, nombre, telefono);
+  }
+
+  static fromPersistence(proveedorRaw: ProveedorPrisma) {
+    const proveedor = new Proveedor(
+      proveedorRaw.proveedor_id,
+      proveedorRaw.nombre,
+      proveedorRaw.telefono,
+    );
+    return proveedor;
   }
 }

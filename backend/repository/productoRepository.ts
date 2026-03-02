@@ -5,11 +5,12 @@ type ProductoPersistenceInput = {
   nombre: string;
   categoria: string;
   stock_actual: number;
+  stock_minimo: number;
   precio_venta: number;
   unidad_medida: string;
 };
 
-type ProductoPersistence = ProductoPersistenceInput & {
+export type ProductoPersistence = ProductoPersistenceInput & {
   producto_id: number;
 };
 
@@ -40,6 +41,7 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
         nombre: data.nombre,
         categoria: data.categoria,
         stock_actual: data.stock_actual,
+        stock_minimo: data.stock_minimo,
         precio_venta: data.precio_venta,
         unidad_medida: data.unidad_medida,
       },
@@ -49,7 +51,7 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
 
   async update(
     id: number,
-    data: ProductoPersistenceInput
+    data: ProductoPersistenceInput,
   ): Promise<ProductoPersistence> {
     const producto = await prisma.producto.update({
       where: { producto_id: id },
@@ -57,8 +59,42 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
         nombre: data.nombre,
         categoria: data.categoria,
         stock_actual: data.stock_actual,
+        stock_minimo: data.stock_minimo,
         precio_venta: data.precio_venta,
         unidad_medida: data.unidad_medida,
+      },
+    });
+    return producto;
+  }
+
+  async updatePrecioVenta(id: number, precioNuevo: number) {
+    const producto = await prisma.producto.update({
+      where: { producto_id: id },
+      data: {
+        precio_venta: precioNuevo,
+      },
+    });
+    return producto;
+  }
+
+  async updatePrecioVentaByCategoria(precioNuevo: number, categoria: string) {
+    const producto = await prisma.producto.updateMany({
+      where: { categoria: categoria },
+      data: {
+        precio_venta: { increment: precioNuevo },
+      },
+    });
+    return producto;
+  }
+
+  async updateCantidad(
+    id: number,
+    stockNuevo: number,
+  ): Promise<ProductoPersistence> {
+    const producto = await prisma.producto.update({
+      where: { producto_id: id },
+      data: {
+        stock_actual: stockNuevo,
       },
     });
     return producto;

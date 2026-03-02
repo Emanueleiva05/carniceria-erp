@@ -3,7 +3,7 @@ import { ProveedorInput } from "../utils/contracts";
 import { EntregaPrisma } from "./entregaRepository";
 import { Repository } from "./genericRepository";
 
-type ProveedorPrisma = {
+export type ProveedorPrisma = {
   proveedor_id: number;
   nombre: string;
   telefono: string;

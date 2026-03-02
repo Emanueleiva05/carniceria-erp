@@ -17,6 +17,7 @@ model Proveedor {
   nombre       String
   telefono     String
   entregas     Entrega[]
+  reclamos     Reclamo[]
 
   @@map("proveedores")
 }
@@ -31,6 +32,7 @@ model Mediares {
   entrega_id      Int
   entrega         Entrega          @relation(fields: [entrega_id], references: [entrega_id])
   carneDepostadas CarneDepostada[]
+  corteReales     CorteReal[]
 
   @@map("mediares")
 }
@@ -77,6 +79,7 @@ model Producto {
   nombre           String
   categoria        String
   stock_actual     Float
+  stock_minimo     Float             @default(0)
   precio_venta     Float
   unidad_medida    String
   entregaDetalles  EntregaDetalle[]
@@ -85,6 +88,7 @@ model Producto {
   ofertas          Oferta[]
   ventaDetalles    VentaDetalle[]
   stockMovimientos StockMovimiento[]
+  reclamos         Reclamo[]
 
   @@map("productos")
 }
@@ -133,6 +137,7 @@ model Venta {
   venta_id      Int            @id @default(autoincrement())
   fecha_venta   DateTime
   esta_vendida  Boolean
+  total         Float          @default(0)
   ventaDetalles VentaDetalle[]
 
   @@map("ventas")
@@ -149,4 +154,29 @@ model StockMovimiento {
   productos       Producto @relation(fields: [producto_id], references: [producto_id])
 
   @@map("stockMovimiento")
+}
+
+model Reclamo {
+  reclamo_id          Int       @id @default(autoincrement())
+  fecha_reclamo       DateTime  @default(now())
+  motivo              String
+  estado              String
+  cantidad            Float     @default(0)
+  producto_destino_id Int?
+  diferencia_cantidad Float?
+  descripcion         String?
+  evidencia           String?
+  producto_id         Int
+  proveedor_id        Int
+  producto            Producto  @relation(fields: [producto_id], references: [producto_id])
+  proveedor           Proveedor @relation(fields: [proveedor_id], references: [proveedor_id])
+}
+
+model CorteReal {
+  corteReal_id Int      @id @default(autoincrement())
+  nombre       String
+  peso_real    Float
+  create_at    DateTime @default(now())
+  mediares_id  Int
+  mediares     Mediares @relation(fields: [mediares_id], references: [mediares_id])
 }
