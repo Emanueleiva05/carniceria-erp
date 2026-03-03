@@ -1,17 +1,9 @@
 import { prisma } from "../config/db";
-import { VentaInput } from "../utils/contracts";
+import { VentaInput, Venta, VentaDetalle } from "../utils/contracts";
 import { Repository } from "./genericRepository";
-import { VentaDetallePersistence } from "./ventaDetalleRepository";
 
-export type VentaPrisma = {
-  venta_id: number;
-  fecha_venta: Date;
-  total: number;
-  esta_vendida: boolean;
-};
-
-class VentaRepository implements Repository<VentaPrisma, number> {
-  async findById(id: number): Promise<VentaPrisma | null> {
+class VentaRepository implements Repository<Venta, number> {
+  async findById(id: number): Promise<Venta | null> {
     return await prisma.venta.findUnique({
       where: {
         venta_id: id,
@@ -19,11 +11,11 @@ class VentaRepository implements Repository<VentaPrisma, number> {
     });
   }
 
-  async findAll(): Promise<VentaPrisma[]> {
+  async findAll(): Promise<Venta[]> {
     return await prisma.venta.findMany();
   }
 
-  async save(data: VentaInput): Promise<VentaPrisma> {
+  async save(data: VentaInput): Promise<Venta> {
     const venta = await prisma.venta.create({
       data: {
         fecha_venta: data.fecha_venta,
@@ -34,7 +26,7 @@ class VentaRepository implements Repository<VentaPrisma, number> {
     return venta;
   }
 
-  async update(id: number, data: VentaInput): Promise<VentaPrisma> {
+  async update(id: number, data: VentaInput): Promise<Venta> {
     const venta = await prisma.venta.update({
       where: { venta_id: id },
       data: {
@@ -54,7 +46,7 @@ class VentaRepository implements Repository<VentaPrisma, number> {
     });
   }
 
-  async findDetallesEntrega(id: number): Promise<VentaDetallePersistence[]> {
+  async findDetallesEntrega(id: number): Promise<VentaDetalle[]> {
     const ventaDetalles = prisma.ventaDetalle.findMany({
       where: { venta_id: id },
       include: {

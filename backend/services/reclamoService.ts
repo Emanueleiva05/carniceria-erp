@@ -1,9 +1,8 @@
 import AppError from "../error/AppError";
 import NotFound from "../error/NotFound";
 import Reclamo from "../models/Reclamo";
-import reclamoRepository, {
-  ReclamoPersistence,
-} from "../repository/reclamoRepository";
+import reclamoRepository from "../repository/reclamoRepository";
+import { Reclamo as ReclamoType } from "../utils/contracts";
 import { PerdidaInput, ReclamoInput } from "../utils/contracts";
 import {
   ReclamoEstado,
@@ -79,7 +78,7 @@ export const getReclamos = async () => {
 
 export const getReclamosByProveedor = async (
   proveedorId: number,
-): Promise<ReclamoPersistence[]> => {
+): Promise<ReclamoType[]> => {
   const reclamos = await reclamoRepository.findByProveedor(proveedorId);
 
   if (reclamos.length === 0) {
@@ -161,7 +160,7 @@ export const rejectReclamo = async (reclamo_id: number) => {
   return saved;
 };
 
-const procesarReclamoAceptado = async (reclamo: ReclamoPersistence) => {
+const procesarReclamoAceptado = async (reclamo: ReclamoType) => {
   switch (reclamo.motivo) {
     case ReclamoMotivo.MAL_ESTADO:
     case ReclamoMotivo.OTRO:
@@ -179,7 +178,7 @@ const procesarReclamoAceptado = async (reclamo: ReclamoPersistence) => {
   }
 };
 
-const generarPerdida = async (reclamo: ReclamoPersistence) => {
+const generarPerdida = async (reclamo: ReclamoType) => {
   const producto = await getProductoById(reclamo.producto_id);
 
   const unidad_medida = transformToUnidadMedida(producto.unidad_medida);
@@ -198,7 +197,7 @@ const generarPerdida = async (reclamo: ReclamoPersistence) => {
   await setPerdida(perdida);
 };
 
-const compensarCorte = async (reclamo: ReclamoPersistence) => {
+const compensarCorte = async (reclamo: ReclamoType) => {
   if (!reclamo.producto_destino_id) {
     throw new AppError(
       "Debe ingresar el producto que fue cambiado",
@@ -245,7 +244,7 @@ const compensarCorte = async (reclamo: ReclamoPersistence) => {
   });
 };
 
-const compersarPeso = async (reclamo: ReclamoPersistence) => {
+const compersarPeso = async (reclamo: ReclamoType) => {
   if (!reclamo.diferencia_cantidad) {
     throw new AppError(
       "Debe ingresar la cantidad que fue reclamada",

@@ -1,4 +1,4 @@
-import { CarnePrisma } from "../repository/carneDepostadoRepository";
+import { Carne } from "../utils/contracts";
 
 export class CarneDepostada {
   public readonly carne_id: number | null;
@@ -38,7 +38,7 @@ export class CarneDepostada {
     return new CarneDepostada(null, peso_real, mediares_id, producto_id);
   }
 
-  static fromPersistence(data: CarnePrisma) {
+  static fromPersistence(data: Carne) {
     const carne = new CarneDepostada(
       data.carne_id,
       data.peso_real,

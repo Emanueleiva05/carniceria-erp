@@ -1,10 +1,10 @@
-import { ProductoPersistence } from "../repository/productoRepository";
 import {
   Categoria,
   transformToCategoria,
   transformToUnidadMedida,
   UnidadMedida,
 } from "../utils/tipos";
+import { Producto as ProductoType } from "../utils/contracts";
 
 export class Producto {
   public producto_id: number | null;
@@ -35,29 +35,33 @@ export class Producto {
 
   static create(
     nombre: string,
-    categoria: Categoria,
+    categoria: string,
     precio_venta: number,
-    unidad: UnidadMedida,
+    unidad: string,
     stock_minimo: number,
   ) {
     if (precio_venta <= 0) {
       throw new Error("Precio venta invalido");
     }
-    if (stock_minimo <= 0) {
+    if (stock_minimo < 0) {
       throw new Error("Stock minimo invalido");
     }
+
+    const categoriaPro = transformToCategoria(categoria);
+    const unidadPro = transformToUnidadMedida(unidad);
+
     return new Producto(
       null,
       nombre,
-      categoria,
+      categoriaPro,
       0,
       precio_venta,
       stock_minimo,
-      unidad,
+      unidadPro,
     );
   }
 
-  static fromPersistence(productoRaw: ProductoPersistence) {
+  static fromPersistence(productoRaw: ProductoType) {
     const unidadMedida = transformToUnidadMedida(productoRaw.unidad_medida);
     const categoria = transformToCategoria(productoRaw.categoria);
     const producto = new Producto(

@@ -1,6 +1,5 @@
 import { prisma } from "../config/db";
-import { EntregaInput } from "../utils/contracts";
-import { EntregaDetallePrisma } from "./entregaDetalleRepository";
+import { EntregaInput, Entrega, EntregaDetalle } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
 export type EntregaPrisma = {
@@ -12,8 +11,8 @@ export type EntregaPrisma = {
   proveedor_id: number;
 };
 
-class EntregaRepository implements Repository<EntregaPrisma, number> {
-  async findById(id: number): Promise<EntregaPrisma | null> {
+class EntregaRepository implements Repository<Entrega, number> {
+  async findById(id: number): Promise<Entrega | null> {
     return await prisma.entrega.findUnique({
       where: {
         entrega_id: id,
@@ -21,11 +20,11 @@ class EntregaRepository implements Repository<EntregaPrisma, number> {
     });
   }
 
-  async findAll(): Promise<EntregaPrisma[]> {
+  async findAll(): Promise<Entrega[]> {
     return await prisma.entrega.findMany();
   }
 
-  async save(data: EntregaInput): Promise<EntregaPrisma> {
+  async save(data: EntregaInput): Promise<Entrega> {
     const entrega = await prisma.entrega.create({
       data: {
         fecha_entrega: data.fecha_entrega,
@@ -38,7 +37,7 @@ class EntregaRepository implements Repository<EntregaPrisma, number> {
     return entrega;
   }
 
-  async update(id: number, data: EntregaInput): Promise<EntregaPrisma> {
+  async update(id: number, data: EntregaInput): Promise<Entrega> {
     const entrega = await prisma.entrega.update({
       where: { entrega_id: id },
       data: {
@@ -60,7 +59,7 @@ class EntregaRepository implements Repository<EntregaPrisma, number> {
     });
   }
 
-  async findDetallesVenta(id: number): Promise<EntregaDetallePrisma[]> {
+  async findDetallesVenta(id: number): Promise<EntregaDetalle[]> {
     const entregaDetalles = prisma.entregaDetalle.findMany({
       where: { entrega_id: id },
       include: {

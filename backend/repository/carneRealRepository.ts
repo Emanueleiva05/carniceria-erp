@@ -1,19 +1,9 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
+import { CorteReal, CorteRealInput } from "../utils/contracts";
 
-type CarnePersistenceInput = {
-  nombre: string;
-  peso_real: number;
-  create_at: Date;
-  mediares_id: number;
-};
-
-export type CarnePersistence = CarnePersistenceInput & {
-  corteReal_id: number;
-};
-
-class CorteRealRepository implements Repository<CarnePersistence, number> {
-  async findById(id: number): Promise<CarnePersistence | null> {
+class CorteRealRepository implements Repository<CorteReal, number> {
+  async findById(id: number): Promise<CorteReal | null> {
     return await prisma.corteReal.findUnique({
       where: {
         corteReal_id: id,
@@ -21,11 +11,11 @@ class CorteRealRepository implements Repository<CarnePersistence, number> {
     });
   }
 
-  async findAll(): Promise<CarnePersistence[]> {
+  async findAll(): Promise<CorteReal[]> {
     return await prisma.corteReal.findMany();
   }
 
-  async save(data: CarnePersistenceInput): Promise<CarnePersistence> {
+  async save(data: CorteRealInput): Promise<CorteReal> {
     const carne = await prisma.corteReal.create({
       data: {
         nombre: data.nombre,
@@ -38,10 +28,7 @@ class CorteRealRepository implements Repository<CarnePersistence, number> {
     return carne;
   }
 
-  async update(
-    id: number,
-    data: CarnePersistenceInput,
-  ): Promise<CarnePersistence> {
+  async update(id: number, data: CorteRealInput): Promise<CorteReal> {
     const carne = await prisma.corteReal.update({
       where: { corteReal_id: id },
       data: {

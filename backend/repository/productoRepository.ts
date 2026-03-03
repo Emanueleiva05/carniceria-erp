@@ -1,21 +1,9 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
+import { Producto, ProductoInput } from "../utils/contracts";
 
-type ProductoPersistenceInput = {
-  nombre: string;
-  categoria: string;
-  stock_actual: number;
-  stock_minimo: number;
-  precio_venta: number;
-  unidad_medida: string;
-};
-
-export type ProductoPersistence = ProductoPersistenceInput & {
-  producto_id: number;
-};
-
-class ProductoRepository implements Repository<ProductoPersistence, number> {
-  async findById(id: number): Promise<ProductoPersistence | null> {
+class ProductoRepository implements Repository<Producto, number> {
+  async findById(id: number): Promise<Producto | null> {
     return await prisma.producto.findUnique({
       where: {
         producto_id: id,
@@ -23,11 +11,11 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
     });
   }
 
-  async findAll(): Promise<ProductoPersistence[]> {
+  async findAll(): Promise<Producto[]> {
     return await prisma.producto.findMany();
   }
 
-  async findByName(name: string): Promise<ProductoPersistence | null> {
+  async findByName(name: string): Promise<Producto | null> {
     return await prisma.producto.findFirst({
       where: {
         nombre: name,
@@ -35,7 +23,7 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
     });
   }
 
-  async save(data: ProductoPersistenceInput): Promise<ProductoPersistence> {
+  async save(data: ProductoInput): Promise<Producto> {
     const producto = await prisma.producto.create({
       data: {
         nombre: data.nombre,
@@ -49,10 +37,7 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
     return producto;
   }
 
-  async update(
-    id: number,
-    data: ProductoPersistenceInput,
-  ): Promise<ProductoPersistence> {
+  async update(id: number, data: ProductoInput): Promise<Producto> {
     const producto = await prisma.producto.update({
       where: { producto_id: id },
       data: {
@@ -87,10 +72,7 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
     return producto;
   }
 
-  async updateCantidad(
-    id: number,
-    stockNuevo: number,
-  ): Promise<ProductoPersistence> {
+  async updateCantidad(id: number, stockNuevo: number): Promise<Producto> {
     const producto = await prisma.producto.update({
       where: { producto_id: id },
       data: {
@@ -108,7 +90,7 @@ class ProductoRepository implements Repository<ProductoPersistence, number> {
     });
   }
 
-  async filterCatergoria(filter: string): Promise<ProductoPersistence[]> {
+  async filterCatergoria(filter: string): Promise<Producto[]> {
     return await prisma.producto.findMany({
       where: {
         categoria: {

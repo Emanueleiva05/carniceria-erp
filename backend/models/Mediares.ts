@@ -1,11 +1,16 @@
-import { MediaresPersistence } from "../repository/mediaresRepository";
-import { TipoVaca, transformToTipoVaca } from "../utils/tipos";
+import {
+  Tamanio,
+  TipoVaca,
+  transformToTamanio,
+  transformToTipoVaca,
+} from "../utils/tipos";
+import { Mediares as MediaresType } from "../utils/contracts";
 
 export default class Mediares {
   public mediares_id: number | null;
   public peso_carton: number;
   public peso_real: number;
-  public tamanio: number;
+  public tamanio: Tamanio;
   public tipo_vaca: TipoVaca;
   public precio_compra: number;
   public entrega_id: number;
@@ -13,7 +18,7 @@ export default class Mediares {
   constructor(
     id: number | null,
     peso_carton: number,
-    tamanio: number,
+    tamanio: Tamanio,
     precio_compra: number,
     peso_real: number,
     tipo_vaca: TipoVaca,
@@ -33,7 +38,6 @@ export default class Mediares {
     tamanio: number,
     precio_compra: number,
     peso_real: number,
-    tipo_vaca: TipoVaca,
     entrega_id: number,
   ) {
     if (peso_carton <= 0) {
@@ -52,17 +56,20 @@ export default class Mediares {
       throw new Error("Precio compra invalido");
     }
 
+    const tipoVaca = transformToTipoVaca(tamanio);
+    const tamanioVaca = transformToTamanio(tamanio);
+
     return new Mediares(
       null,
       peso_carton,
-      tamanio,
+      tamanioVaca,
       precio_compra,
       peso_real,
-      tipo_vaca,
+      tipoVaca,
       entrega_id,
     );
   }
-  static fromPersistence(mediaresRaw: MediaresPersistence) {
+  static fromPersistence(mediaresRaw: MediaresType) {
     const tipoVacaString = transformToTipoVaca(mediaresRaw.peso_carton);
 
     const mediares = new Mediares(

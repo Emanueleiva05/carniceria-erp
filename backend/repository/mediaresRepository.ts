@@ -1,5 +1,5 @@
 import { prisma } from "../config/db";
-import { CarnePrisma } from "./carneDepostadoRepository";
+import { Carne } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
 export type MediaresPersistenceInput = {
@@ -68,7 +68,7 @@ class MediaresRepository implements Repository<MediaresPersistence, number> {
     });
   }
 
-  async findCarneByMediares(id: number): Promise<CarnePrisma[]> {
+  async findCarneByMediares(id: number): Promise<Carne[]> {
     const carnes = await prisma.carneDepostada.findMany({
       where: {
         mediares_id: id,

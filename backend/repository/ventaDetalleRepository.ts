@@ -1,24 +1,9 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
+import { VentaDetalle, VentaDetalleInput } from "../utils/contracts";
 
-export type VentaDetallePersistenceInput = {
-  precio_unitario: number;
-  cantidad: number;
-  subtotal: number;
-  producto_id: number;
-  venta_id: number;
-  oferta_id: number | null;
-};
-
-export type VentaDetallePersistence = VentaDetallePersistenceInput & {
-  ventaDetalle_id: number;
-};
-
-class VentaDetalleRepository implements Repository<
-  VentaDetallePersistence,
-  number
-> {
-  async findById(id: number): Promise<VentaDetallePersistence | null> {
+class VentaDetalleRepository implements Repository<VentaDetalle, number> {
+  async findById(id: number): Promise<VentaDetalle | null> {
     return await prisma.ventaDetalle.findUnique({
       where: {
         ventaDetalle_id: id,
@@ -26,14 +11,14 @@ class VentaDetalleRepository implements Repository<
     });
   }
 
-  async findAll(): Promise<VentaDetallePersistence[]> {
+  async findAll(): Promise<VentaDetalle[]> {
     return await prisma.ventaDetalle.findMany();
   }
 
   async findByEntregaIdProductoId(
     ventaId: number,
     productoId: number,
-  ): Promise<VentaDetallePersistence | null> {
+  ): Promise<VentaDetalle | null> {
     const detalle = await prisma.ventaDetalle.findFirst({
       where: {
         producto_id: productoId,
@@ -43,7 +28,7 @@ class VentaDetalleRepository implements Repository<
     return detalle;
   }
 
-  async findByVentaId(ventaId: number): Promise<VentaDetallePersistence[]> {
+  async findByVentaId(ventaId: number): Promise<VentaDetalle[]> {
     return await prisma.ventaDetalle.findMany({
       where: {
         venta_id: ventaId,
@@ -51,9 +36,7 @@ class VentaDetalleRepository implements Repository<
     });
   }
 
-  async save(
-    data: VentaDetallePersistenceInput,
-  ): Promise<VentaDetallePersistence> {
+  async save(data: VentaDetalleInput): Promise<VentaDetalle> {
     const ventaDetalle = await prisma.ventaDetalle.create({
       data: {
         precio_unitario: data.precio_unitario,
@@ -67,10 +50,7 @@ class VentaDetalleRepository implements Repository<
     return ventaDetalle;
   }
 
-  async update(
-    id: number,
-    data: VentaDetallePersistenceInput,
-  ): Promise<VentaDetallePersistence> {
+  async update(id: number, data: VentaDetalleInput): Promise<VentaDetalle> {
     const ventaDetalle = await prisma.ventaDetalle.update({
       where: { ventaDetalle_id: id },
       data: {

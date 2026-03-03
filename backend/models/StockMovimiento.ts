@@ -1,6 +1,6 @@
 import AppError from "../error/AppError";
-import { ProductoPersistence } from "../repository/productoRepository";
-import { MovimientoPersistence } from "../repository/stockMovimientoRepository";
+import { Producto } from "../utils/contracts";
+import { StockMovimiento as StockMovimientoType } from "../utils/contracts";
 import {
   TipoMovimiento,
   Operacion,
@@ -39,10 +39,10 @@ export class StockMovimiento {
 
   static create(
     cantidad: number,
-    tipo: TipoMovimiento,
-    motivo: Operacion,
+    tipo: string,
+    motivo: string,
     referencia_id: number,
-    referencia_tipo: TipoReferencia,
+    referencia_tipo: string,
     producto_id: number,
   ) {
     if (tipo !== TipoMovimiento.AJUSTE) {
@@ -59,18 +59,22 @@ export class StockMovimiento {
       throw new Error("Producto ID invalido");
     }
 
+    const tipoMov = transformToTipoMovimiento(tipo);
+    const motivoMov = transformToOperacion(motivo);
+    const referenciaTipo = transformToTipoReferencia(referencia_tipo);
+
     return new StockMovimiento(
       null,
       cantidad,
-      tipo,
-      motivo,
+      tipoMov,
+      motivoMov,
       referencia_id,
-      referencia_tipo,
+      referenciaTipo,
       producto_id,
     );
   }
 
-  static fromPersistence(movimientoRaw: MovimientoPersistence) {
+  static fromPersistence(movimientoRaw: StockMovimientoType) {
     const tipoMovimiento = transformToTipoMovimiento(
       movimientoRaw.tipo_movimiento,
     );
@@ -92,7 +96,7 @@ export class StockMovimiento {
     return movimiento;
   }
 
-  calcularStock(producto: ProductoPersistence): number {
+  calcularStock(producto: Producto): number {
     if (this.tipo === TipoMovimiento.ENTRADA) {
       return producto.stock_actual + this.cantidad;
     }

@@ -1,20 +1,9 @@
 import { prisma } from "../config/db";
-import { EntregaDetalleInput } from "../utils/contracts";
+import { EntregaDetalleInput, EntregaDetalle } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
-export type EntregaDetallePrisma = {
-  producto_id: number;
-  entregaDetalle_id: number;
-  cantidad: number;
-  precio_compra: number;
-  entrega_id: number;
-};
-
-class EntregaDetalleRepository implements Repository<
-  EntregaDetallePrisma,
-  number
-> {
-  async findById(id: number): Promise<EntregaDetallePrisma | null> {
+class EntregaDetalleRepository implements Repository<EntregaDetalle, number> {
+  async findById(id: number): Promise<EntregaDetalle | null> {
     return await prisma.entregaDetalle.findUnique({
       where: {
         entregaDetalle_id: id,
@@ -22,14 +11,14 @@ class EntregaDetalleRepository implements Repository<
     });
   }
 
-  async findAll(): Promise<EntregaDetallePrisma[]> {
+  async findAll(): Promise<EntregaDetalle[]> {
     return await prisma.entregaDetalle.findMany();
   }
 
   async findByEntregaIdProductoId(
     entregaId: number,
     productoId: number,
-  ): Promise<EntregaDetallePrisma | null> {
+  ): Promise<EntregaDetalle | null> {
     const detalle = await prisma.entregaDetalle.findFirst({
       where: {
         producto_id: productoId,
@@ -39,7 +28,7 @@ class EntregaDetalleRepository implements Repository<
     return detalle;
   }
 
-  async findByEntregaId(entregaId: number): Promise<EntregaDetallePrisma[]> {
+  async findByEntregaId(entregaId: number): Promise<EntregaDetalle[]> {
     return await prisma.entregaDetalle.findMany({
       where: {
         entrega_id: entregaId,
@@ -47,7 +36,7 @@ class EntregaDetalleRepository implements Repository<
     });
   }
 
-  async save(data: EntregaDetalleInput): Promise<EntregaDetallePrisma> {
+  async save(data: EntregaDetalleInput): Promise<EntregaDetalle> {
     const entregaDetalle = await prisma.entregaDetalle.create({
       data: {
         cantidad: data.cantidad,
@@ -59,10 +48,7 @@ class EntregaDetalleRepository implements Repository<
     return entregaDetalle;
   }
 
-  async update(
-    id: number,
-    data: EntregaDetalleInput,
-  ): Promise<EntregaDetallePrisma> {
+  async update(id: number, data: EntregaDetalleInput): Promise<EntregaDetalle> {
     const entregaDetalle = await prisma.entregaDetalle.update({
       where: { entregaDetalle_id: id },
       data: {

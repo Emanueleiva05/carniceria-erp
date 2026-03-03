@@ -1,29 +1,13 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
+import { Reclamo, ReclamoInput } from "../utils/contracts";
 
 type ReclamoAccept = {
   estado: string;
 };
 
-export type ReclamoPersistenceInput = {
-  fecha_reclamo: Date;
-  motivo: string;
-  estado: string;
-  cantidad: number;
-  producto_destino_id: number | null;
-  diferencia_cantidad: number | null;
-  descripcion: string | null;
-  evidencia: string | null;
-  producto_id: number;
-  proveedor_id: number;
-};
-
-export type ReclamoPersistence = ReclamoPersistenceInput & {
-  reclamo_id: number;
-};
-
-class ReclamoRepository implements Repository<ReclamoPersistence, number> {
-  async findById(id: number): Promise<ReclamoPersistence | null> {
+class ReclamoRepository implements Repository<Reclamo, number> {
+  async findById(id: number): Promise<Reclamo | null> {
     return await prisma.reclamo.findUnique({
       where: {
         reclamo_id: id,
@@ -31,11 +15,11 @@ class ReclamoRepository implements Repository<ReclamoPersistence, number> {
     });
   }
 
-  async findAll(): Promise<ReclamoPersistence[]> {
+  async findAll(): Promise<Reclamo[]> {
     return await prisma.reclamo.findMany();
   }
 
-  async findByProveedor(proveedorId: number): Promise<ReclamoPersistence[]> {
+  async findByProveedor(proveedorId: number): Promise<Reclamo[]> {
     return await prisma.reclamo.findMany({
       where: {
         proveedor_id: proveedorId,
@@ -43,7 +27,7 @@ class ReclamoRepository implements Repository<ReclamoPersistence, number> {
     });
   }
 
-  async save(data: ReclamoPersistenceInput): Promise<ReclamoPersistence> {
+  async save(data: ReclamoInput): Promise<Reclamo> {
     const reclamo = await prisma.reclamo.create({
       data: {
         fecha_reclamo: data.fecha_reclamo,
@@ -61,10 +45,7 @@ class ReclamoRepository implements Repository<ReclamoPersistence, number> {
     return reclamo;
   }
 
-  async update(
-    id: number,
-    data: ReclamoPersistenceInput,
-  ): Promise<ReclamoPersistence> {
+  async update(id: number, data: ReclamoInput): Promise<Reclamo> {
     const reclamo = await prisma.reclamo.update({
       where: { reclamo_id: id },
       data: {
@@ -83,10 +64,7 @@ class ReclamoRepository implements Repository<ReclamoPersistence, number> {
     return reclamo;
   }
 
-  async updateEstado(
-    id: number,
-    data: ReclamoAccept,
-  ): Promise<ReclamoPersistence> {
+  async updateEstado(id: number, data: ReclamoAccept): Promise<Reclamo> {
     const reclamo = await prisma.reclamo.update({
       where: { reclamo_id: id },
       data: {
