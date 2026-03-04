@@ -1,86 +1,85 @@
 import { NextFunction, Request, Response } from "express";
-import {
-  deleteEntregaDetalle,
-  getEntregaDetalleById,
-  getEntregaDetalles,
-  setEntregaDetalle,
-  updateEntregaDetalle,
-} from "../services/entregaDetalleService";
+import * as entregaDetalleService from "../services/entregaDetalleService";
 
 export const createEntregaDetalle = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
 
-    const entregaDetalle = await setEntregaDetalle(data);
+    const entregaDetalle =
+      await entregaDetalleService.createEntregaDetalle(data);
 
-    res.status(202).json(entregaDetalle);
+    res.status(201).json(entregaDetalle);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyEntregaDetalle = async (
+export const updateEntregaDetalle = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
     const id = res.locals.id;
 
-    const entregaDetalle = await updateEntregaDetalle(id, data);
+    const entregaDetalle = await entregaDetalleService.updateEntregaDetalle(
+      id,
+      data,
+    );
 
-    res.status(202).json(entregaDetalle);
+    res.status(200).json(entregaDetalle);
   } catch (err) {
     next(err);
   }
 };
 
-export const removeEntregaDetalle = async (
+export const deleteEntregaDetalle = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    await deleteEntregaDetalle(id);
+    await entregaDetalleService.deleteEntregaDetalle(id);
 
-    res.status(202).json({ message: "Entrega detalle eliminada con exito" });
+    res.status(204).json({ message: "Entrega detalle eliminada con exito" });
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainEntregaDetalleById = async (
+export const getEntregaDetalleById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    const entrega_detalle = await getEntregaDetalleById(id);
+    const entregaDetalle =
+      await entregaDetalleService.getEntregaDetalleById(id);
 
-    res.status(202).json(entrega_detalle);
+    res.status(204).json(entregaDetalle);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainEntregaDetalles = async (
+export const getEntregaDetalles = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const entrega_detalles = await getEntregaDetalles();
+    const entregaDetalle = await entregaDetalleService.getEntregaDetalles();
 
-    res.status(202).json(entrega_detalles);
+    res.status(200).json(entregaDetalle);
   } catch (err) {
     next(err);
   }

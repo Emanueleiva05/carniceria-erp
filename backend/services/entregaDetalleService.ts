@@ -14,7 +14,7 @@ import {
   transformToTipoReferencia,
 } from "../utils/tipos";
 
-export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
+export const createEntregaDetalle = async (data: EntregaDetalleInput) => {
   await getProductoById(data.producto_id);
   await getEntregaById(data.entrega_id);
 
@@ -41,7 +41,7 @@ export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
     entrega_id: entregaDetalle.entrega_id,
   });
 
-  await recalcularTotal(data.entrega_id);
+  await calculateTotal(data.entrega_id);
 
   const tipoMovimiento = transformToTipoMovimiento("Entrada");
   const operacion = transformToOperacion("Compra");
@@ -59,7 +59,7 @@ export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
   return saved;
 };
 
-const recalcularTotal = async (entregaId: number) => {
+const calculateTotal = async (entregaId: number) => {
   const rawEntrega = await getEntregaById(entregaId);
   const rawDetalles = await entregaDetalleRepository.findByEntregaId(entregaId);
 

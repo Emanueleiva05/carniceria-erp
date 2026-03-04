@@ -1,9 +1,9 @@
 import { Router } from "express";
 import {
-  obtainEntregaDetalleById,
-  obtainEntregaDetalles,
-  removeEntregaDetalle,
-  modifyEntregaDetalle,
+  getEntregaDetalleById,
+  getEntregaDetalles,
+  deleteEntregaDetalle,
+  updateEntregaDetalle,
   createEntregaDetalle,
 } from "../controller/entregaDetalleController";
 import { validateBody } from "../middleware/entregaDetalleMiddleware";
@@ -13,12 +13,12 @@ const router = Router();
 
 router.post("/", validateBody, createEntregaDetalle);
 
-router.get("/", obtainEntregaDetalles);
+router.get("/", getEntregaDetalles);
 
-router.get("/:id", validateIdParams, obtainEntregaDetalleById);
+router.get("/:id", validateIdParams, getEntregaDetalleById);
 
-router.put("/:id/", validateIdParams, validateBody, modifyEntregaDetalle);
+router.put("/:id/", validateIdParams, validateBody, updateEntregaDetalle);
 
-router.delete("/:id", validateIdParams, removeEntregaDetalle);
+router.delete("/:id", validateIdParams, deleteEntregaDetalle);
 
 export default router;

@@ -4,7 +4,7 @@ import entregaRepository from "../repository/entregaRepository";
 import { EntregaInput } from "../utils/contracts";
 import { getProveedoresById } from "./proveedorService";
 
-export const setEntrega = async (data: EntregaInput) => {
+export const createEntrega = async (data: EntregaInput) => {
   await getProveedoresById(data.proveedor_id);
 
   const entrega = Entrega.create(data.proveedor_id);
@@ -50,7 +50,7 @@ export const addFactura = async (id: number, archivo: string) => {
   });
 };
 
-export const changeProveedor = async (id: number, proveedorId: number) => {
+export const updateProveedor = async (id: number, proveedorId: number) => {
   const raw = await getEntregaById(id);
 
   const entrega = Entrega.fromPersistence(raw);
