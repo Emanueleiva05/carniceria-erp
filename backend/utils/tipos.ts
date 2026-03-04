@@ -1,4 +1,4 @@
-import AppError from "../error/AppError";
+import BadRequest from "../error/BadRequest";
 
 export enum Tamanio {
   KG_90 = 90,
@@ -29,7 +29,7 @@ export const transformToTamanio = (data: number): Tamanio => {
   if (data >= 112.5 && data < 117.5) {
     return Tamanio.KG_115;
   }
-  if (data <= 0) throw new AppError("Tamaño inválido", 400, "ErrorTamanio");
+  if (data <= 0) throw new BadRequest("El tamano de la vaca");
 
   return Tamanio.KG_120;
 };
@@ -103,11 +103,7 @@ export enum TipoVaca {
 
 export const transformToTipoVaca = (data: number): TipoVaca => {
   if (data < 70) {
-    throw new AppError(
-      "Peso invalido para la clasificacion de la vaca",
-      400,
-      "ErrorPeso",
-    );
+    throw new BadRequest("Peso de la vaca");
   }
 
   if (data >= 70 && data < 85) {
