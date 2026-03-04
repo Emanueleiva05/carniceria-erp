@@ -4,7 +4,7 @@ import { EntregaDetalle } from "../models/EntregaDetalle";
 import Entrega from "../models/Entrega";
 import entregaRepository from "../repository/entregaRepository";
 import entregaDetalleRepository from "../repository/entregaDetalleRepository";
-import { setMovimiento } from "./stockMovimientoServices";
+import { createMovimiento } from "./stockMovimientoServices";
 import { getEntregaById } from "./entregaService";
 import { getProductoById } from "./productoService";
 import {
@@ -47,7 +47,7 @@ export const createEntregaDetalle = async (data: EntregaDetalleInput) => {
   const operacion = transformToOperacion("Compra");
   const tipoReferencia = transformToTipoReferencia("Entrega");
 
-  await setMovimiento({
+  await createMovimiento({
     cantidad: saved.cantidad,
     tipo_movimiento: tipoMovimiento,
     motivo: operacion,

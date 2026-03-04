@@ -3,7 +3,7 @@ import BadRequest from "../error/BadRequest";
 import { Perdida } from "../models/Perdida";
 import perdidaRepository from "../repository/perdidaRepository";
 import { getProductoById } from "./productoService";
-import { setMovimiento, updateMovimiento } from "./stockMovimientoServices";
+import { createMovimiento, updateMovimiento } from "./stockMovimientoServices";
 import {
   transformToOperacion,
   transformToTipoMovimiento,
@@ -27,7 +27,7 @@ export const createPerdida = async (data: PerdidaInput) => {
   const operacion = transformToOperacion("Perdida");
   const tipoReferencia = transformToTipoReferencia("Perdida");
 
-  const movimiento = await setMovimiento({
+  const movimiento = await createMovimiento({
     cantidad: perdida.tirado,
     tipo_movimiento: tipoMovimiento,
     motivo: operacion,

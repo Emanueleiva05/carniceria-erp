@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
-  obtainMovimientoById,
-  obtainMovimientos,
-  removeMovimiento,
-  modifyMovimiento,
+  deleteMovimiento,
+  updateMovimiento,
   createMovimiento,
+  getMovimientoById,
+  getMovimientos,
 } from "../controller/stockMovimientoController";
 import { validateBody } from "../middleware/stockMovimientoMiddleware";
 import { validateIdParams } from "../middleware/genericMiddleware";
@@ -13,12 +13,12 @@ const router = Router();
 
 router.post("/", validateBody, createMovimiento);
 
-router.get("/", obtainMovimientos);
+router.get("/", getMovimientos);
 
-router.get("/:id", validateIdParams, obtainMovimientoById);
+router.get("/:id", validateIdParams, getMovimientoById);
 
-router.put("/:id/", validateIdParams, validateBody, modifyMovimiento);
+router.put("/:id", validateIdParams, validateBody, updateMovimiento);
 
-router.delete("/:id", validateIdParams, removeMovimiento);
+router.delete("/:id", validateIdParams, deleteMovimiento);
 
 export default router;
