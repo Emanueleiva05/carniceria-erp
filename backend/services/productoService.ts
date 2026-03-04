@@ -1,4 +1,4 @@
-import AppError from "../error/AppError";
+import DuplicateResource from "../error/DuplicateResource";
 import NotFound from "../error/NotFound";
 import { Producto } from "../models/Producto";
 import productoRepository from "../repository/productoRepository";
@@ -9,11 +9,7 @@ export const setProducto = async (data: ProductoInput) => {
   const existencia = await productoRepository.findByName(data.nombre);
 
   if (existencia) {
-    throw new AppError(
-      "Ya existe un proveedor con este nombre",
-      409,
-      "DuplicateResource",
-    );
+    throw new DuplicateResource("Producto");
   }
 
   const producto = Producto.create(

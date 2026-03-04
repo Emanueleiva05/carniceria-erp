@@ -3,7 +3,7 @@ import { Oferta } from "../models/Oferta";
 import ofertaRepository from "../repository/ofertaRepository";
 import { getProductoById } from "./productoService";
 import { OfertaInput } from "../utils/contracts";
-import AppError from "../error/AppError";
+import DuplicateResource from "../error/DuplicateResource";
 
 export const setOferta = async (data: OfertaInput) => {
   await getProductoById(data.producto_id);
@@ -12,11 +12,7 @@ export const setOferta = async (data: OfertaInput) => {
   );
 
   if (existencia) {
-    throw new AppError(
-      "Ya hay una oferta activa para este producto",
-      409,
-      "DuplicateResource",
-    );
+    throw new DuplicateResource("Oferta");
   }
 
   const oferta = Oferta.create(

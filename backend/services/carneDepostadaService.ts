@@ -4,7 +4,7 @@ import { getMediaresById } from "./mediaresService";
 import { getProductoById } from "./productoService";
 import { CarneDepostada } from "../models/CarneDepostada";
 import { CarneInput } from "../utils/contracts";
-import AppError from "../error/AppError";
+import DuplicateResource from "../error/DuplicateResource";
 import { setMovimiento } from "./stockMovimientoServices";
 import {
   transformToOperacion,
@@ -22,11 +22,7 @@ export const setCarne = async (data: CarneInput) => {
   );
 
   if (existencia) {
-    throw new AppError(
-      "Ya está creada la carne para esta media res y producto",
-      409,
-      "DuplicateResource",
-    );
+    throw new DuplicateResource("Carne depostada");
   }
   const carne = CarneDepostada.create(
     data.peso_real,
