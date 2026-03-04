@@ -1,101 +1,94 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  deleteProveedores,
-  getProveedoresById,
-  getProveedores,
-  setProveedores,
-  updateProveedores,
-  getEntregasByProveedor,
-} from "../services/proveedorService";
+import * as proveedorServices from "../services/proveedorService";
 
 export const createProveedor = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
 
-    const proveedor = await setProveedores(data);
+    const proveedor = await proveedorServices.createProveedor(data);
 
-    res.status(202).json(proveedor);
+    res.status(201).json(proveedor);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyProveedor = async (
+export const updateProveedor = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
     const id = res.locals.id;
 
-    const proveedor = await updateProveedores(id, data);
+    const proveedor = await proveedorServices.updateProveedores(id, data);
 
-    res.status(202).json(proveedor);
+    res.status(200).json(proveedor);
   } catch (err) {
     next(err);
   }
 };
 
-export const removeProveedor = async (
+export const deleteProveedor = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    await deleteProveedores(id);
+    await proveedorServices.deleteProveedores(id);
 
-    res.status(202).json({ message: "Proveedor eliminada con exito" });
+    res.status(204).json({ message: "Proveedor eliminada con exito" });
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainProveedorById = async (
+export const getProveedorById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    const proveedor = await getProveedoresById(id);
+    const proveedor = await proveedorServices.getProveedoresById(id);
 
-    res.status(202).json(proveedor);
+    res.status(200).json(proveedor);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainProveedores = async (
+export const getProveedores = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const proveedores = await getProveedores();
+    const proveedores = await proveedorServices.getProveedores();
 
-    res.status(202).json(proveedores);
+    res.status(200).json(proveedores);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainEntregaByProveedor = async (
+export const getEntregaByProveedor = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
-    const entregas = await getEntregasByProveedor(id);
-    res.status(201).json(entregas);
+    const entregas = await proveedorServices.getEntregasByProveedor(id);
+    res.status(200).json(entregas);
   } catch (err) {
     next(err);
   }

@@ -4,7 +4,7 @@ import Proveedor from "../models/Proveedor";
 import proveedorRepository from "../repository/proveedorRepository";
 import { ProveedorInput } from "../utils/contracts";
 
-export const setProveedores = async (data: ProveedorInput) => {
+export const createProveedor = async (data: ProveedorInput) => {
   const existencia = await proveedorRepository.findByName(data.nombre);
 
   if (existencia) {

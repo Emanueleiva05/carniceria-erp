@@ -1,12 +1,12 @@
 import { Router } from "express";
 
 import {
-  modifyProveedor,
+  updateProveedor,
   createProveedor,
-  removeProveedor,
-  obtainProveedorById,
-  obtainProveedores,
-  obtainEntregaByProveedor,
+  deleteProveedor,
+  getEntregaByProveedor,
+  getProveedorById,
+  getProveedores,
 } from "../controller/proveedorController";
 
 import { validateBody } from "../middleware/proveedorMiddleware";
@@ -17,14 +17,14 @@ const router = Router();
 
 router.post("/", validateBody, createProveedor);
 
-router.get("/", obtainProveedores);
+router.get("/", getProveedores);
 
-router.get("/:id", validateIdParams, obtainProveedorById);
+router.get("/:id", validateIdParams, getEntregaByProveedor);
 
-router.get("/:id/entregas", validateIdParams, obtainEntregaByProveedor);
+router.get("/:id/entregas", validateIdParams, getProveedorById);
 
-router.put("/:id/", validateIdParams, validateBody, modifyProveedor);
+router.put("/:id/", validateIdParams, validateBody, updateProveedor);
 
-router.delete("/:id", validateIdParams, removeProveedor);
+router.delete("/:id", validateIdParams, deleteProveedor);
 
 export default router;
