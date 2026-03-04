@@ -1,5 +1,5 @@
-import { VentaDetallePersistence } from "../repository/ventaDetalleRepository";
 import { Oferta } from "./Oferta";
+import { VentaDetalle as VentaDetalleType } from "../utils/contracts";
 
 export class VentaDetalla {
   public detalle_id: number | null;
@@ -35,19 +35,13 @@ export class VentaDetalla {
     venta_id: number,
   ) {
     if (precio_unitario <= 0) {
-      throw new Error("Precio unitario invalido");
+      throw new Error(
+        "El precio unitario ingresado de la venta detalle es invalido",
+      );
     }
 
     if (cantidad <= 0) {
-      throw new Error("Cantidad invalido");
-    }
-
-    if (producto_id <= 0) {
-      throw new Error("Producto ID invalido");
-    }
-
-    if (venta_id <= 0) {
-      throw new Error("Venta ID invalido");
+      throw new Error("La cantidad ingresada de la venta detalle es invalida");
     }
 
     return new VentaDetalla(
@@ -61,7 +55,7 @@ export class VentaDetalla {
     );
   }
 
-  static fromPersistence(ventaDetalleRaw: VentaDetallePersistence) {
+  static fromPersistence(ventaDetalleRaw: VentaDetalleType) {
     const detalle = new VentaDetalla(
       ventaDetalleRaw.ventaDetalle_id,
       ventaDetalleRaw.precio_unitario,

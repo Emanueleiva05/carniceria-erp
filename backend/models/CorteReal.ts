@@ -1,4 +1,4 @@
-import { CarnePersistence } from "../repository/carneRealRepository";
+import { CorteReal as CorteRealType } from "../utils/contracts";
 
 export default class CorteReal {
   corteReal_id: number | null;
@@ -23,15 +23,12 @@ export default class CorteReal {
 
   static create(nombre: string, peso_real: number, mediares_id: number) {
     if (peso_real < 0) {
-      throw new Error("Peso real invalido");
-    }
-    if (mediares_id < 0) {
-      throw new Error("Mediares ID invalido");
+      throw new Error("El peso de la carne real ingresada es invalida");
     }
     return new CorteReal(null, nombre, peso_real, new Date(), mediares_id);
   }
 
-  static fromPersistence(corteRaw: CarnePersistence) {
+  static fromPersistence(corteRaw: CorteRealType) {
     return new CorteReal(
       corteRaw.corteReal_id,
       corteRaw.nombre,

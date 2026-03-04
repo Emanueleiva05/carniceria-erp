@@ -30,10 +30,7 @@ export class Perdida {
 
   static create(tirado: number, unidad: string, producto_id: number) {
     if (tirado <= 0) {
-      throw new Error("Tirado invalido");
-    }
-    if (producto_id <= 0) {
-      throw new Error("Producto ID invalido");
+      throw new Error("La cantidad tirada ingresada de la perdida es invalida");
     }
 
     const unidadPer = transformToUnidadMedida(unidad);

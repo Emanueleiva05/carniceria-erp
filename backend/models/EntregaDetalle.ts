@@ -1,4 +1,4 @@
-import { EntregaDetallePrisma } from "../repository/entregaDetalleRepository";
+import { EntregaDetalle as EntregaDetalleType } from "../utils/contracts";
 
 export class EntregaDetalle {
   public readonly id: number | null;
@@ -28,19 +28,13 @@ export class EntregaDetalle {
     entrega_id: number,
   ) {
     if (cantidad <= 0) {
-      throw new Error("Cantidad inválido");
+      throw new Error("La cantidad ingresada de la entrega es invalida");
     }
 
     if (precio_compra <= 0) {
-      throw new Error("Precio compra inválido");
-    }
-
-    if (producto_id <= 0) {
-      throw new Error("Producto ID inválido");
-    }
-
-    if (entrega_id <= 0) {
-      throw new Error("Entrega ID inválido");
+      throw new Error(
+        "El precio de compra ingresado de la entrega es invalido",
+      );
     }
 
     return new EntregaDetalle(
@@ -52,7 +46,7 @@ export class EntregaDetalle {
     );
   }
 
-  static fromPersistence(detalle: EntregaDetallePrisma) {
+  static fromPersistence(detalle: EntregaDetalleType) {
     const detalleEntrega = new EntregaDetalle(
       detalle.entregaDetalle_id,
       detalle.cantidad,

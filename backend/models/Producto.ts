@@ -41,10 +41,10 @@ export class Producto {
     stock_minimo: number,
   ) {
     if (precio_venta <= 0) {
-      throw new Error("Precio venta invalido");
+      throw new Error("El precio de venta ingresado del producto es invalido");
     }
     if (stock_minimo < 0) {
-      throw new Error("Stock minimo invalido");
+      throw new Error("El stock minimo ingresado del producto es invalido");
     }
 
     const categoriaPro = transformToCategoria(categoria);

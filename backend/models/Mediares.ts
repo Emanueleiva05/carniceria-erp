@@ -41,19 +41,21 @@ export default class Mediares {
     entrega_id: number,
   ) {
     if (peso_carton <= 0) {
-      throw new Error("Peso carton invalido");
+      throw new Error("El peso en carton ingresada de la mediares es invalida");
     }
 
     if (tamanio <= 0) {
-      throw new Error("Tamanio invalido");
+      throw new Error("El tamanio ingresado de la mediares es invalida");
     }
 
     if (peso_real <= 0) {
-      throw new Error("Peso carton invalido");
+      throw new Error("El peso real ingresada de la mediares es invalida");
     }
 
     if (precio_compra <= 0) {
-      throw new Error("Precio compra invalido");
+      throw new Error(
+        "El precio de compra ingresado de la mediares es invalida",
+      );
     }
 
     const tipoVaca = transformToTipoVaca(tamanio);

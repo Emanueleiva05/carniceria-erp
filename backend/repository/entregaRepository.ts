@@ -2,15 +2,6 @@ import { prisma } from "../config/db";
 import { EntregaInput, Entrega, EntregaDetalle } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
-export type EntregaPrisma = {
-  entrega_id: number;
-  fecha_entrega: Date;
-  total: number;
-  pago: boolean;
-  factura: string | null;
-  proveedor_id: number;
-};
-
 class EntregaRepository implements Repository<Entrega, number> {
   async findById(id: number): Promise<Entrega | null> {
     return await prisma.entrega.findUnique({
