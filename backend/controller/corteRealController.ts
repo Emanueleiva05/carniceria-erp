@@ -1,13 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  setCarneReal,
-  updateCarneReal,
-  getCarneReales,
-  getCarneRealById,
-  deleteCarneReal,
-} from "../services/corteRealService";
+import * as corteRealService from "../services/corteRealService";
 
-export const createCarneReal = async (
+export const createCorteReal = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -15,15 +9,15 @@ export const createCarneReal = async (
   try {
     const data = req.body;
 
-    const carne = await setCarneReal(data);
+    const carne = await corteRealService.createCorteReal(data);
 
-    res.status(202).json(carne);
+    res.status(201).json(carne);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyCarneReal = async (
+export const updateCorteReal = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -32,15 +26,15 @@ export const modifyCarneReal = async (
     const data = req.body;
     const id = res.locals.id;
 
-    const carne = await updateCarneReal(id, data);
+    const carne = await corteRealService.updateCorteReal(id, data);
 
-    res.status(202).json(carne);
+    res.status(200).json(carne);
   } catch (err) {
     next(err);
   }
 };
 
-export const removeCarneReal = async (
+export const deleteCorteReal = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -48,15 +42,15 @@ export const removeCarneReal = async (
   try {
     const id = res.locals.id;
 
-    await deleteCarneReal(id);
+    await corteRealService.deleteCorteReal(id);
 
-    res.status(202).json({ message: "Carne real eliminada con exito" });
+    res.status(204).json({ message: "Carne real eliminada con exito" });
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainCarneRealById = async (
+export const getCorteRealById = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -64,23 +58,23 @@ export const obtainCarneRealById = async (
   try {
     const id = res.locals.id;
 
-    const carne = await getCarneRealById(id);
+    const carne = await corteRealService.getCorteRealById(id);
 
-    res.status(202).json(carne);
+    res.status(200).json(carne);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainCarneReales = async (
+export const getCorteReales = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const carnes = await getCarneReales();
+    const carnes = await corteRealService.getCorteReales();
 
-    res.status(202).json(carnes);
+    res.status(200).json(carnes);
   } catch (err) {
     next(err);
   }

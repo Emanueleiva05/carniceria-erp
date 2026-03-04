@@ -3,7 +3,7 @@ import CorteReal from "../models/CorteReal";
 import carneRealRepository from "../repository/carneRealRepository";
 import { CorteRealInput } from "../utils/contracts";
 
-export const setCarneReal = async (data: CorteRealInput) => {
+export const createCorteReal = async (data: CorteRealInput) => {
   const corte = CorteReal.create(data.nombre, data.peso_real, data.mediares_id);
 
   return await carneRealRepository.save({
@@ -14,25 +14,25 @@ export const setCarneReal = async (data: CorteRealInput) => {
   });
 };
 
-export const updateCarneReal = async (id: number, data: CorteRealInput) => {
+export const updateCorteReal = async (id: number, data: CorteRealInput) => {
   return await carneRealRepository.update(id, data);
 };
 
-export const deleteCarneReal = async (id: number) => {
+export const deleteCorteReal = async (id: number) => {
   return await carneRealRepository.delete(id);
 };
 
-export const getCarneRealById = async (id: number) => {
+export const getCorteRealById = async (id: number) => {
   const carne = await carneRealRepository.findById(id);
 
   if (!carne) {
-    throw new NotFound("Carne");
+    throw new NotFound("Corte real");
   }
 
   return carne;
 };
 
-export const getCarneReales = async () => {
+export const getCorteReales = async () => {
   const carne = await carneRealRepository.findAll();
   return carne;
 };
