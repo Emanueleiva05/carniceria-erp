@@ -24,17 +24,8 @@ export class CarneDepostada {
     producto_id: number,
   ): CarneDepostada {
     if (peso_real <= 0) {
-      throw new Error("Peso real inválido");
+      throw new Error("El peso de la carne depostada ingresada es invalida");
     }
-
-    if (mediares_id <= 0) {
-      throw new Error("Mediares inválido");
-    }
-
-    if (producto_id <= 0) {
-      throw new Error("Producto inválido");
-    }
-
     return new CarneDepostada(null, peso_real, mediares_id, producto_id);
   }
 

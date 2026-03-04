@@ -1,5 +1,5 @@
-import { EntregaPrisma } from "../repository/entregaRepository";
 import { EntregaDetalle } from "./EntregaDetalle";
+import { Entrega as EntregaType } from "../utils/contracts";
 
 export default class Entrega {
   public readonly entrega_id: number | null;
@@ -29,7 +29,7 @@ export default class Entrega {
     return new Entrega(null, new Date(), false, 0, "", proveedor_id);
   }
 
-  static fromPersistence(data: EntregaPrisma) {
+  static fromPersistence(data: EntregaType) {
     const entrega = new Entrega(
       data.entrega_id,
       data.fecha_entrega,
@@ -60,7 +60,9 @@ export default class Entrega {
     );
 
     if (total <= 0) {
-      throw new Error("Hubo un problema con el calculo del total");
+      throw new Error(
+        "Hubo un problema con el calculo del total de la entrega",
+      );
     }
 
     this.total = total;

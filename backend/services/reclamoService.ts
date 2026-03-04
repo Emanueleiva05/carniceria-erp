@@ -1,5 +1,6 @@
-import AppError from "../error/AppError";
+import BussinesRuleViolation from "../error/BussinesRuleViolation";
 import NotFound from "../error/NotFound";
+import BadRequest from "../error/BadRequest";
 import Reclamo from "../models/Reclamo";
 import reclamoRepository from "../repository/reclamoRepository";
 import { Reclamo as ReclamoType } from "../utils/contracts";
@@ -96,7 +97,7 @@ export const acceptReclamo = async (reclamo_id: number) => {
   }
 
   if (reclamoRaw.estado !== ReclamoEstado.PENDIENTE) {
-    throw new AppError("El reclamo ya fue procesado", 400, "NotPermited");
+    throw new BussinesRuleViolation("El reclamo ya fue procesado");
   }
 
   const reclamo = Reclamo.fromPersistence({
@@ -134,7 +135,7 @@ export const rejectReclamo = async (reclamo_id: number) => {
   }
 
   if (reclamoRaw.estado !== ReclamoEstado.PENDIENTE) {
-    throw new AppError("El reclamo ya fue procesado", 400, "NotPermited");
+    throw new BussinesRuleViolation("El reclamo ya fue procesado");
   }
 
   const reclamo = Reclamo.fromPersistence({
@@ -199,11 +200,7 @@ const generarPerdida = async (reclamo: ReclamoType) => {
 
 const compensarCorte = async (reclamo: ReclamoType) => {
   if (!reclamo.producto_destino_id) {
-    throw new AppError(
-      "Debe ingresar el producto que fue cambiado",
-      400,
-      "NotPermited",
-    );
+    throw new BadRequest("Producto");
   }
 
   const productoReclamado = await getProductoById(reclamo.producto_id);
@@ -246,11 +243,7 @@ const compensarCorte = async (reclamo: ReclamoType) => {
 
 const compersarPeso = async (reclamo: ReclamoType) => {
   if (!reclamo.diferencia_cantidad) {
-    throw new AppError(
-      "Debe ingresar la cantidad que fue reclamada",
-      400,
-      "NotPermited",
-    );
+    throw new BadRequest("Cantidad reclamada");
   }
 
   const producto = await getProductoById(reclamo.producto_id);

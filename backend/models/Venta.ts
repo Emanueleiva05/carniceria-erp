@@ -1,5 +1,5 @@
-import { VentaPrisma } from "../repository/ventaRepository";
 import { VentaDetalla } from "./VentaDetalle";
+import { Venta as VentaType } from "../utils/contracts";
 
 export class Venta {
   public venta_id: number | null;
@@ -23,7 +23,7 @@ export class Venta {
     return new Venta(null, new Date(), false, 0);
   }
 
-  static fromPersistence(ventaRaw: VentaPrisma) {
+  static fromPersistence(ventaRaw: VentaType) {
     const venta = new Venta(
       ventaRaw.venta_id,
       ventaRaw.fecha_venta,

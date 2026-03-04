@@ -53,16 +53,8 @@ export default class Reclamo {
     producto_id: number,
     proveedor_id: number,
   ) {
-    if (producto_id <= 0) {
-      throw new Error("Producto ID invalido");
-    }
-
-    if (proveedor_id <= 0) {
-      throw new Error("Proveedor ID invalido");
-    }
-
     if (cantidad <= 0) {
-      throw new Error("Cantidad invalido");
+      throw new Error("La cantidad ingresada del reclamo es invalida");
     }
 
     const motivoRec = transformToReclamoMotivo(motivo);

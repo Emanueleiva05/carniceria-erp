@@ -4,7 +4,7 @@ import ventaDetalleRepository from "../repository/ventaDetalleRepository";
 import { getProductoById } from "./productoService";
 import { getVentaById } from "./ventaService";
 import { VentaDetalleInput } from "../utils/contracts";
-import AppError from "../error/AppError";
+import DuplicateResource from "../error/DuplicateResource";
 import { Venta } from "../models/Venta";
 import ventaRepository from "../repository/ventaRepository";
 import {
@@ -24,11 +24,7 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
   );
 
   if (existencia) {
-    throw new AppError(
-      "Ya esta creado este detalle para la venta y producto",
-      409,
-      "DuplicateResource",
-    );
+    throw new DuplicateResource("Venta detalle");
   }
 
   const ventaDetalle = VentaDetalla.create(

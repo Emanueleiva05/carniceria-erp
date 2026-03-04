@@ -1,4 +1,4 @@
-import { OfertaPrisma } from "../repository/ofertaRepository";
+import { Oferta as OfertaType } from "../utils/contracts";
 
 export class Oferta {
   public oferta_id: number | null;
@@ -23,21 +23,17 @@ export class Oferta {
 
   static create(minKg: number, precio_oferta: number, producto_id: number) {
     if (minKg <= 0) {
-      throw new Error("Kilos minimos invalido");
+      throw new Error("El minimo de kilos ingresado de la oferta es invalido");
     }
 
     if (precio_oferta <= 0) {
-      throw new Error("Precio oferta invalido");
-    }
-
-    if (producto_id <= 0) {
-      throw new Error("Producto ID invalido");
+      throw new Error("El precio de la oferta ingresada es invalida");
     }
 
     return new Oferta(null, minKg, precio_oferta, true, producto_id);
   }
 
-  static fromPersistence(ofertaRaw: OfertaPrisma) {
+  static fromPersistence(ofertaRaw: OfertaType) {
     const oferta = new Oferta(
       ofertaRaw.oferta_id,
       ofertaRaw.minKg,

@@ -4,7 +4,7 @@ import entregaDetalleRepository from "../repository/entregaDetalleRepository";
 import { getEntregaById } from "./entregaService";
 import { getProductoById } from "./productoService";
 import { EntregaDetalleInput } from "../utils/contracts";
-import AppError from "../error/AppError";
+import DuplicateResource from "../error/DuplicateResource";
 import Entrega from "../models/Entrega";
 import entregaRepository from "../repository/entregaRepository";
 import { setMovimiento } from "./stockMovimientoServices";
@@ -24,11 +24,7 @@ export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
   );
 
   if (existencia) {
-    throw new AppError(
-      "Ya este creado este detalle para esta entrega y producto",
-      409,
-      "DuplicateResource",
-    );
+    throw new DuplicateResource("Detalle entrega");
   }
 
   const entregaDetalle = EntregaDetalle.create(
