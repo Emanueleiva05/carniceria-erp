@@ -1,14 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  deletePerdida,
-  getPerdidaById,
-  getPerdidas,
-  setPerdida,
-  updatePerdida,
-  getProductosPerdidos,
-  getPerdidasLastWeek,
-  getPerdidasMounth,
-} from "../services/perdidaServices";
+import * as perdidaService from "../services/perdidaServices";
 
 export const createPerdida = async (
   req: Request,
@@ -18,15 +9,15 @@ export const createPerdida = async (
   try {
     const data = req.body;
 
-    const perdida = await setPerdida(data);
+    const perdida = await perdidaService.createPerdida(data);
 
-    res.status(202).json(perdida);
+    res.status(201).json(perdida);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyPerdida = async (
+export const updatePerdida = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -35,15 +26,15 @@ export const modifyPerdida = async (
     const data = req.body;
     const id = res.locals.id;
 
-    const perdida = await updatePerdida(id, data);
+    const perdida = await perdidaService.updatePerdida(id, data);
 
-    res.status(202).json(perdida);
+    res.status(200).json(perdida);
   } catch (err) {
     next(err);
   }
 };
 
-export const removePerdida = async (
+export const deletePerdida = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -51,15 +42,15 @@ export const removePerdida = async (
   try {
     const id = res.locals.id;
 
-    await deletePerdida(id);
+    await perdidaService.deletePerdida(id);
 
-    res.status(202).json({ message: "Perdida detalle eliminada con exito" });
+    res.status(204).json({ message: "Perdida detalle eliminada con exito" });
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainPerdidaById = async (
+export const getPerdidaById = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -67,45 +58,29 @@ export const obtainPerdidaById = async (
   try {
     const id = res.locals.id;
 
-    const perdida = await getPerdidaById(id);
+    const perdida = await perdidaService.getPerdidaById(id);
 
-    res.status(202).json(perdida);
+    res.status(200).json(perdida);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainPerdidas = async (
+export const getPerdidas = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const perdidas = await getPerdidas();
+    const perdidas = await perdidaService.getPerdidas();
 
-    res.status(202).json(perdidas);
+    res.status(200).json(perdidas);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainProductosPerdida = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const id = res.locals.id;
-
-    const productos = await getProductosPerdidos(id);
-
-    res.status(202).json(productos);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const obtainPerdidaLastWeek = async (
+export const getProductosPerdidos = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -113,15 +88,31 @@ export const obtainPerdidaLastWeek = async (
   try {
     const id = res.locals.id;
 
-    const perdida = await getPerdidasLastWeek();
+    const productos = await perdidaService.getProductosPerdidos(id);
 
-    res.status(202).json(perdida);
+    res.status(200).json(productos);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainPerdidaMonth = async (
+export const getPerdidaLastWeek = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = res.locals.id;
+
+    const perdida = await perdidaService.getPerdidasLastWeek();
+
+    res.status(200).json(perdida);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getPerdidaByMonth = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -129,7 +120,10 @@ export const obtainPerdidaMonth = async (
   try {
     const mes = req.body.mes;
     const anio = req.body.anio;
-    const perdida = await getPerdidasMounth(parseInt(mes), parseInt(anio));
+    const perdida = await perdidaService.getPerdidasByMounth(
+      parseInt(mes),
+      parseInt(anio),
+    );
 
     res.status(202).json(perdida);
   } catch (err) {

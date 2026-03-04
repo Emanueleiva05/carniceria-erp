@@ -1,13 +1,13 @@
 import { Router } from "express";
 import {
-  obtainPerdidaById,
-  obtainPerdidas,
   createPerdida,
-  removePerdida,
-  modifyPerdida,
-  obtainProductosPerdida,
-  obtainPerdidaLastWeek,
-  obtainPerdidaMonth,
+  deletePerdida,
+  updatePerdida,
+  getPerdidaById,
+  getPerdidaByMonth,
+  getPerdidaLastWeek,
+  getPerdidas,
+  getProductosPerdidos,
 } from "../controller/perdidaController";
 import { validateBody } from "../middleware/perdidaMiddleware";
 import {
@@ -19,24 +19,24 @@ const router = Router();
 
 router.post("/", validateBody, validateFecha, createPerdida);
 
-router.get("/", obtainPerdidas);
+router.get("/", getPerdidas);
 
-router.get("/lastWeek", obtainPerdidaLastWeek);
+router.get("/lastWeek", getPerdidaLastWeek);
 
-router.get("/mounth", obtainPerdidaMonth);
+router.get("/mounth", getPerdidaByMonth);
 
-router.get("/producto/:id", validateIdParams, obtainProductosPerdida);
+router.get("/producto/:id", validateIdParams, getProductosPerdidos);
 
 router.get(
   "/:id",
   validateIdParams,
   validateBody,
   validateFecha,
-  obtainPerdidaById,
+  getPerdidaById,
 );
 
-router.put("/:id/", validateIdParams, modifyPerdida);
+router.put("/:id/", validateIdParams, updatePerdida);
 
-router.delete("/:id", validateIdParams, removePerdida);
+router.delete("/:id", validateIdParams, deletePerdida);
 
 export default router;

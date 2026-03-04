@@ -1,18 +1,18 @@
 import NotFound from "../error/NotFound";
+import BadRequest from "../error/BadRequest";
 import { Perdida } from "../models/Perdida";
 import perdidaRepository from "../repository/perdidaRepository";
 import { getProductoById } from "./productoService";
-import { PerdidaInput } from "../utils/contracts";
+import { setMovimiento, updateMovimiento } from "./stockMovimientoServices";
 import {
   transformToOperacion,
   transformToTipoMovimiento,
   transformToTipoReferencia,
   transformToUnidadMedida,
 } from "../utils/tipos";
-import BadRequest from "../error/BadRequest";
-import { setMovimiento, updateMovimiento } from "./stockMovimientoServices";
+import { PerdidaInput } from "../utils/contracts";
 
-export const setPerdida = async (data: PerdidaInput) => {
+export const createPerdida = async (data: PerdidaInput) => {
   const producto = await getProductoById(data.producto_id);
 
   const perdida = Perdida.create(
@@ -114,17 +114,17 @@ export const getPerdidasLastWeek = async () => {
   const perdidas = await perdidaRepository.findByLastWeek();
 
   if (perdidas.length === 0) {
-    throw new NotFound("Peridas en la ultima semana");
+    throw new NotFound("Perdidas en la ultima semana");
   }
 
   return perdidas;
 };
 
-export const getPerdidasMounth = async (mes: number, anio: number) => {
+export const getPerdidasByMounth = async (mes: number, anio: number) => {
   const perdidas = await perdidaRepository.findByMonth(mes, anio);
 
   if (perdidas.length === 0) {
-    throw new NotFound("Peridas en el mes");
+    throw new NotFound("Perdidas en el mes");
   }
 
   return perdidas;
