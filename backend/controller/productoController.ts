@@ -1,14 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  changePrecioVenta,
-  changePrecioVentaByCategoria,
-  deleteProducto,
-  getProductoByCategoria,
-  getProductoById,
-  getProductos,
-  setProducto,
-  updateProducto,
-} from "../services/productoService";
+import * as productoServices from "../services/productoService";
 
 export const createProducto = async (
   req: Request,
@@ -18,15 +9,15 @@ export const createProducto = async (
   try {
     const data = req.body;
 
-    const producto = await setProducto(data);
+    const producto = await productoServices.createProducto(data);
 
-    res.status(202).json(producto);
+    res.status(201).json(producto);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyProducto = async (
+export const updateProducto = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -35,15 +26,15 @@ export const modifyProducto = async (
     const data = req.body;
     const id = res.locals.id;
 
-    const producto = await updateProducto(id, data);
+    const producto = await productoServices.updateProducto(id, data);
 
-    res.status(202).json(producto);
+    res.status(200).json(producto);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyPrecio = async (
+export const updatePrecioVenta = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -52,15 +43,15 @@ export const modifyPrecio = async (
     const id = res.locals.id;
     const precioNuevo = req.body.precioNuevo;
 
-    await changePrecioVenta(id, precioNuevo);
+    await productoServices.updatePrecioVenta(id, precioNuevo);
 
-    res.status(202).json({ message: "Precio de venta modificado con exito" });
+    res.status(200).json({ message: "Precio de venta modificado con exito" });
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyPrecioByCategoria = async (
+export const updatePrecioByCategoria = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -68,15 +59,15 @@ export const modifyPrecioByCategoria = async (
   try {
     const { precioNuevo, categoria } = req.body;
 
-    await changePrecioVentaByCategoria(precioNuevo, categoria);
+    await productoServices.changePrecioVentaByCategoria(precioNuevo, categoria);
 
-    res.status(202).json({ message: "Precio de venta modificado con exito" });
+    res.status(200).json({ message: "Precio de venta modificado con exito" });
   } catch (err) {
     next(err);
   }
 };
 
-export const removeProducto = async (
+export const deleteProducto = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -84,7 +75,7 @@ export const removeProducto = async (
   try {
     const id = res.locals.id;
 
-    await deleteProducto(id);
+    await productoServices.deleteProducto(id);
 
     res.status(202).json({ message: "Producto detalle eliminada con exito" });
   } catch (err) {
@@ -92,7 +83,7 @@ export const removeProducto = async (
   }
 };
 
-export const obtainProductoById = async (
+export const getProductoById = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -100,7 +91,7 @@ export const obtainProductoById = async (
   try {
     const id = res.locals.id;
 
-    const producto = await getProductoById(id);
+    const producto = await productoServices.getProductoById(id);
 
     res.status(202).json(producto);
   } catch (err) {
@@ -108,13 +99,13 @@ export const obtainProductoById = async (
   }
 };
 
-export const obtainProductos = async (
+export const getProductos = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const productos = await getProductos();
+    const productos = await productoServices.getProductos();
 
     res.status(202).json(productos);
   } catch (err) {
@@ -122,7 +113,7 @@ export const obtainProductos = async (
   }
 };
 
-export const obtainProductoByCategoria = async (
+export const getProductoByCategoria = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -134,7 +125,7 @@ export const obtainProductoByCategoria = async (
       return "Tranqui";
     }
 
-    const productos = await getProductoByCategoria(data);
+    const productos = await productoServices.getProductoByCategoria(data);
 
     res.status(202).json(productos);
   } catch (err) {
