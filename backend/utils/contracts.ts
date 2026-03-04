@@ -169,7 +169,7 @@ export type CorteRealInput = Omit<CorteReal, "corteReal_id">;
 
 //Transformaciones en contratos
 
-export const transformToString = (value: any): string => {
+export const transformToString = (value: unknown): string => {
   if (typeof value !== "string") {
     throw new Error("Se esperaba un string");
   }
@@ -177,7 +177,7 @@ export const transformToString = (value: any): string => {
   return value;
 };
 
-export const transformToNumber = (value: any): number => {
+export const transformToNumber = (value: unknown): number => {
   if (typeof value !== "number") {
     throw new Error("Se esperaba un number");
   }
