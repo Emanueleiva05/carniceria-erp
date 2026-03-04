@@ -2,10 +2,10 @@ import { Router } from "express";
 
 import {
   createCarne,
-  obtainCarne,
-  obtainCarneById,
-  modifyCarne,
-  removeCarne,
+  getCarnes,
+  getCarneById,
+  updateCarne,
+  deleteCarne,
 } from "../controller/carneDepostadaController";
 import { validateBody } from "../middleware/carneDepostadaMiddleware";
 import { validateIdParams } from "../middleware/genericMiddleware";
@@ -14,12 +14,12 @@ const router = Router();
 
 router.post("/", validateBody, createCarne);
 
-router.get("/", obtainCarne);
+router.get("/", getCarnes);
 
-router.get("/:id", validateIdParams, obtainCarneById);
+router.get("/:id", validateIdParams, getCarneById);
 
-router.put("/:id/", validateIdParams, validateBody, modifyCarne);
+router.put("/:id", validateIdParams, validateBody, updateCarne);
 
-router.delete("/:id", validateIdParams, removeCarne);
+router.delete("/:id", validateIdParams, deleteCarne);
 
 export default router;
