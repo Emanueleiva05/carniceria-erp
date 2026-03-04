@@ -1,4 +1,4 @@
-import AppError from "../error/AppError";
+import BussinesRuleViolation from "../error/BussinesRuleViolation";
 import { Producto } from "../utils/contracts";
 import { StockMovimiento as StockMovimientoType } from "../utils/contracts";
 import {
@@ -103,10 +103,8 @@ export class StockMovimiento {
 
     if (this.tipo === TipoMovimiento.SALIDA) {
       if (producto.stock_actual < this.cantidad) {
-        throw new AppError(
+        throw new BussinesRuleViolation(
           "Stock insuficiente para realizar la operación",
-          400,
-          "StockInsuficiente",
         );
       }
       return producto.stock_actual - this.cantidad;
