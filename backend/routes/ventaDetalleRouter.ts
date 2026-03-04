@@ -20,7 +20,7 @@ router.get("/:id", validateIdParams, getVentaDetalleById);
 
 router.put("/:id/quantity", validateIdParams, updateCantidad);
 
-router.put("/:id/", validateIdParams, validateBody, updateVentaDetalle);
+router.put("/:id", validateIdParams, validateBody, updateVentaDetalle);
 
 router.delete("/:id", validateIdParams, deleteVentaDetalle);
 

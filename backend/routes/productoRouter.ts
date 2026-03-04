@@ -26,7 +26,7 @@ router.put("/category/price", updatePrecioByCategoria);
 
 router.put("/:id/price", validateIdParams, updatePrecioVenta);
 
-router.put("/:id/", validateIdParams, validateBody, updateProducto);
+router.put("/:id", validateIdParams, validateBody, updateProducto);
 
 router.delete("/:id", validateIdParams, deleteProducto);
 

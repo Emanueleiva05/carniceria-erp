@@ -17,7 +17,7 @@ router.get("/", getEntregaDetalles);
 
 router.get("/:id", validateIdParams, getEntregaDetalleById);
 
-router.put("/:id/", validateIdParams, validateBody, updateEntregaDetalle);
+router.put("/:id", validateIdParams, validateBody, updateEntregaDetalle);
 
 router.delete("/:id", validateIdParams, deleteEntregaDetalle);
 

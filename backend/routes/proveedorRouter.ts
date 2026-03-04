@@ -21,9 +21,9 @@ router.get("/", getProveedores);
 
 router.get("/:id", validateIdParams, getEntregaByProveedor);
 
-router.get("/:id/entregas", validateIdParams, getProveedorById);
+router.get("/:id/delivery", validateIdParams, getProveedorById);
 
-router.put("/:id/", validateIdParams, validateBody, updateProveedor);
+router.put("/:id", validateIdParams, validateBody, updateProveedor);
 
 router.delete("/:id", validateIdParams, deleteProveedor);
 

@@ -22,7 +22,7 @@ router.get("/", getEntregas);
 
 router.get("/:id", validateIdParams, getEntregaById);
 
-router.get("/:id/detalles", validateIdParams, getDetallesByEntregas);
+router.get("/:id/details", validateIdParams, getDetallesByEntregas);
 
 router.put("/:id/", validateIdParams, validateFecha, updateEntrega);
 

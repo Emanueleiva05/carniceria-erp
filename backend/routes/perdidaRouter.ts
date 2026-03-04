@@ -25,7 +25,7 @@ router.get("/lastWeek", getPerdidaLastWeek);
 
 router.get("/mounth", getPerdidaByMonth);
 
-router.get("/producto/:id", validateIdParams, getProductosPerdidos);
+router.get("/product/:id", validateIdParams, getProductosPerdidos);
 
 router.get(
   "/:id",
@@ -35,7 +35,7 @@ router.get(
   getPerdidaById,
 );
 
-router.put("/:id/", validateIdParams, updatePerdida);
+router.put("/:id", validateIdParams, updatePerdida);
 
 router.delete("/:id", validateIdParams, deletePerdida);
 

@@ -24,7 +24,7 @@ router.get("/:id/details", validateIdParams, getDetallesByVenta);
 
 router.get("/:id", validateIdParams, getVentaById);
 
-router.put("/:id/", validateIdParams, validateBody, validateFecha, updateVenta);
+router.put("/:id", validateIdParams, validateBody, validateFecha, updateVenta);
 
 router.delete("/:id", validateIdParams, deleteVenta);
 

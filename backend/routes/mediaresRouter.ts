@@ -16,7 +16,7 @@ router.post("/", validateBody, createMediares);
 
 router.get("/", getMediares);
 
-router.get("/:id/carnes", validateIdParams, getCarneByMediares);
+router.get("/:id/meat", validateIdParams, getCarneByMediares);
 
 router.get("/:id", validateIdParams, getMediaresById);
 
