@@ -1,24 +1,9 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
+import { StockMovimiento, StockMovimientoInput } from "../utils/contracts";
 
-type MovimientoPersistenceInput = {
-  cantidad: number;
-  tipo_movimiento: string;
-  motivo: string;
-  referencia_id: number;
-  referencia_tipo: string;
-  producto_id: number;
-};
-
-export type MovimientoPersistence = MovimientoPersistenceInput & {
-  movimiento_id: number;
-};
-
-class StockMovimientoRepository implements Repository<
-  MovimientoPersistence,
-  number
-> {
-  async findById(id: number): Promise<MovimientoPersistence | null> {
+class StockMovimientoRepository implements Repository<StockMovimiento, number> {
+  async findById(id: number): Promise<StockMovimiento | null> {
     return await prisma.stockMovimiento.findUnique({
       where: {
         movimiento_id: id,
@@ -26,11 +11,11 @@ class StockMovimientoRepository implements Repository<
     });
   }
 
-  async findAll(): Promise<MovimientoPersistence[]> {
+  async findAll(): Promise<StockMovimiento[]> {
     return await prisma.stockMovimiento.findMany();
   }
 
-  async save(data: MovimientoPersistenceInput): Promise<MovimientoPersistence> {
+  async save(data: StockMovimientoInput): Promise<StockMovimiento> {
     const movimiento = await prisma.stockMovimiento.create({
       data: {
         cantidad: data.cantidad,
@@ -46,8 +31,8 @@ class StockMovimientoRepository implements Repository<
 
   async update(
     id: number,
-    data: MovimientoPersistenceInput,
-  ): Promise<MovimientoPersistence> {
+    data: StockMovimientoInput,
+  ): Promise<StockMovimiento> {
     const movimiento = await prisma.stockMovimiento.update({
       where: { movimiento_id: id },
       data: {

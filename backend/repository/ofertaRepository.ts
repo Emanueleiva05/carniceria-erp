@@ -1,17 +1,9 @@
 import { prisma } from "../config/db";
-import { OfertaInput } from "../utils/contracts";
+import { OfertaInput, Oferta } from "../utils/contracts";
 import { Repository } from "./genericRepository";
 
-export type OfertaPrisma = {
-  oferta_id: number;
-  minKg: number;
-  precio_oferta: number;
-  esta_activo: boolean;
-  producto_id: number;
-};
-
-class OfertaRepository implements Repository<OfertaInput, number> {
-  async findById(id: number): Promise<OfertaPrisma | null> {
+class OfertaRepository implements Repository<Oferta, number> {
+  async findById(id: number): Promise<Oferta | null> {
     return await prisma.oferta.findUnique({
       where: {
         oferta_id: id,
@@ -19,11 +11,11 @@ class OfertaRepository implements Repository<OfertaInput, number> {
     });
   }
 
-  async findAll(): Promise<OfertaInput[]> {
+  async findAll(): Promise<Oferta[]> {
     return await prisma.oferta.findMany();
   }
 
-  async save(data: OfertaInput): Promise<OfertaPrisma> {
+  async save(data: OfertaInput): Promise<Oferta> {
     const oferta = await prisma.oferta.create({
       data: {
         minKg: data.minKg,
@@ -35,7 +27,7 @@ class OfertaRepository implements Repository<OfertaInput, number> {
     return oferta;
   }
 
-  async update(id: number, data: OfertaInput): Promise<OfertaPrisma> {
+  async update(id: number, data: OfertaInput): Promise<Oferta> {
     const oferta = await prisma.oferta.update({
       where: { oferta_id: id },
       data: {
@@ -56,7 +48,7 @@ class OfertaRepository implements Repository<OfertaInput, number> {
     });
   }
 
-  async findByEstadoActivo(): Promise<OfertaPrisma[]> {
+  async findByEstadoActivo(): Promise<Oferta[]> {
     return await prisma.oferta.findMany({
       where: {
         esta_activo: true,
@@ -64,7 +56,7 @@ class OfertaRepository implements Repository<OfertaInput, number> {
     });
   }
 
-  async findByProductoId(id: number): Promise<OfertaPrisma[]> {
+  async findByProductoId(id: number): Promise<Oferta[]> {
     return await prisma.oferta.findMany({
       include: { producto: true },
       where: { producto_id: id },
@@ -73,7 +65,7 @@ class OfertaRepository implements Repository<OfertaInput, number> {
 
   async findByEstadoActivoProductoId(
     productoId: number,
-  ): Promise<OfertaPrisma | null> {
+  ): Promise<Oferta | null> {
     return await prisma.oferta.findFirst({
       where: {
         esta_activo: true,

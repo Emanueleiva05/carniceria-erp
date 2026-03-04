@@ -29,6 +29,7 @@ export const transformToTamanio = (data: number): Tamanio => {
   if (data >= 112.5 && data < 117.5) {
     return Tamanio.KG_115;
   }
+  if (data <= 0) throw new AppError("Tamaño inválido", 400, "ErrorTamanio");
 
   return Tamanio.KG_120;
 };

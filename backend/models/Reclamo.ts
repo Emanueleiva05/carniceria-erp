@@ -1,4 +1,4 @@
-import { ReclamoPersistence } from "../repository/reclamoRepository";
+import { Reclamo as ReclamoType } from "../utils/contracts";
 import {
   ReclamoEstado,
   ReclamoMotivo,
@@ -46,7 +46,7 @@ export default class Reclamo {
   }
 
   static create(
-    motivo: ReclamoMotivo,
+    motivo: string,
     cantidad: number,
     producto_destino_id: number | null,
     diferencia_cantidad: number | null,
@@ -65,10 +65,12 @@ export default class Reclamo {
       throw new Error("Cantidad invalido");
     }
 
+    const motivoRec = transformToReclamoMotivo(motivo);
+
     return new Reclamo(
       null,
       new Date(),
-      motivo,
+      motivoRec,
       ReclamoEstado.PENDIENTE,
       cantidad,
       producto_destino_id,
@@ -80,7 +82,7 @@ export default class Reclamo {
     );
   }
 
-  static fromPersistence(reclamoRaw: ReclamoPersistence) {
+  static fromPersistence(reclamoRaw: ReclamoType) {
     const motivo = transformToReclamoMotivo(reclamoRaw.motivo);
     const estado = transformToReclamoEstado(reclamoRaw.estado);
 

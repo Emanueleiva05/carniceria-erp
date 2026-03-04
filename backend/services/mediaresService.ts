@@ -16,8 +16,7 @@ export const setMediares = async (data: MediaresInput) => {
     data.tamano,
     data.precio_compra,
     data.peso_real,
-    data.tipo_vaca,
-    data.entrega_id
+    data.entrega_id,
   );
 
   const tipoVaca = transformToString(mediares.tipo_vaca);

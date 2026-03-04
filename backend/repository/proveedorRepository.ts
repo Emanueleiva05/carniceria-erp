@@ -1,16 +1,10 @@
 import { prisma } from "../config/db";
-import { ProveedorInput } from "../utils/contracts";
+import { ProveedorInput, Proveedor } from "../utils/contracts";
 import { EntregaPrisma } from "./entregaRepository";
 import { Repository } from "./genericRepository";
 
-export type ProveedorPrisma = {
-  proveedor_id: number;
-  nombre: string;
-  telefono: string;
-};
-
-class ProveedorRepository implements Repository<ProveedorInput, number> {
-  async findById(id: number): Promise<ProveedorInput | null> {
+class ProveedorRepository implements Repository<Proveedor, number> {
+  async findById(id: number): Promise<Proveedor | null> {
     return await prisma.proveedor.findUnique({
       where: {
         proveedor_id: id,
@@ -18,11 +12,11 @@ class ProveedorRepository implements Repository<ProveedorInput, number> {
     });
   }
 
-  async findAll(): Promise<ProveedorInput[]> {
+  async findAll(): Promise<Proveedor[]> {
     return await prisma.proveedor.findMany();
   }
 
-  async findByName(name: string): Promise<ProveedorPrisma | null> {
+  async findByName(name: string): Promise<Proveedor | null> {
     return await prisma.proveedor.findFirst({
       where: {
         nombre: name,
@@ -30,14 +24,14 @@ class ProveedorRepository implements Repository<ProveedorInput, number> {
     });
   }
 
-  async save(data: ProveedorInput): Promise<ProveedorPrisma> {
+  async save(data: ProveedorInput): Promise<Proveedor> {
     const proveedor = await prisma.proveedor.create({
       data: { nombre: data.nombre, telefono: data.telefono },
     });
     return proveedor;
   }
 
-  async update(id: number, data: ProveedorInput): Promise<ProveedorPrisma> {
+  async update(id: number, data: ProveedorInput): Promise<Proveedor> {
     const proveedor = await prisma.proveedor.update({
       where: { proveedor_id: id },
       data: {

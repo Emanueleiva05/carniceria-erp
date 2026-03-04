@@ -1,21 +1,9 @@
 import { prisma } from "../config/db";
 import { Repository } from "./genericRepository";
+import { Perdida, PerdidaInput } from "../utils/contracts";
 
-type PerdidaPersistenceInput = {
-  tirado: number;
-  unidad_medida: string;
-  fecha_perdida: Date;
-  motivo: string | null;
-  total: number;
-  producto_id: number;
-};
-
-export type PerdidaPersistence = PerdidaPersistenceInput & {
-  perdida_id: number;
-};
-
-class PerdidaRepository implements Repository<PerdidaPersistence, number> {
-  async findById(id: number): Promise<PerdidaPersistence | null> {
+class PerdidaRepository implements Repository<Perdida, number> {
+  async findById(id: number): Promise<Perdida | null> {
     return await prisma.perdida.findUnique({
       where: {
         perdida_id: id,
@@ -23,11 +11,11 @@ class PerdidaRepository implements Repository<PerdidaPersistence, number> {
     });
   }
 
-  async findAll(): Promise<PerdidaPersistence[]> {
+  async findAll(): Promise<Perdida[]> {
     return await prisma.perdida.findMany();
   }
 
-  async findByLastWeek(): Promise<PerdidaPersistence[]> {
+  async findByLastWeek(): Promise<Perdida[]> {
     const haceUnaSemana = new Date();
     haceUnaSemana.setDate(haceUnaSemana.getDate() - 7);
 
@@ -40,7 +28,7 @@ class PerdidaRepository implements Repository<PerdidaPersistence, number> {
     });
   }
 
-  async findByMonth(mes: number, anio: number): Promise<PerdidaPersistence[]> {
+  async findByMonth(mes: number, anio: number): Promise<Perdida[]> {
     return await prisma.perdida.findMany({
       where: {
         fecha_perdida: {
@@ -51,7 +39,7 @@ class PerdidaRepository implements Repository<PerdidaPersistence, number> {
     });
   }
 
-  async save(data: PerdidaPersistenceInput): Promise<PerdidaPersistence> {
+  async save(data: PerdidaInput): Promise<Perdida> {
     const perdida = await prisma.perdida.create({
       data: {
         unidad_medida: data.unidad_medida,
@@ -65,10 +53,7 @@ class PerdidaRepository implements Repository<PerdidaPersistence, number> {
     return perdida;
   }
 
-  async update(
-    id: number,
-    data: PerdidaPersistenceInput,
-  ): Promise<PerdidaPersistence> {
+  async update(id: number, data: PerdidaInput): Promise<Perdida> {
     const perdida = await prisma.perdida.update({
       where: { perdida_id: id },
       data: {
@@ -91,7 +76,7 @@ class PerdidaRepository implements Repository<PerdidaPersistence, number> {
     });
   }
 
-  async findByProductoId(id: number): Promise<PerdidaPersistence[]> {
+  async findByProductoId(id: number): Promise<Perdida[]> {
     return await prisma.perdida.findMany({
       include: { productos: true },
       where: { producto_id: id },
