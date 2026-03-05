@@ -1,4 +1,4 @@
-import { Oferta } from "./Oferta";
+import { Oferta } from "../utils/contracts";
 import { VentaDetalle as VentaDetalleType } from "../utils/contracts";
 
 export class VentaDetalla {
@@ -72,17 +72,13 @@ export class VentaDetalla {
     this.subtotal = this.cantidad * this.precio_unitario;
   }
 
-  addOferta(ofertas: Oferta[]) {
-    const oferta = ofertas.find((of) => of.producto_id === this.producto_id);
-
-    if (!oferta) {
-      return "No hay oferta con ese producto especifico";
+  applyOffer(ofertas: Oferta) {
+    if (this.cantidad < ofertas.minKg) {
+      return;
     }
 
-    if (this.cantidad < oferta.minKg) {
-      return "No llega a los kilos minimos para acceder a la oferta";
-    }
-
-    this.precio_unitario = oferta.precio_oferta;
+    this.precio_unitario = ofertas.precio_oferta;
+    this.oferta_id = ofertas.oferta_id;
+    this.calculateSubtotal();
   }
 }

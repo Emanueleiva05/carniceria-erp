@@ -13,6 +13,7 @@ import {
   transformToTipoReferencia,
 } from "../utils/tipos";
 import { createMovimiento } from "./stockMovimientoServices";
+import ofertaRepository from "../repository/ofertaRepository";
 
 export const createVentaDetalle = async (data: VentaDetalleInput) => {
   await getProductoById(data.producto_id);
@@ -34,6 +35,7 @@ export const createVentaDetalle = async (data: VentaDetalleInput) => {
     data.venta_id,
   );
 
+  await verifyOffer(data.producto_id, ventaDetalle);
   ventaDetalle.calculateSubtotal();
 
   const saved = await ventaDetalleRepository.save({
@@ -61,6 +63,15 @@ export const createVentaDetalle = async (data: VentaDetalleInput) => {
   });
 
   return saved;
+};
+
+const verifyOffer = async (productoId: number, ventaDetalle: VentaDetalla) => {
+  const oferta =
+    await ofertaRepository.findByEstadoActivoProductoId(productoId);
+
+  if (oferta) {
+    ventaDetalle.applyOffer(oferta);
+  }
 };
 
 const calculateTotal = async (ventaId: number) => {
