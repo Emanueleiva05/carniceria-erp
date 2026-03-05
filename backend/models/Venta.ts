@@ -38,7 +38,7 @@ export class Venta {
     this.vendido = true;
   }
 
-  calcularTotal(ventaDetalle: VentaDetalla[]) {
+  calculateTotal(ventaDetalle: VentaDetalla[]) {
     const total = ventaDetalle.reduce((acu, sum) => acu + sum.subtotal, 0);
 
     if (total <= 0) {

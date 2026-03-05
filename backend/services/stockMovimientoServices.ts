@@ -1,10 +1,10 @@
 import NotFound from "../error/NotFound";
 import { StockMovimiento } from "../models/StockMovimiento";
 import stockMovimientoRepository from "../repository/stockMovimientoRepository";
+import { updateCantidad, getProductoById } from "./productoService";
 import { StockMovimientoInput } from "../utils/contracts";
-import { changeCantidad, getProductoById } from "./productoService";
 
-export const setMovimiento = async (data: StockMovimientoInput) => {
+export const createMovimiento = async (data: StockMovimientoInput) => {
   const producto = await getProductoById(data.producto_id);
 
   const movimiento = StockMovimiento.create(
@@ -16,8 +16,8 @@ export const setMovimiento = async (data: StockMovimientoInput) => {
     data.producto_id,
   );
 
-  const cantidadNueva = movimiento.calcularStock(producto);
-  await changeCantidad(movimiento.producto_id, cantidadNueva);
+  const cantidadNueva = movimiento.calculateStock(producto);
+  await updateCantidad(movimiento.producto_id, cantidadNueva);
 
   const movimientoPersistence = await stockMovimientoRepository.save({
     cantidad: movimiento.cantidad,

@@ -41,21 +41,21 @@ export default class Entrega {
     return entrega;
   }
 
-  pagado() {
+  paid() {
     this.pago = true;
   }
 
-  agregarFactura(archivo: string) {
+  addInvoice(archivo: string) {
     this.factura = archivo;
   }
 
-  cambiarProveedor(proveedor_id: number) {
+  changeProvider(proveedor_id: number) {
     this.proveedor_id = proveedor_id;
   }
 
-  calcularTotal(entregaDetalle: EntregaDetalle[]) {
+  calculateTotal(entregaDetalle: EntregaDetalle[]) {
     const total = entregaDetalle.reduce(
-      (acu, sum) => acu + sum.calcularSubtotal(),
+      (acu, sum) => acu + sum.calculateSubtotal(),
       0,
     );
 

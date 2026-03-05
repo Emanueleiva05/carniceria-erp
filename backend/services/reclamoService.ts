@@ -3,8 +3,15 @@ import NotFound from "../error/NotFound";
 import BadRequest from "../error/BadRequest";
 import Reclamo from "../models/Reclamo";
 import reclamoRepository from "../repository/reclamoRepository";
-import { Reclamo as ReclamoType } from "../utils/contracts";
-import { PerdidaInput, ReclamoInput } from "../utils/contracts";
+import { createPerdida } from "./perdidaServices";
+import { getProductoById } from "./productoService";
+import { getProveedoresById } from "./proveedorService";
+import { setMovimiento } from "./stockMovimientoServices";
+import {
+  PerdidaInput,
+  ReclamoInput,
+  Reclamo as ReclamoType,
+} from "../utils/contracts";
 import {
   ReclamoEstado,
   ReclamoMotivo,
@@ -13,12 +20,8 @@ import {
   transformToTipoReferencia,
   transformToUnidadMedida,
 } from "../utils/tipos";
-import { setPerdida } from "./perdidaServices";
-import { getProductoById } from "./productoService";
-import { getProveedoresById } from "./proveedorService";
-import { setMovimiento } from "./stockMovimientoServices";
 
-export const setReclamo = async (data: ReclamoInput) => {
+export const createReclamo = async (data: ReclamoInput) => {
   await getProveedoresById(data.proveedor_id);
   await getProductoById(data.producto_id);
 
@@ -122,7 +125,7 @@ export const acceptReclamo = async (reclamo_id: number) => {
 
   console.log(saved);
 
-  await procesarReclamoAceptado(saved);
+  await processAcceptedClaim(saved);
 
   return saved;
 };
@@ -161,16 +164,16 @@ export const rejectReclamo = async (reclamo_id: number) => {
   return saved;
 };
 
-const procesarReclamoAceptado = async (reclamo: ReclamoType) => {
+const processAcceptedClaim = async (reclamo: ReclamoType) => {
   switch (reclamo.motivo) {
     case ReclamoMotivo.MAL_ESTADO:
     case ReclamoMotivo.OTRO:
     case ReclamoMotivo.PRODUCTO_PODRIDO:
     case ReclamoMotivo.VENCIDO:
-      await generarPerdida(reclamo);
+      await generateLoss(reclamo);
       break;
     case ReclamoMotivo.ERROR_CORTE:
-      await compensarCorte(reclamo);
+      await compensateWeight(reclamo);
       break;
 
     case ReclamoMotivo.ERROR_PESO:
@@ -179,7 +182,7 @@ const procesarReclamoAceptado = async (reclamo: ReclamoType) => {
   }
 };
 
-const generarPerdida = async (reclamo: ReclamoType) => {
+const generateLoss = async (reclamo: ReclamoType) => {
   const producto = await getProductoById(reclamo.producto_id);
 
   const unidad_medida = transformToUnidadMedida(producto.unidad_medida);
@@ -195,10 +198,10 @@ const generarPerdida = async (reclamo: ReclamoType) => {
 
   console.log(perdida);
 
-  await setPerdida(perdida);
+  await createPerdida(perdida);
 };
 
-const compensarCorte = async (reclamo: ReclamoType) => {
+const compensateWeight = async (reclamo: ReclamoType) => {
   if (!reclamo.producto_destino_id) {
     throw new BadRequest("Producto");
   }

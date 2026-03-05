@@ -1,86 +1,80 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  deleteMovimiento,
-  getMovimientoById,
-  getMovimiento,
-  setMovimiento,
-  updateMovimiento,
-} from "../services/stockMovimientoServices";
+import * as movimientoService from "../services/stockMovimientoServices";
 
 export const createMovimiento = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
 
-    const movimiento = await setMovimiento(data);
+    const movimiento = await movimientoService.createMovimiento(data);
 
-    res.status(202).json(movimiento);
+    res.status(201).json(movimiento);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyMovimiento = async (
+export const updateMovimiento = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
     const id = res.locals.id;
 
-    const movimiento = await updateMovimiento(id, data);
+    const movimiento = await movimientoService.updateMovimiento(id, data);
 
-    res.status(202).json(movimiento);
+    res.status(200).json(movimiento);
   } catch (err) {
     next(err);
   }
 };
 
-export const removeMovimiento = async (
+export const deleteMovimiento = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    await deleteMovimiento(id);
+    await movimientoService.deleteMovimiento(id);
 
-    res.status(202).json({ message: "Movimiento eliminada con exito" });
+    res.status(204).json({ message: "Movimiento eliminada con exito" });
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainMovimientoById = async (
+export const getMovimientoById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    const movimiento = await getMovimientoById(id);
+    const movimiento = await movimientoService.getMovimientoById(id);
 
-    res.status(202).json(movimiento);
+    res.status(200).json(movimiento);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainMovimientos = async (
+export const getMovimientos = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const movimientos = await getMovimiento();
+    const movimientos = await movimientoService.getMovimiento();
 
-    res.status(202).json(movimientos);
+    res.status(200).json(movimientos);
   } catch (err) {
     next(err);
   }

@@ -3,7 +3,7 @@ import { Venta } from "../models/Venta";
 import ventaRepository from "../repository/ventaRepository";
 import { VentaInput } from "../utils/contracts";
 
-export const setVenta = async () => {
+export const createVenta = async () => {
   const venta = Venta.create();
 
   return await ventaRepository.save({

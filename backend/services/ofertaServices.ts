@@ -1,11 +1,11 @@
 import NotFound from "../error/NotFound";
+import DuplicateResource from "../error/DuplicateResource";
 import { Oferta } from "../models/Oferta";
 import ofertaRepository from "../repository/ofertaRepository";
 import { getProductoById } from "./productoService";
 import { OfertaInput } from "../utils/contracts";
-import DuplicateResource from "../error/DuplicateResource";
 
-export const setOferta = async (data: OfertaInput) => {
+export const createOferta = async (data: OfertaInput) => {
   await getProductoById(data.producto_id);
   const existencia = await ofertaRepository.findByEstadoActivoProductoId(
     data.producto_id,
@@ -34,7 +34,7 @@ export const updateEstado = async (id: number) => {
 
   const entrega = Oferta.fromPersistence(raw);
 
-  entrega.inactivo();
+  entrega.inactive();
 
   return await ofertaRepository.update(id, {
     minKg: raw.minKg,

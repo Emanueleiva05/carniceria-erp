@@ -12,9 +12,9 @@ import {
   transformToTipoMovimiento,
   transformToTipoReferencia,
 } from "../utils/tipos";
-import { setMovimiento } from "./stockMovimientoServices";
+import { createMovimiento } from "./stockMovimientoServices";
 
-export const setVentaDetalle = async (data: VentaDetalleInput) => {
+export const createVentaDetalle = async (data: VentaDetalleInput) => {
   await getProductoById(data.producto_id);
   await getVentaById(data.venta_id);
 
@@ -34,7 +34,7 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
     data.venta_id,
   );
 
-  ventaDetalle.calcularSubtotal();
+  ventaDetalle.calculateSubtotal();
 
   const saved = await ventaDetalleRepository.save({
     precio_unitario: ventaDetalle.precio_unitario,
@@ -45,13 +45,13 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
     oferta_id: ventaDetalle.oferta_id,
   });
 
-  await recalcularTotal(data.venta_id);
+  await calculateTotal(data.venta_id);
 
   const tipoMovimiento = transformToTipoMovimiento("Salida");
   const operacion = transformToOperacion("Venta");
   const tipoReferencia = transformToTipoReferencia("Venta");
 
-  await setMovimiento({
+  await createMovimiento({
     cantidad: saved.cantidad,
     tipo_movimiento: tipoMovimiento,
     motivo: operacion,
@@ -63,7 +63,7 @@ export const setVentaDetalle = async (data: VentaDetalleInput) => {
   return saved;
 };
 
-const recalcularTotal = async (ventaId: number) => {
+const calculateTotal = async (ventaId: number) => {
   const rawVenta = await getVentaById(ventaId);
   const rawDetalles = await ventaDetalleRepository.findByVentaId(ventaId);
 
@@ -72,7 +72,7 @@ const recalcularTotal = async (ventaId: number) => {
     VentaDetalla.fromPersistence(detalle),
   );
 
-  venta.calcularTotal(detalles);
+  venta.calculateTotal(detalles);
 
   return ventaRepository.update(ventaId, {
     fecha_venta: rawVenta.fecha_venta,

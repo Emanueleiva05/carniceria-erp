@@ -61,7 +61,7 @@ export class Perdida {
     return perdida;
   }
 
-  calcularTotal(precio_venta: number) {
+  calculateTotal(precio_venta: number) {
     if (precio_venta <= 0) {
       throw new Error("Precio venta invalido");
     }
@@ -69,7 +69,7 @@ export class Perdida {
     this.total = this.tirado * precio_venta;
   }
 
-  agregarMotivo(motivo: string) {
+  addMotive(motivo: string) {
     this.motivo = motivo;
   }
 }

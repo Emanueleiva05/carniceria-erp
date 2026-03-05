@@ -1,12 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  deleteVentaDetalle,
-  getVentaDetalleById,
-  getVentaDetalles,
-  setVentaDetalle,
-  updateCantidad,
-  updateVentaDetalle,
-} from "../services/ventaDetalleService";
+import * as ventaDetalleServices from "../services/ventaDetalleService";
 
 export const createVentaDetalle = async (
   req: Request,
@@ -16,15 +9,15 @@ export const createVentaDetalle = async (
   try {
     const data = req.body;
 
-    const ventaDetalle = await setVentaDetalle(data);
+    const ventaDetalle = await ventaDetalleServices.createVentaDetalle(data);
 
-    res.status(202).json(ventaDetalle);
+    res.status(201).json(ventaDetalle);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyVentaDetalle = async (
+export const updateVentaDetalle = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -33,15 +26,18 @@ export const modifyVentaDetalle = async (
     const data = req.body;
     const id = res.locals.id;
 
-    const ventaDetalle = await updateVentaDetalle(id, data);
+    const ventaDetalle = await ventaDetalleServices.updateVentaDetalle(
+      id,
+      data,
+    );
 
-    res.status(202).json(ventaDetalle);
+    res.status(200).json(ventaDetalle);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyCantidad = async (
+export const updateCantidad = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -50,15 +46,18 @@ export const modifyCantidad = async (
     const cantidad = req.body.cantidad;
     const id = res.locals.id;
 
-    const ventaDetalle = await updateCantidad(id, cantidad);
+    const ventaDetalle = await ventaDetalleServices.updateCantidad(
+      id,
+      cantidad,
+    );
 
-    res.status(202).json(ventaDetalle);
+    res.status(200).json(ventaDetalle);
   } catch (err) {
     next(err);
   }
 };
 
-export const removeVentaDetalle = async (
+export const deleteVentaDetalle = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -66,15 +65,15 @@ export const removeVentaDetalle = async (
   try {
     const id = res.locals.id;
 
-    await deleteVentaDetalle(id);
+    await ventaDetalleServices.deleteVentaDetalle(id);
 
-    res.status(202).json({ message: "Venta detalle eliminada con exito" });
+    res.status(204).json({ message: "Venta detalle eliminada con exito" });
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainVentaDetalleById = async (
+export const getVentaDetalleById = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -82,7 +81,7 @@ export const obtainVentaDetalleById = async (
   try {
     const id = res.locals.id;
 
-    const venta_detalle = await getVentaDetalleById(id);
+    const venta_detalle = await ventaDetalleServices.getVentaDetalleById(id);
 
     res.status(202).json(venta_detalle);
   } catch (err) {
@@ -90,15 +89,15 @@ export const obtainVentaDetalleById = async (
   }
 };
 
-export const obtainVentaDetalle = async (
+export const getVentaDetalle = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const venta_detalles = await getVentaDetalles();
+    const venta_detalles = await ventaDetalleServices.getVentaDetalles();
 
-    res.status(202).json(venta_detalles);
+    res.status(200).json(venta_detalles);
   } catch (err) {
     next(err);
   }

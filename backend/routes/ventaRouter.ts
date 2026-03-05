@@ -2,11 +2,11 @@ import { Router } from "express";
 
 import {
   createVenta,
-  obtainVentaById,
-  obtainVentas,
-  modifyVenta,
-  removeVenta,
-  obtainDetallesVenta,
+  updateVenta,
+  deleteVenta,
+  getVentas,
+  getDetallesByVenta,
+  getVentaById,
 } from "../controller/ventaController";
 import { validateBody } from "../middleware/ventaMiddleware";
 import {
@@ -18,14 +18,14 @@ const router = Router();
 
 router.post("/", createVenta);
 
-router.get("/", obtainVentas);
+router.get("/", getVentas);
 
-router.get("/:id/detalles", validateIdParams, obtainDetallesVenta);
+router.get("/:id/details", validateIdParams, getDetallesByVenta);
 
-router.get("/:id", validateIdParams, obtainVentaById);
+router.get("/:id", validateIdParams, getVentaById);
 
-router.put("/:id/", validateIdParams, validateBody, validateFecha, modifyVenta);
+router.put("/:id", validateIdParams, validateBody, validateFecha, updateVenta);
 
-router.delete("/:id", validateIdParams, removeVenta);
+router.delete("/:id", validateIdParams, deleteVenta);
 
 export default router;

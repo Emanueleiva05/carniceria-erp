@@ -68,11 +68,11 @@ export class VentaDetalla {
     return detalle;
   }
 
-  calcularSubtotal() {
+  calculateSubtotal() {
     this.subtotal = this.cantidad * this.precio_unitario;
   }
 
-  agregarOferta(ofertas: Oferta[]) {
+  addOferta(ofertas: Oferta[]) {
     const oferta = ofertas.find((of) => of.producto_id === this.producto_id);
 
     if (!oferta) {

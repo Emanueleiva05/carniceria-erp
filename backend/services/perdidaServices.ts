@@ -1,18 +1,18 @@
 import NotFound from "../error/NotFound";
+import BadRequest from "../error/BadRequest";
 import { Perdida } from "../models/Perdida";
 import perdidaRepository from "../repository/perdidaRepository";
 import { getProductoById } from "./productoService";
-import { PerdidaInput } from "../utils/contracts";
+import { createMovimiento, updateMovimiento } from "./stockMovimientoServices";
 import {
   transformToOperacion,
   transformToTipoMovimiento,
   transformToTipoReferencia,
   transformToUnidadMedida,
 } from "../utils/tipos";
-import BadRequest from "../error/BadRequest";
-import { setMovimiento, updateMovimiento } from "./stockMovimientoServices";
+import { PerdidaInput } from "../utils/contracts";
 
-export const setPerdida = async (data: PerdidaInput) => {
+export const createPerdida = async (data: PerdidaInput) => {
   const producto = await getProductoById(data.producto_id);
 
   const perdida = Perdida.create(
@@ -21,13 +21,13 @@ export const setPerdida = async (data: PerdidaInput) => {
     data.producto_id,
   );
 
-  perdida.calcularTotal(producto.precio_venta);
+  perdida.calculateTotal(producto.precio_venta);
 
   const tipoMovimiento = transformToTipoMovimiento("Salida");
   const operacion = transformToOperacion("Perdida");
   const tipoReferencia = transformToTipoReferencia("Perdida");
 
-  const movimiento = await setMovimiento({
+  const movimiento = await createMovimiento({
     cantidad: perdida.tirado,
     tipo_movimiento: tipoMovimiento,
     motivo: operacion,
@@ -68,7 +68,7 @@ export const addMotivo = async (id: number, motivo: string) => {
 
   const perdida = Perdida.fromPersistence(raw);
 
-  perdida.agregarMotivo(motivo);
+  perdida.addMotive(motivo);
 
   return await perdidaRepository.update(id, {
     unidad_medida: raw.unidad_medida,
@@ -114,17 +114,17 @@ export const getPerdidasLastWeek = async () => {
   const perdidas = await perdidaRepository.findByLastWeek();
 
   if (perdidas.length === 0) {
-    throw new NotFound("Peridas en la ultima semana");
+    throw new NotFound("Perdidas en la ultima semana");
   }
 
   return perdidas;
 };
 
-export const getPerdidasMounth = async (mes: number, anio: number) => {
+export const getPerdidasByMounth = async (mes: number, anio: number) => {
   const perdidas = await perdidaRepository.findByMonth(mes, anio);
 
   if (perdidas.length === 0) {
-    throw new NotFound("Peridas en el mes");
+    throw new NotFound("Perdidas en el mes");
   }
 
   return perdidas;

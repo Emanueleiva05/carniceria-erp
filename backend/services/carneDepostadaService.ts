@@ -12,7 +12,7 @@ import {
   transformToTipoReferencia,
 } from "../utils/tipos";
 
-export const setCarne = async (data: CarneInput) => {
+export const createCarne = async (data: CarneInput) => {
   await getMediaresById(data.mediares_id);
   await getProductoById(data.producto_id);
 

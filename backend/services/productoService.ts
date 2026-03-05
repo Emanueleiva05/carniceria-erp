@@ -5,7 +5,7 @@ import productoRepository from "../repository/productoRepository";
 import { ProductoInput, transformToString } from "../utils/contracts";
 import { Categoria } from "../utils/tipos";
 
-export const setProducto = async (data: ProductoInput) => {
+export const createProducto = async (data: ProductoInput) => {
   const existencia = await productoRepository.findByName(data.nombre);
 
   if (existencia) {
@@ -33,7 +33,7 @@ export const setProducto = async (data: ProductoInput) => {
   });
 };
 
-export const changePrecioVenta = async (id: number, precioNuevo: number) => {
+export const updatePrecioVenta = async (id: number, precioNuevo: number) => {
   return await productoRepository.updatePrecioVenta(id, precioNuevo);
 };
 
@@ -47,7 +47,7 @@ export const changePrecioVentaByCategoria = async (
   );
 };
 
-export const changeCantidad = async (id: number, stockNuevo: number) => {
+export const updateCantidad = async (id: number, stockNuevo: number) => {
   return await productoRepository.updateCantidad(id, stockNuevo);
 };
 

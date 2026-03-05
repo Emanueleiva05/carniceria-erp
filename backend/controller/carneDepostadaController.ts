@@ -1,86 +1,80 @@
 import { NextFunction, Request, Response } from "express";
-import {
-  deleteCarne,
-  getCarneById,
-  getCarnes,
-  setCarne,
-  updateCarne,
-} from "../services/carneDepostadaService";
+import * as carneService from "../services/carneDepostadaService";
 
 export const createCarne = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
 
-    const carne = await setCarne(data);
+    const carne = await carneService.createCarne(data);
 
-    res.status(202).json(carne);
+    res.status(201).json(carne);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyCarne = async (
+export const updateCarne = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
     const id = res.locals.id;
 
-    const carne = await updateCarne(id, data);
+    const carne = await carneService.updateCarne(id, data);
 
-    res.status(202).json(carne);
+    res.status(200).json(carne);
   } catch (err) {
     next(err);
   }
 };
 
-export const removeCarne = async (
+export const deleteCarne = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    await deleteCarne(id);
+    await carneService.deleteCarne(id);
 
-    res.status(202).json({ message: "Carne eliminada con exito" });
+    res.status(204).json({ message: "Carne eliminada con exito" });
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainCarneById = async (
+export const getCarneById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    const carne = await getCarneById(id);
+    const carne = await carneService.getCarneById(id);
 
-    res.status(202).json(carne);
+    res.status(200).json(carne);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainCarne = async (
+export const getCarnes = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const carnes = await getCarnes();
+    const carnes = await carneService.getCarnes();
 
-    res.status(202).json(carnes);
+    res.status(200).json(carnes);
   } catch (err) {
     next(err);
   }

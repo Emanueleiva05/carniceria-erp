@@ -1,14 +1,14 @@
 import { Router } from "express";
 
 import {
-  modifyReclamo,
   createReclamo,
-  removeReclamo,
-  obtainReclamoById,
-  obtainReclamos,
+  updateReclamo,
   changeEstadoAceptado,
   changeEstadoRechazado,
-  obtainReclamoByProveedor,
+  deleteReclamo,
+  getReclamoById,
+  getReclamoByProveedor,
+  getReclamos,
 } from "../controller/reclamoController";
 
 import { validateBody } from "../middleware/reclamoMiddleware";
@@ -19,18 +19,18 @@ const router = Router();
 
 router.post("/", validateBody, createReclamo);
 
-router.get("/", obtainReclamos);
+router.get("/", getReclamos);
 
-router.get("/:id/proveedor", validateIdParams, obtainReclamoByProveedor);
+router.get("/:id/provider", validateIdParams, getReclamoByProveedor);
 
-router.get("/:id", validateIdParams, obtainReclamoById);
+router.get("/:id", validateIdParams, getReclamoById);
 
-router.put("/:id/aceptar", validateIdParams, changeEstadoAceptado);
+router.put("/:id/accept", validateIdParams, changeEstadoAceptado);
 
-router.put("/:id/aceptar", validateIdParams, changeEstadoRechazado);
+router.put("/:id/reject", validateIdParams, changeEstadoRechazado);
 
-router.put("/:id/", validateIdParams, validateBody, modifyReclamo);
+router.put("/:id", validateIdParams, validateBody, updateReclamo);
 
-router.delete("/:id", validateIdParams, removeReclamo);
+router.delete("/:id", validateIdParams, deleteReclamo);
 
 export default router;

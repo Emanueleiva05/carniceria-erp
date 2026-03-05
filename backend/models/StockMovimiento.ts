@@ -89,7 +89,7 @@ export class StockMovimiento {
     return movimiento;
   }
 
-  calcularStock(producto: Producto): number {
+  calculateStock(producto: Producto): number {
     if (this.tipo === TipoMovimiento.ENTRADA) {
       return producto.stock_actual + this.cantidad;
     }

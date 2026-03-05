@@ -44,7 +44,7 @@ export class Oferta {
     return oferta;
   }
 
-  inactivo() {
+  inactive() {
     this.estaActivo = false;
   }
 }

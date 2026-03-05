@@ -86,7 +86,7 @@ export default class Reclamo {
       reclamoRaw.cantidad,
       reclamoRaw.producto_destino_id,
       reclamoRaw.diferencia_cantidad,
-      reclamoRaw.cantidad,
+      reclamoRaw.producto_id,
       reclamoRaw.proveedor_id,
       reclamoRaw.evidencia,
       reclamoRaw.descripcion,

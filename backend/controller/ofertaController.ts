@@ -1,116 +1,108 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  deleteOferta,
-  getActiveOfertas,
-  getOfertaById,
-  getOfertas,
-  getProductosEnOferta,
-  setOferta,
-  updateOferta,
-} from "../services/ofertaServices";
+import * as ofertaService from "../services/ofertaServices";
 
 export const createOferta = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
 
-    const oferta = await setOferta(data);
+    const oferta = await ofertaService.createOferta(data);
 
-    res.status(202).json(oferta);
+    res.status(201).json(oferta);
   } catch (err) {
     next(err);
   }
 };
 
-export const modifyOferta = async (
+export const updateOferta = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const data = req.body;
     const id = res.locals.id;
 
-    const oferta = await updateOferta(id, data);
+    const oferta = await ofertaService.updateOferta(id, data);
 
-    res.status(202).json(oferta);
+    res.status(200).json(oferta);
   } catch (err) {
     next(err);
   }
 };
 
-export const removeOferta = async (
+export const deleteOferta = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    await deleteOferta(id);
+    await ofertaService.deleteOferta(id);
 
-    res.status(202).json({ message: "Oferta detalle eliminada con exito" });
+    res.status(204).json({ message: "Oferta detalle eliminada con exito" });
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainOfertaById = async (
+export const getOfertaById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    const oferta = await getOfertaById(id);
+    const oferta = await ofertaService.getOfertaById(id);
 
-    res.status(202).json(oferta);
+    res.status(200).json(oferta);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainOfertas = async (
+export const getOfertas = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const ofertas = await getOfertas();
+    const ofertas = await ofertaService.getOfertas();
 
-    res.status(202).json(ofertas);
+    res.status(200).json(ofertas);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainActiveOferta = async (
+export const getActiveOferta = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const ofertasActivas = await getActiveOfertas();
+    const ofertasActivas = await ofertaService.getActiveOfertas();
 
-    res.status(202).json(ofertasActivas);
+    res.status(200).json(ofertasActivas);
   } catch (err) {
     next(err);
   }
 };
 
-export const obtainProductosEnOferta = async (
+export const getProductosEnOferta = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const id = res.locals.id;
 
-    const productos = await getProductosEnOferta(id);
+    const productos = await ofertaService.getProductosEnOferta(id);
 
     res.status(202).json(productos);
   } catch (err) {

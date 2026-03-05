@@ -1,20 +1,20 @@
 import NotFound from "../error/NotFound";
-import { EntregaDetalle } from "../models/EntregaDetalle";
-import entregaDetalleRepository from "../repository/entregaDetalleRepository";
-import { getEntregaById } from "./entregaService";
-import { getProductoById } from "./productoService";
-import { EntregaDetalleInput } from "../utils/contracts";
 import DuplicateResource from "../error/DuplicateResource";
+import { EntregaDetalle } from "../models/EntregaDetalle";
 import Entrega from "../models/Entrega";
 import entregaRepository from "../repository/entregaRepository";
-import { setMovimiento } from "./stockMovimientoServices";
+import entregaDetalleRepository from "../repository/entregaDetalleRepository";
+import { createMovimiento } from "./stockMovimientoServices";
+import { getEntregaById } from "./entregaService";
+import { getProductoById } from "./productoService";
 import {
   transformToOperacion,
   transformToTipoMovimiento,
   transformToTipoReferencia,
 } from "../utils/tipos";
+import { EntregaDetalleInput } from "../utils/contracts";
 
-export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
+export const createEntregaDetalle = async (data: EntregaDetalleInput) => {
   await getProductoById(data.producto_id);
   await getEntregaById(data.entrega_id);
 
@@ -41,13 +41,13 @@ export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
     entrega_id: entregaDetalle.entrega_id,
   });
 
-  await recalcularTotal(data.entrega_id);
+  await calculateTotal(data.entrega_id);
 
   const tipoMovimiento = transformToTipoMovimiento("Entrada");
   const operacion = transformToOperacion("Compra");
   const tipoReferencia = transformToTipoReferencia("Entrega");
 
-  await setMovimiento({
+  await createMovimiento({
     cantidad: saved.cantidad,
     tipo_movimiento: tipoMovimiento,
     motivo: operacion,
@@ -59,7 +59,7 @@ export const setEntregaDetalle = async (data: EntregaDetalleInput) => {
   return saved;
 };
 
-const recalcularTotal = async (entregaId: number) => {
+const calculateTotal = async (entregaId: number) => {
   const rawEntrega = await getEntregaById(entregaId);
   const rawDetalles = await entregaDetalleRepository.findByEntregaId(entregaId);
 
@@ -68,7 +68,7 @@ const recalcularTotal = async (entregaId: number) => {
     EntregaDetalle.fromPersistence(detalle),
   );
 
-  entrega.calcularTotal(detalles);
+  entrega.calculateTotal(detalles);
 
   return entregaRepository.update(entregaId, {
     fecha_entrega: rawEntrega.fecha_entrega,

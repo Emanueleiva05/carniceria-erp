@@ -8,7 +8,7 @@ import {
 } from "../utils/contracts";
 import Mediares from "../models/Mediares";
 
-export const setMediares = async (data: MediaresInput) => {
+export const createMediares = async (data: MediaresInput) => {
   await getEntregaById(data.entrega_id);
 
   const mediares = Mediares.create(
@@ -57,7 +57,7 @@ export const getMediares = async () => {
   return mediareses;
 };
 
-export const getCarnesMediares = async (id: number) => {
+export const getCarneByMediares = async (id: number) => {
   const carnes = await mediaresRepository.findCarneByMediares(id);
   return carnes;
 };
