@@ -21,7 +21,7 @@ export const createPerdida = async (data: PerdidaInput) => {
     data.producto_id,
   );
 
-  perdida.calcularTotal(producto.precio_venta);
+  perdida.calculateTotal(producto.precio_venta);
 
   const tipoMovimiento = transformToTipoMovimiento("Salida");
   const operacion = transformToOperacion("Perdida");
@@ -68,7 +68,7 @@ export const addMotivo = async (id: number, motivo: string) => {
 
   const perdida = Perdida.fromPersistence(raw);
 
-  perdida.agregarMotivo(motivo);
+  perdida.addMotive(motivo);
 
   return await perdidaRepository.update(id, {
     unidad_medida: raw.unidad_medida,

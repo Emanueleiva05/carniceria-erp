@@ -76,7 +76,7 @@ export class Producto {
     return producto;
   }
 
-  cambiarStockMinimo(cantidadMinima: number) {
+  changeMinimumStock(cantidadMinima: number) {
     this.stock_minimo = cantidadMinima;
   }
 }

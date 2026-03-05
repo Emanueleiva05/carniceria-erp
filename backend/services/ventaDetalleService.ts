@@ -34,7 +34,7 @@ export const createVentaDetalle = async (data: VentaDetalleInput) => {
     data.venta_id,
   );
 
-  ventaDetalle.calcularSubtotal();
+  ventaDetalle.calculateSubtotal();
 
   const saved = await ventaDetalleRepository.save({
     precio_unitario: ventaDetalle.precio_unitario,
@@ -72,7 +72,7 @@ const calculateTotal = async (ventaId: number) => {
     VentaDetalla.fromPersistence(detalle),
   );
 
-  venta.calcularTotal(detalles);
+  venta.calculateTotal(detalles);
 
   return ventaRepository.update(ventaId, {
     fecha_venta: rawVenta.fecha_venta,

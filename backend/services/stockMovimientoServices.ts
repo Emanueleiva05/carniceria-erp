@@ -16,7 +16,7 @@ export const createMovimiento = async (data: StockMovimientoInput) => {
     data.producto_id,
   );
 
-  const cantidadNueva = movimiento.calcularStock(producto);
+  const cantidadNueva = movimiento.calculateStock(producto);
   await updateCantidad(movimiento.producto_id, cantidadNueva);
 
   const movimientoPersistence = await stockMovimientoRepository.save({

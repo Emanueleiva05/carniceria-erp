@@ -1,4 +1,4 @@
-import { ProveedorPrisma } from "../repository/proveedorRepository";
+import { Proveedor as ProveedorType } from "../utils/contracts";
 
 export default class Proveedor {
   public proveedor_id: number | null;
@@ -15,7 +15,7 @@ export default class Proveedor {
     return new Proveedor(null, nombre, telefono);
   }
 
-  static fromPersistence(proveedorRaw: ProveedorPrisma) {
+  static fromPersistence(proveedorRaw: ProveedorType) {
     const proveedor = new Proveedor(
       proveedorRaw.proveedor_id,
       proveedorRaw.nombre,

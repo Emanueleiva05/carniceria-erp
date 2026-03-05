@@ -68,7 +68,7 @@ const calculateTotal = async (entregaId: number) => {
     EntregaDetalle.fromPersistence(detalle),
   );
 
-  entrega.calcularTotal(detalles);
+  entrega.calculateTotal(detalles);
 
   return entregaRepository.update(entregaId, {
     fecha_entrega: rawEntrega.fecha_entrega,

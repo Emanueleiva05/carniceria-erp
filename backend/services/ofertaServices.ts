@@ -34,7 +34,7 @@ export const updateEstado = async (id: number) => {
 
   const entrega = Oferta.fromPersistence(raw);
 
-  entrega.inactivo();
+  entrega.inactive();
 
   return await ofertaRepository.update(id, {
     minKg: raw.minKg,

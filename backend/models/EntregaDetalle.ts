@@ -58,7 +58,7 @@ export class EntregaDetalle {
     return detalleEntrega;
   }
 
-  calcularSubtotal() {
+  calculateSubtotal() {
     return this.cantidad * this.precio_compra;
   }
 }
