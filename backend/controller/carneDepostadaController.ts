@@ -34,6 +34,23 @@ export const updateCarne = async (
   }
 };
 
+export const updatePeso = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data = req.body.peso;
+    const id = res.locals.id;
+
+    const carne = await carneService.updatePeso(id, data);
+
+    res.status(200).json(carne);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteCarne = async (
   req: Request,
   res: Response,

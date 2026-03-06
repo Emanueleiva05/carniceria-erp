@@ -51,6 +51,23 @@ export const updatePrecioVenta = async (
   }
 };
 
+export const updateCantidad = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = res.locals.id;
+    const cantidad = req.body.cantidad;
+
+    await productoServices.updateCantidad(id, cantidad);
+
+    res.status(200).json({ message: "Cantidad modificado con exito" });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const updatePrecioByCategoria = async (
   req: Request,
   res: Response,

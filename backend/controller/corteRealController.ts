@@ -34,6 +34,23 @@ export const updateCorteReal = async (
   }
 };
 
+export const updatePeso = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data = req.body.peso;
+    const id = res.locals.id;
+
+    const carne = await corteRealService.updatePeso(id, data);
+
+    res.status(200).json(carne);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteCorteReal = async (
   req: Request,
   res: Response,

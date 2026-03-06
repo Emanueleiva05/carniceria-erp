@@ -34,6 +34,23 @@ export const updatePerdida = async (
   }
 };
 
+export const updateTirado = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data = req.body.tirado;
+    const id = res.locals.id;
+
+    const perdida = await perdidaService.updateTirado(id, data);
+
+    res.status(200).json(perdida);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deletePerdida = async (
   req: Request,
   res: Response,

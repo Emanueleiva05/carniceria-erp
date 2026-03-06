@@ -34,6 +34,39 @@ export const updateEntrega = async (
   }
 };
 
+export const updatePago = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = res.locals.id;
+
+    const entrega = await entregaService.updatePago(id);
+
+    res.status(200).json(entrega);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateFactura = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data = req.body.factura;
+    const id = res.locals.id;
+
+    const entrega = await entregaService.addFactura(id, data);
+
+    res.status(200).json(entrega);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteEntrega = async (
   req: Request,
   res: Response,
