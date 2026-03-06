@@ -42,6 +42,17 @@ class CorteRealRepository implements Repository<CorteReal, number> {
     return carne;
   }
 
+  async updatePeso(id: number, data: number): Promise<CorteReal> {
+    const carne = await prisma.corteReal.update({
+      where: { corteReal_id: id },
+      data: {
+        peso_real: data,
+      },
+    });
+
+    return carne;
+  }
+
   async delete(id: number): Promise<void> {
     await prisma.corteReal.delete({
       where: {

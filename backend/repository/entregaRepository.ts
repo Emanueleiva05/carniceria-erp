@@ -42,6 +42,26 @@ class EntregaRepository implements Repository<Entrega, number> {
     return entrega;
   }
 
+  async updateFactura(id: number, data: string): Promise<Entrega> {
+    const entrega = await prisma.entrega.update({
+      where: { entrega_id: id },
+      data: {
+        factura: data,
+      },
+    });
+    return entrega;
+  }
+
+  async updatePago(id: number, data: boolean): Promise<Entrega> {
+    const entrega = await prisma.entrega.update({
+      where: { entrega_id: id },
+      data: {
+        pago: data,
+      },
+    });
+    return entrega;
+  }
+
   async delete(id: number): Promise<void> {
     await prisma.entrega.delete({
       where: {
@@ -50,7 +70,7 @@ class EntregaRepository implements Repository<Entrega, number> {
     });
   }
 
-  async findDetallesVenta(id: number): Promise<EntregaDetalle[]> {
+  async findDetallesEntrega(id: number): Promise<EntregaDetalle[]> {
     const entregaDetalles = prisma.entregaDetalle.findMany({
       where: { entrega_id: id },
       include: {

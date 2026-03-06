@@ -92,6 +92,6 @@ export const getEntregas = async () => {
 };
 
 export const getDetallesByEntrega = async (id: number) => {
-  const detalles = await entregaRepository.findDetallesVenta(id);
+  const detalles = await entregaRepository.findDetallesEntrega(id);
   return detalles;
 };

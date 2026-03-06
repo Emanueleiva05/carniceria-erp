@@ -61,6 +61,26 @@ class EntregaDetalleRepository implements Repository<EntregaDetalle, number> {
     return entregaDetalle;
   }
 
+  async updateCantidad(id: number, data: number): Promise<EntregaDetalle> {
+    const entregaDetalle = await prisma.entregaDetalle.update({
+      where: { entregaDetalle_id: id },
+      data: {
+        cantidad: data,
+      },
+    });
+    return entregaDetalle;
+  }
+
+  async updatePrecio(id: number, data: number): Promise<EntregaDetalle> {
+    const entregaDetalle = await prisma.entregaDetalle.update({
+      where: { entregaDetalle_id: id },
+      data: {
+        precio_compra: data,
+      },
+    });
+    return entregaDetalle;
+  }
+
   async delete(id: number): Promise<void> {
     await prisma.entregaDetalle.delete({
       where: {
