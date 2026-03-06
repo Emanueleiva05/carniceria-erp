@@ -53,6 +53,10 @@ export const updateCarne = async (id: number, data: CarneInput) => {
   return await carneDepostadaRepository.update(id, data);
 };
 
+export const updatePeso = async (id: number, peso: number) => {
+  return await carneDepostadaRepository.updatePeso(id, peso);
+};
+
 export const deleteCarne = async (id: number) => {
   return await carneDepostadaRepository.delete(id);
 };

@@ -18,6 +18,10 @@ export const updateCorteReal = async (id: number, data: CorteRealInput) => {
   return await carneRealRepository.update(id, data);
 };
 
+export const updatePeso = async (id: number, peso: number) => {
+  return await carneRealRepository.updatePeso(id, peso);
+};
+
 export const deleteCorteReal = async (id: number) => {
   return await carneRealRepository.delete(id);
 };

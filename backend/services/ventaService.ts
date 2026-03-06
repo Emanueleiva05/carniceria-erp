@@ -17,6 +17,10 @@ export const updateVenta = async (id: number, data: VentaInput) => {
   return await ventaRepository.update(id, data);
 };
 
+export const updateVendida = async (id: number, vendido: boolean) => {
+  return await ventaRepository.updateVendida(id, vendido);
+};
+
 export const deleteVenta = async (id: number) => {
   return await ventaRepository.delete(id);
 };

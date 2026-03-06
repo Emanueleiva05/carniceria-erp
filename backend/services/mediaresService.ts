@@ -38,6 +38,18 @@ export const updateMediares = async (id: number, data: MediaresInput) => {
   return await mediaresRepository.update(id, data);
 };
 
+export const updatePesoCarton = async (id: number, data: number) => {
+  return await mediaresRepository.updatePesoCarton(id, data);
+};
+
+export const updatePesoReal = async (id: number, data: number) => {
+  return await mediaresRepository.updatePesoReal(id, data);
+};
+
+export const updatePrecioCompra = async (id: number, data: number) => {
+  return await mediaresRepository.updatePrecioCompra(id, data);
+};
+
 export const deleteMediares = async (id: number) => {
   return await mediaresRepository.delete(id);
 };

@@ -25,29 +25,11 @@ export const updatePago = async (id: number) => {
 
   entrega.paid();
 
-  return await entregaRepository.update(id, {
-    fecha_entrega: entrega.fechaEntrega,
-    total: entrega.total,
-    pago: entrega.pago,
-    factura: entrega.factura,
-    proveedor_id: entrega.proveedor_id,
-  });
+  return await entregaRepository.updatePago(id, entrega.pago);
 };
 
 export const addFactura = async (id: number, archivo: string) => {
-  const raw = await getEntregaById(id);
-
-  const entrega = Entrega.fromPersistence(raw);
-
-  entrega.addInvoice(archivo);
-
-  return await entregaRepository.update(id, {
-    fecha_entrega: entrega.fechaEntrega,
-    total: entrega.total,
-    pago: entrega.pago,
-    factura: entrega.factura,
-    proveedor_id: entrega.proveedor_id,
-  });
+  return await entregaRepository.updateFactura(id, archivo);
 };
 
 export const updateProveedor = async (id: number, proveedorId: number) => {
