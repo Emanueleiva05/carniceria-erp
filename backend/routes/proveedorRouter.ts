@@ -1,8 +1,8 @@
 import { Router } from "express";
 
 import {
-  updateProveedor,
   createProveedor,
+  updateProveedor,
   deleteProveedor,
   getEntregaByProveedor,
   getProveedorById,
@@ -17,14 +17,14 @@ const router = Router();
 
 router.post("/", validateBody, createProveedor);
 
+router.put("/:id", validateIdParams, validateBody, updateProveedor);
+
+router.delete("/:id", validateIdParams, deleteProveedor);
+
 router.get("/", getProveedores);
 
 router.get("/:id", validateIdParams, getEntregaByProveedor);
 
 router.get("/:id/delivery", validateIdParams, getProveedorById);
-
-router.put("/:id", validateIdParams, validateBody, updateProveedor);
-
-router.delete("/:id", validateIdParams, deleteProveedor);
 
 export default router;

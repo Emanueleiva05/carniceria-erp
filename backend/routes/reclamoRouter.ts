@@ -19,12 +19,6 @@ const router = Router();
 
 router.post("/", validateBody, createReclamo);
 
-router.get("/", getReclamos);
-
-router.get("/:id/provider", validateIdParams, getReclamoByProveedor);
-
-router.get("/:id", validateIdParams, getReclamoById);
-
 router.put("/:id/accept", validateIdParams, changeEstadoAceptado);
 
 router.put("/:id/reject", validateIdParams, changeEstadoRechazado);
@@ -32,5 +26,11 @@ router.put("/:id/reject", validateIdParams, changeEstadoRechazado);
 router.put("/:id", validateIdParams, validateBody, updateReclamo);
 
 router.delete("/:id", validateIdParams, deleteReclamo);
+
+router.get("/", getReclamos);
+
+router.get("/:id/provider", validateIdParams, getReclamoByProveedor);
+
+router.get("/:id", validateIdParams, getReclamoById);
 
 export default router;

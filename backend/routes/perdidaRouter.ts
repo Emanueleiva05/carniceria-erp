@@ -1,8 +1,9 @@
 import { Router } from "express";
 import {
   createPerdida,
-  deletePerdida,
   updatePerdida,
+  updateTirado,
+  deletePerdida,
   getPerdidaById,
   getPerdidaByMonth,
   getPerdidaLastWeek,
@@ -19,6 +20,12 @@ const router = Router();
 
 router.post("/", validateBody, validateFecha, createPerdida);
 
+router.put("/:id", validateIdParams, updatePerdida);
+
+router.put("/:id/discarded", validateIdParams, updateTirado);
+
+router.delete("/:id", validateIdParams, deletePerdida);
+
 router.get("/", getPerdidas);
 
 router.get("/lastWeek", getPerdidaLastWeek);
@@ -34,9 +41,5 @@ router.get(
   validateFecha,
   getPerdidaById,
 );
-
-router.put("/:id", validateIdParams, updatePerdida);
-
-router.delete("/:id", validateIdParams, deletePerdida);
 
 export default router;
