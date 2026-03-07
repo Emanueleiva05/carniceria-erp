@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   createVenta,
   updateVenta,
+  updateVendida,
   deleteVenta,
   getVentas,
   getDetallesByVenta,
@@ -18,14 +19,16 @@ const router = Router();
 
 router.post("/", createVenta);
 
+router.put("/:id", validateIdParams, validateBody, validateFecha, updateVenta);
+
+router.put("/:id/sold", validateIdParams, updateVendida);
+
+router.delete("/:id", validateIdParams, deleteVenta);
+
 router.get("/", getVentas);
 
 router.get("/:id/details", validateIdParams, getDetallesByVenta);
 
 router.get("/:id", validateIdParams, getVentaById);
-
-router.put("/:id", validateIdParams, validateBody, validateFecha, updateVenta);
-
-router.delete("/:id", validateIdParams, deleteVenta);
 
 export default router;

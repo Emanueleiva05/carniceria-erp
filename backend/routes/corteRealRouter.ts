@@ -1,8 +1,9 @@
 import { Router } from "express";
 
 import {
-  updateCorteReal,
   createCorteReal,
+  updateCorteReal,
+  updatePeso,
   deleteCorteReal,
   getCorteRealById,
   getCorteReales,
@@ -16,12 +17,14 @@ const router = Router();
 
 router.post("/", validateBody, createCorteReal);
 
+router.put("/:id", validateIdParams, validateBody, updateCorteReal);
+
+router.put("/:id/weight", validateIdParams, updatePeso);
+
+router.delete("/:id", validateIdParams, deleteCorteReal);
+
 router.get("/", getCorteReales);
 
 router.get("/:id", validateIdParams, getCorteRealById);
-
-router.put("/:id", validateIdParams, validateBody, updateCorteReal);
-
-router.delete("/:id", validateIdParams, deleteCorteReal);
 
 export default router;

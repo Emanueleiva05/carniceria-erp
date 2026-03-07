@@ -6,7 +6,7 @@ import reclamoRepository from "../repository/reclamoRepository";
 import { createPerdida } from "./perdidaServices";
 import { getProductoById } from "./productoService";
 import { getProveedoresById } from "./proveedorService";
-import { setMovimiento } from "./stockMovimientoServices";
+import { createMovimiento } from "./stockMovimientoServices";
 import {
   PerdidaInput,
   ReclamoInput,
@@ -225,7 +225,7 @@ const compensateWeight = async (reclamo: ReclamoType) => {
   const operacionCorteAjuste = transformToOperacion("Compra");
   const tipoReferenciaAjuste = transformToTipoReferencia("Reclamo");
 
-  await setMovimiento({
+  await createMovimiento({
     cantidad: reclamo.cantidad,
     tipo_movimiento: tipoMovimientoReclamo,
     motivo: operacionCorteReclamo,
@@ -234,7 +234,7 @@ const compensateWeight = async (reclamo: ReclamoType) => {
     producto_id: reclamo.producto_id,
   });
 
-  await setMovimiento({
+  await createMovimiento({
     cantidad: reclamo.cantidad,
     tipo_movimiento: tipoMovimientoAjuste,
     motivo: operacionCorteAjuste,
@@ -259,7 +259,7 @@ const compersarPeso = async (reclamo: ReclamoType) => {
   const operacionCorteReclamo = transformToOperacion("Devolucion");
   const tipoReferenciaReclamo = transformToTipoReferencia("Reclamo");
 
-  await setMovimiento({
+  await createMovimiento({
     cantidad: reclamo.diferencia_cantidad,
     tipo_movimiento: tipoMovimientoReclamo,
     motivo: operacionCorteReclamo,

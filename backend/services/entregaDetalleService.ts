@@ -89,6 +89,14 @@ export const updateEntregaDetalle = async (
   return await entregaDetalleRepository.update(id, data);
 };
 
+export const updateCantidad = async (id: number, data: number) => {
+  return await entregaDetalleRepository.updateCantidad(id, data);
+};
+
+export const updatePrecio = async (id: number, data: number) => {
+  return await entregaDetalleRepository.updatePrecio(id, data);
+};
+
 export const deleteEntregaDetalle = async (id: number) => {
   return await entregaDetalleRepository.delete(id);
 };

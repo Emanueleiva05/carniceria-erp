@@ -40,6 +40,16 @@ class OfertaRepository implements Repository<Oferta, number> {
     return oferta;
   }
 
+  async inactive(id: number): Promise<Oferta> {
+    const oferta = await prisma.oferta.update({
+      where: { oferta_id: id },
+      data: {
+        esta_activo: false,
+      },
+    });
+    return oferta;
+  }
+
   async delete(id: number): Promise<void> {
     await prisma.oferta.delete({
       where: {

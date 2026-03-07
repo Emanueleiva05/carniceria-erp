@@ -53,6 +53,17 @@ class CarneDepostadaRepository implements Repository<Carne, number> {
     return carne;
   }
 
+  async updatePeso(id: number, data: number): Promise<Carne> {
+    const carne = await prisma.carneDepostada.update({
+      where: { carne_id: id },
+      data: {
+        peso_real: data,
+      },
+    });
+
+    return carne;
+  }
+
   async delete(id: number): Promise<void> {
     await prisma.carneDepostada.delete({
       where: {

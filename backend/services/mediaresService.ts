@@ -7,6 +7,7 @@ import {
   transformToString,
 } from "../utils/contracts";
 import Mediares from "../models/Mediares";
+import { transformToTamanio, transformToTipoVaca } from "../utils/tipos";
 
 export const createMediares = async (data: MediaresInput) => {
   await getEntregaById(data.entrega_id);
@@ -19,8 +20,10 @@ export const createMediares = async (data: MediaresInput) => {
     data.entrega_id,
   );
 
-  const tipoVaca = transformToString(mediares.tipo_vaca);
-  const tamanio = transformToNumber(mediares.tamanio);
+  const rawTipoVaca = transformToTipoVaca(mediares.peso_real);
+  const rawTamanio = transformToTamanio(mediares.peso_real);
+  const tipoVaca = transformToString(rawTipoVaca);
+  const tamanio = transformToNumber(rawTamanio);
 
   const save = await mediaresRepository.save({
     peso_carton: mediares.peso_carton,
@@ -36,6 +39,18 @@ export const createMediares = async (data: MediaresInput) => {
 
 export const updateMediares = async (id: number, data: MediaresInput) => {
   return await mediaresRepository.update(id, data);
+};
+
+export const updatePesoCarton = async (id: number, data: number) => {
+  return await mediaresRepository.updatePesoCarton(id, data);
+};
+
+export const updatePesoReal = async (id: number, data: number) => {
+  return await mediaresRepository.updatePesoReal(id, data);
+};
+
+export const updatePrecioCompra = async (id: number, data: number) => {
+  return await mediaresRepository.updatePrecioCompra(id, data);
 };
 
 export const deleteMediares = async (id: number) => {

@@ -38,6 +38,40 @@ export const updateEntregaDetalle = async (
   }
 };
 
+export const updateCantidad = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data = req.body.cantidad;
+    const id = res.locals.id;
+
+    const entregaDetalle = await entregaDetalleService.updateCantidad(id, data);
+
+    res.status(200).json(entregaDetalle);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updatePrecio = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data = req.body.precio;
+    const id = res.locals.id;
+
+    const entregaDetalle = await entregaDetalleService.updatePrecio(id, data);
+
+    res.status(200).json(entregaDetalle);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteEntregaDetalle = async (
   req: Request,
   res: Response,
@@ -65,7 +99,7 @@ export const getEntregaDetalleById = async (
     const entregaDetalle =
       await entregaDetalleService.getEntregaDetalleById(id);
 
-    res.status(204).json(entregaDetalle);
+    res.status(200).json(entregaDetalle);
   } catch (err) {
     next(err);
   }

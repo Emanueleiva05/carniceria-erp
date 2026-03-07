@@ -4,6 +4,8 @@ import {
   updatePrecioByCategoria,
   updateProducto,
   updatePrecioVenta,
+  updateCantidad,
+  updateStockMinimo,
   deleteProducto,
   getProductoByCategoria,
   getProductoById,
@@ -16,18 +18,22 @@ const router = Router();
 
 router.post("/", validateBody, createProducto);
 
+router.put("/category/price", updatePrecioByCategoria);
+
+router.put("/:id/price", validateIdParams, updatePrecioVenta);
+
+router.put("/:id/quantity", validateIdParams, updateCantidad);
+
+router.put("/:id/minimum", validateIdParams, updateStockMinimo);
+
+router.put("/:id", validateIdParams, validateBody, updateProducto);
+
+router.delete("/:id", validateIdParams, deleteProducto);
+
 router.get("/", getProductos);
 
 router.get("/category/:data", getProductoByCategoria);
 
 router.get("/:id", validateIdParams, getProductoById);
-
-router.put("/category/price", updatePrecioByCategoria);
-
-router.put("/:id/price", validateIdParams, updatePrecioVenta);
-
-router.put("/:id", validateIdParams, validateBody, updateProducto);
-
-router.delete("/:id", validateIdParams, deleteProducto);
 
 export default router;

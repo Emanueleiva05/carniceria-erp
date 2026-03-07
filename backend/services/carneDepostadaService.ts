@@ -5,7 +5,7 @@ import { getProductoById } from "./productoService";
 import { CarneDepostada } from "../models/CarneDepostada";
 import { CarneInput } from "../utils/contracts";
 import DuplicateResource from "../error/DuplicateResource";
-import { setMovimiento } from "./stockMovimientoServices";
+import { createMovimiento } from "./stockMovimientoServices";
 import {
   transformToOperacion,
   transformToTipoMovimiento,
@@ -38,7 +38,7 @@ export const createCarne = async (data: CarneInput) => {
   const operacion = transformToOperacion("Compra");
   const tipoReferencia = transformToTipoReferencia("Mediares");
 
-  await setMovimiento({
+  await createMovimiento({
     cantidad: saved.peso_real,
     tipo_movimiento: tipoMovimiento,
     motivo: operacion,
@@ -51,6 +51,10 @@ export const createCarne = async (data: CarneInput) => {
 
 export const updateCarne = async (id: number, data: CarneInput) => {
   return await carneDepostadaRepository.update(id, data);
+};
+
+export const updatePeso = async (id: number, peso: number) => {
+  return await carneDepostadaRepository.updatePeso(id, peso);
 };
 
 export const deleteCarne = async (id: number) => {

@@ -34,6 +34,59 @@ export const updateMediares = async (
   }
 };
 
+export const updatePesoReal = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data = req.body.peso_real;
+    const id = res.locals.id;
+
+    const mediares = await mediaresSevices.updatePesoReal(id, data);
+
+    res.status(200).json(mediares);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updatePesoCarton = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data = req.body.peso_carton;
+    const id = res.locals.id;
+
+    console.log(id);
+
+    const mediares = await mediaresSevices.updatePesoCarton(id, data);
+
+    res.status(200).json(mediares);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updatePrecioCompra = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data = req.body.precio;
+    const id = res.locals.id;
+
+    const mediares = await mediaresSevices.updatePrecioCompra(id, data);
+
+    res.status(200).json(mediares);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteMediares = async (
   req: Request,
   res: Response,

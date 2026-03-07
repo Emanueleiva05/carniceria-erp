@@ -60,6 +60,42 @@ class MediaresRepository implements Repository<MediaresPersistence, number> {
     return mediares;
   }
 
+  async updatePesoReal(id: number, data: number): Promise<MediaresPersistence> {
+    const mediares = await prisma.mediares.update({
+      where: { mediares_id: id },
+      data: {
+        peso_real: data,
+      },
+    });
+    return mediares;
+  }
+
+  async updatePesoCarton(
+    id: number,
+    data: number,
+  ): Promise<MediaresPersistence> {
+    const mediares = await prisma.mediares.update({
+      where: { mediares_id: id },
+      data: {
+        peso_carton: data,
+      },
+    });
+    return mediares;
+  }
+
+  async updatePrecioCompra(
+    id: number,
+    data: number,
+  ): Promise<MediaresPersistence> {
+    const mediares = await prisma.mediares.update({
+      where: { mediares_id: id },
+      data: {
+        precio_compra: data,
+      },
+    });
+    return mediares;
+  }
+
   async delete(id: number): Promise<void> {
     await prisma.mediares.delete({
       where: {

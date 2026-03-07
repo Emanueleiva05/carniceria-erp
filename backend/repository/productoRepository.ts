@@ -52,6 +52,16 @@ class ProductoRepository implements Repository<Producto, number> {
     return producto;
   }
 
+  async updateStockMinimo(id: number, data: number): Promise<Producto> {
+    const producto = await prisma.producto.update({
+      where: { producto_id: id },
+      data: {
+        stock_minimo: data,
+      },
+    });
+    return producto;
+  }
+
   async updatePrecioVenta(id: number, precioNuevo: number) {
     const producto = await prisma.producto.update({
       where: { producto_id: id },

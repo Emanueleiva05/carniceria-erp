@@ -38,6 +38,16 @@ class VentaRepository implements Repository<Venta, number> {
     return venta;
   }
 
+  async updateVendida(id: number): Promise<Venta> {
+    const venta = await prisma.venta.update({
+      where: { venta_id: id },
+      data: {
+        esta_vendida: true,
+      },
+    });
+    return venta;
+  }
+
   async delete(id: number): Promise<void> {
     await prisma.venta.delete({
       where: {

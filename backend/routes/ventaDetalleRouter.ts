@@ -1,9 +1,10 @@
 import { Router } from "express";
 import {
-  deleteVentaDetalle,
+  createVentaDetalle,
   updateCantidad,
   updateVentaDetalle,
-  createVentaDetalle,
+  updatePrecio,
+  deleteVentaDetalle,
   getVentaDetalle,
   getVentaDetalleById,
 } from "../controller/ventaDetalleController";
@@ -14,14 +15,16 @@ const router = Router();
 
 router.post("/", validateBody, createVentaDetalle);
 
-router.get("/", getVentaDetalle);
-
-router.get("/:id", validateIdParams, getVentaDetalleById);
-
 router.put("/:id/quantity", validateIdParams, updateCantidad);
+
+router.put("/:id/price", validateIdParams, updatePrecio);
 
 router.put("/:id", validateIdParams, validateBody, updateVentaDetalle);
 
 router.delete("/:id", validateIdParams, deleteVentaDetalle);
+
+router.get("/", getVentaDetalle);
+
+router.get("/:id", validateIdParams, getVentaDetalleById);
 
 export default router;

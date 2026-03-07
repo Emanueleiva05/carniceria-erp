@@ -57,6 +57,23 @@ export const updateCantidad = async (
   }
 };
 
+export const updatePrecio = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const precio = req.body.precio;
+    const id = res.locals.id;
+
+    const ventaDetalle = await ventaDetalleServices.updatePrecio(id, precio);
+
+    res.status(200).json(ventaDetalle);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteVentaDetalle = async (
   req: Request,
   res: Response,

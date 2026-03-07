@@ -86,6 +86,10 @@ export const updatePerdida = async (id: number, data: PerdidaInput) => {
   return await perdidaRepository.update(id, data);
 };
 
+export const updateTirado = async (id: number, data: number) => {
+  return await perdidaRepository.updateTirado(id, data);
+};
+
 export const deletePerdida = async (id: number) => {
   return await perdidaRepository.delete(id);
 };

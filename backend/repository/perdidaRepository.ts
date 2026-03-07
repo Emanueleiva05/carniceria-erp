@@ -68,6 +68,16 @@ class PerdidaRepository implements Repository<Perdida, number> {
     return perdida;
   }
 
+  async updateTirado(id: number, data: number): Promise<Perdida> {
+    const perdida = await prisma.perdida.update({
+      where: { perdida_id: id },
+      data: {
+        tirado: data,
+      },
+    });
+    return perdida;
+  }
+
   async delete(id: number): Promise<void> {
     await prisma.perdida.delete({
       where: {

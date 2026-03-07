@@ -1,8 +1,8 @@
 import { Router } from "express";
 import {
-  deleteMovimiento,
-  updateMovimiento,
   createMovimiento,
+  updateMovimiento,
+  deleteMovimiento,
   getMovimientoById,
   getMovimientos,
 } from "../controller/stockMovimientoController";
@@ -13,12 +13,12 @@ const router = Router();
 
 router.post("/", validateBody, createMovimiento);
 
-router.get("/", getMovimientos);
-
-router.get("/:id", validateIdParams, getMovimientoById);
-
 router.put("/:id", validateIdParams, validateBody, updateMovimiento);
 
 router.delete("/:id", validateIdParams, deleteMovimiento);
+
+router.get("/", getMovimientos);
+
+router.get("/:id", validateIdParams, getMovimientoById);
 
 export default router;
