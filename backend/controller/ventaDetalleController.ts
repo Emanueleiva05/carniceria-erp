@@ -63,7 +63,7 @@ export const updatePrecio = async (
   next: NextFunction,
 ) => {
   try {
-    const precio = req.body.peso;
+    const precio = req.body.precio;
     const id = res.locals.id;
 
     const ventaDetalle = await ventaDetalleServices.updatePrecio(id, precio);

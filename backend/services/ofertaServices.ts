@@ -30,18 +30,7 @@ export const createOferta = async (data: OfertaInput) => {
 };
 
 export const updateEstado = async (id: number) => {
-  const raw = await getOfertaById(id);
-
-  const entrega = Oferta.fromPersistence(raw);
-
-  entrega.inactive();
-
-  return await ofertaRepository.update(id, {
-    minKg: raw.minKg,
-    esta_activo: entrega.estaActivo,
-    precio_oferta: raw.precio_oferta,
-    producto_id: raw.producto_id,
-  });
+  return await ofertaRepository.inactive(id);
 };
 
 export const updateOferta = async (id: number, data: OfertaInput) => {

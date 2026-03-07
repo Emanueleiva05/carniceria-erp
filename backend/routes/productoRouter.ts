@@ -5,6 +5,7 @@ import {
   updateProducto,
   updatePrecioVenta,
   updateCantidad,
+  updateStockMinimo,
   deleteProducto,
   getProductoByCategoria,
   getProductoById,
@@ -22,6 +23,8 @@ router.put("/category/price", updatePrecioByCategoria);
 router.put("/:id/price", validateIdParams, updatePrecioVenta);
 
 router.put("/:id/quantity", validateIdParams, updateCantidad);
+
+router.put("/:id/minimum", validateIdParams, updateStockMinimo);
 
 router.put("/:id", validateIdParams, validateBody, updateProducto);
 

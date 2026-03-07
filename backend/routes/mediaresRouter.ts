@@ -19,11 +19,11 @@ router.post("/", validateBody, createMediares);
 
 router.put("/:id", validateBody, validateIdParams, updateMediares);
 
-router.put("/:id/weight", validateBody, updatePesoCarton);
+router.put("/:id/weight", validateIdParams, updatePesoCarton);
 
-router.put("/:id/realweight", validateBody, updatePesoReal);
+router.put("/:id/realweight", validateIdParams, updatePesoReal);
 
-router.put("/:id/price", validateBody, updatePrecioCompra);
+router.put("/:id/price", validateIdParams, updatePrecioCompra);
 
 router.delete("/:id", validateIdParams, deleteMediares);
 

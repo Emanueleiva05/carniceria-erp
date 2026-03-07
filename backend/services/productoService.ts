@@ -51,6 +51,10 @@ export const updateCantidad = async (id: number, stockNuevo: number) => {
   return await productoRepository.updateCantidad(id, stockNuevo);
 };
 
+export const updateStockMinimo = async (id: number, stockNuevo: number) => {
+  return await productoRepository.updateStockMinimo(id, stockNuevo);
+};
+
 export const updateProducto = async (id: number, data: ProductoInput) => {
   return await productoRepository.update(id, data);
 };

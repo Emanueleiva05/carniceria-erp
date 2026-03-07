@@ -7,6 +7,7 @@ import {
   transformToString,
 } from "../utils/contracts";
 import Mediares from "../models/Mediares";
+import { transformToTamanio, transformToTipoVaca } from "../utils/tipos";
 
 export const createMediares = async (data: MediaresInput) => {
   await getEntregaById(data.entrega_id);
@@ -19,8 +20,10 @@ export const createMediares = async (data: MediaresInput) => {
     data.entrega_id,
   );
 
-  const tipoVaca = transformToString(mediares.tipo_vaca);
-  const tamanio = transformToNumber(mediares.tamanio);
+  const rawTipoVaca = transformToTipoVaca(mediares.peso_real);
+  const rawTamanio = transformToTamanio(mediares.peso_real);
+  const tipoVaca = transformToString(rawTipoVaca);
+  const tamanio = transformToNumber(rawTamanio);
 
   const save = await mediaresRepository.save({
     peso_carton: mediares.peso_carton,

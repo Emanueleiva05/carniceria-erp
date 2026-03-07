@@ -38,11 +38,11 @@ class VentaRepository implements Repository<Venta, number> {
     return venta;
   }
 
-  async updateVendida(id: number, data: boolean): Promise<Venta> {
+  async updateVendida(id: number): Promise<Venta> {
     const venta = await prisma.venta.update({
       where: { venta_id: id },
       data: {
-        esta_vendida: data,
+        esta_vendida: true,
       },
     });
     return venta;

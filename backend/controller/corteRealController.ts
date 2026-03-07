@@ -23,7 +23,7 @@ export const updateCorteReal = async (
   next: NextFunction,
 ) => {
   try {
-    const data = req.body;
+    const data = req.body.peso;
     const id = res.locals.id;
 
     const carne = await corteRealService.updateCorteReal(id, data);

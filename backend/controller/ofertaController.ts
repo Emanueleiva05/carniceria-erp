@@ -34,6 +34,22 @@ export const updateOferta = async (
   }
 };
 
+export const updateEstado = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = res.locals.id;
+
+    const oferta = await ofertaService.updateEstado(id);
+
+    res.status(200).json(oferta);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteOferta = async (
   req: Request,
   res: Response,

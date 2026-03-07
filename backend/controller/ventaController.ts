@@ -38,10 +38,9 @@ export const updateVendida = async (
   next: NextFunction,
 ) => {
   try {
-    const data = req.body.vendido;
     const id = res.locals.id;
 
-    const venta = await ventaService.updateVendida(id, data);
+    const venta = await ventaService.updateVendida(id);
 
     res.status(200).json(venta);
   } catch (err) {

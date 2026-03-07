@@ -99,7 +99,7 @@ export const getEntregaDetalleById = async (
     const entregaDetalle =
       await entregaDetalleService.getEntregaDetalleById(id);
 
-    res.status(204).json(entregaDetalle);
+    res.status(200).json(entregaDetalle);
   } catch (err) {
     next(err);
   }

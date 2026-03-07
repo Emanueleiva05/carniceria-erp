@@ -5,7 +5,7 @@ import BadRequest from "../error/BadRequest";
 export const validateBody = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const {
     peso_carton,
@@ -40,15 +40,5 @@ export const validateBody = (
   if (typeof entrega_id !== "number" || entrega_id <= 0)
     throw new BadRequest("Entrega ID");
 
-  if (tamanio === null || tamanio === 0 || tamanio === "")
-    throw new EmptyRequest("Tamanio");
-
-  if (typeof tamanio !== "number" || tamanio <= 0)
-    throw new BadRequest("Tamanio");
-
-  if (!tipo_vaca) throw new EmptyRequest("Tipo vaca");
-
-  if (typeof tipo_vaca !== "string" || tipo_vaca.trim().length === 0)
-    throw new BadRequest("Tipo vaca");
   next();
 };

@@ -60,6 +60,8 @@ export const updatePesoCarton = async (
     const data = req.body.peso_carton;
     const id = res.locals.id;
 
+    console.log(id);
+
     const mediares = await mediaresSevices.updatePesoCarton(id, data);
 
     res.status(200).json(mediares);

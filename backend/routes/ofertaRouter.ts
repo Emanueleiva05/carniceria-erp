@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createOferta,
   updateOferta,
+  updateEstado,
   deleteOferta,
   getActiveOferta,
   getOfertaById,
@@ -16,6 +17,8 @@ const router = Router();
 router.post("/", validateBody, createOferta);
 
 router.put("/:id", validateIdParams, validateBody, updateOferta);
+
+router.put("/:id/state", validateIdParams, updateEstado);
 
 router.delete("/:id", validateIdParams, deleteOferta);
 
