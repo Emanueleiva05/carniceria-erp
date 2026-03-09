@@ -1,3 +1,4 @@
+import BadRequest from "../error/BadRequest";
 import { EntregaDetalle as EntregaDetalleType } from "../utils/contracts";
 
 export class EntregaDetalle {
@@ -28,13 +29,11 @@ export class EntregaDetalle {
     entrega_id: number,
   ) {
     if (cantidad <= 0) {
-      throw new Error("La cantidad ingresada de la entrega es invalida");
+      throw new BadRequest("Cantidad");
     }
 
     if (precio_compra <= 0) {
-      throw new Error(
-        "El precio de compra ingresado de la entrega es invalido",
-      );
+      throw new BadRequest("Precio de compra");
     }
 
     return new EntregaDetalle(

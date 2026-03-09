@@ -14,10 +14,15 @@ import {
 } from "../utils/tipos";
 import { createMovimiento } from "./stockMovimientoServices";
 import ofertaRepository from "../repository/ofertaRepository";
+import BussinesRuleViolation from "../error/BussinesRuleViolation";
 
 export const createVentaDetalle = async (data: VentaDetalleInput) => {
-  await getProductoById(data.producto_id);
+  const producto = await getProductoById(data.producto_id);
   await getVentaById(data.venta_id);
+
+  if (producto.stock_actual < data.cantidad) {
+    throw new BussinesRuleViolation("Stock insuficiente");
+  }
 
   const existencia = await ventaDetalleRepository.findByEntregaIdProductoId(
     data.venta_id,
@@ -132,9 +137,41 @@ export const updateCantidad = async (id: number, cantidad: number) => {
     throw new NotFound("Detalle de venta");
   }
 
+  // diferencia para saber cuánto stock mover
+  const diferencia = cantidad - detalle.cantidad;
+
   const subtotal = detalle.precio_unitario * cantidad;
 
-  return await ventaDetalleRepository.updateCantidad(id, cantidad, subtotal);
+  const saved = await ventaDetalleRepository.updateCantidad(
+    id,
+    cantidad,
+    subtotal,
+  );
+
+  // solo crear movimiento si hubo cambio real
+  if (diferencia !== 0) {
+    const tipoMovimiento =
+      diferencia > 0
+        ? transformToTipoMovimiento("Salida")
+        : transformToTipoMovimiento("Entrada");
+
+    const operacion = transformToOperacion("Venta");
+    const tipoReferencia = transformToTipoReferencia("Venta");
+
+    await createMovimiento({
+      cantidad: Math.abs(diferencia),
+      tipo_movimiento: tipoMovimiento,
+      motivo: operacion,
+      referencia_id: saved.ventaDetalle_id,
+      referencia_tipo: tipoReferencia,
+      producto_id: saved.producto_id,
+    });
+  }
+
+  // recalcular total de la venta
+  await calculateTotal(saved.venta_id);
+
+  return saved;
 };
 
 export const getVentaDetalles = async () => {

@@ -1,3 +1,5 @@
+import BadRequest from "../error/BadRequest";
+import BussinesRuleViolation from "../error/BussinesRuleViolation";
 import { Producto } from "../utils/contracts";
 import { StockMovimiento as StockMovimientoType } from "../utils/contracts";
 import {
@@ -46,9 +48,7 @@ export class StockMovimiento {
   ) {
     if (tipo !== TipoMovimiento.AJUSTE) {
       if (cantidad <= 0) {
-        throw new Error(
-          "La cantidad ingresada de stock que esta en movimiento es invalida",
-        );
+        throw new BadRequest("Cantidad");
       }
     }
 
@@ -96,7 +96,9 @@ export class StockMovimiento {
 
     if (this.tipo === TipoMovimiento.SALIDA) {
       if (producto.stock_actual < this.cantidad) {
-        throw new Error("Stock insuficiente para realizar la operación");
+        throw new BussinesRuleViolation(
+          "Stock insuficiente para realizar la operación",
+        );
       }
       return producto.stock_actual - this.cantidad;
     }

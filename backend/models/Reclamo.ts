@@ -1,3 +1,4 @@
+import BadRequest from "../error/BadRequest";
 import { Reclamo as ReclamoType } from "../utils/contracts";
 import {
   ReclamoEstado,
@@ -54,7 +55,7 @@ export default class Reclamo {
     proveedor_id: number,
   ) {
     if (cantidad <= 0) {
-      throw new Error("La cantidad ingresada del reclamo es invalida");
+      throw new BadRequest("Cantidad");
     }
 
     const motivoRec = transformToReclamoMotivo(motivo);

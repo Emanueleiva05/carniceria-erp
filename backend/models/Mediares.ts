@@ -5,6 +5,7 @@ import {
   transformToTipoVaca,
 } from "../utils/tipos";
 import { Mediares as MediaresType } from "../utils/contracts";
+import BadRequest from "../error/BadRequest";
 
 export default class Mediares {
   public mediares_id: number | null;
@@ -41,21 +42,19 @@ export default class Mediares {
     entrega_id: number,
   ) {
     if (peso_carton <= 0) {
-      throw new Error("El peso en carton ingresada de la mediares es invalida");
+      throw new BadRequest("Peso de carton");
     }
 
     if (tamanio <= 0) {
-      throw new Error("El tamanio ingresado de la mediares es invalida");
+      throw new BadRequest("Tamanio");
     }
 
     if (peso_real <= 0) {
-      throw new Error("El peso real ingresada de la mediares es invalida");
+      throw new BadRequest("Peso real");
     }
 
     if (precio_compra <= 0) {
-      throw new Error(
-        "El precio de compra ingresado de la mediares es invalida",
-      );
+      throw new BadRequest("Precio de compra");
     }
 
     const tipoVaca = transformToTipoVaca(tamanio);

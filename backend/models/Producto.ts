@@ -5,6 +5,7 @@ import {
   UnidadMedida,
 } from "../utils/tipos";
 import { Producto as ProductoType } from "../utils/contracts";
+import BadRequest from "../error/BadRequest";
 
 export class Producto {
   public producto_id: number | null;
@@ -41,10 +42,10 @@ export class Producto {
     stock_minimo: number,
   ) {
     if (precio_venta <= 0) {
-      throw new Error("El precio de venta ingresado del producto es invalido");
+      throw new BadRequest("Precio de venta");
     }
     if (stock_minimo < 0) {
-      throw new Error("El stock minimo ingresado del producto es invalido");
+      throw new BadRequest("Stock minimo");
     }
 
     const categoriaPro = transformToCategoria(categoria);

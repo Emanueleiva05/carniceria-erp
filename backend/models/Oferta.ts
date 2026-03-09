@@ -1,3 +1,4 @@
+import BadRequest from "../error/BadRequest";
 import { Oferta as OfertaType } from "../utils/contracts";
 
 export class Oferta {
@@ -23,11 +24,11 @@ export class Oferta {
 
   static create(minKg: number, precio_oferta: number, producto_id: number) {
     if (minKg <= 0) {
-      throw new Error("El minimo de kilos ingresado de la oferta es invalido");
+      throw new BadRequest("Minimo de kilos");
     }
 
     if (precio_oferta <= 0) {
-      throw new Error("El precio de la oferta ingresada es invalida");
+      throw new BadRequest("Precio de oferta");
     }
 
     return new Oferta(null, minKg, precio_oferta, true, producto_id);

@@ -42,11 +42,19 @@ export const updateMediares = async (id: number, data: MediaresInput) => {
 };
 
 export const updatePesoCarton = async (id: number, data: number) => {
-  return await mediaresRepository.updatePesoCarton(id, data);
+  await mediaresRepository.updatePesoCarton(id, data);
 };
 
 export const updatePesoReal = async (id: number, data: number) => {
-  return await mediaresRepository.updatePesoReal(id, data);
+  await mediaresRepository.updatePesoReal(id, data);
+
+  const tamanioRaw = transformToTamanio(data);
+  const tipoVacaRaw = transformToTipoVaca(data);
+  const tamanio = transformToNumber(tamanioRaw);
+  const tipoVaca = transformToString(tipoVacaRaw);
+
+  await mediaresRepository.updateTamanio(id, tamanio);
+  return await mediaresRepository.updateTipoVaca(id, tipoVaca);
 };
 
 export const updatePrecioCompra = async (id: number, data: number) => {

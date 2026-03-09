@@ -1,3 +1,4 @@
+import BadRequest from "../error/BadRequest";
 import { CorteReal as CorteRealType } from "../utils/contracts";
 
 export default class CorteReal {
@@ -23,7 +24,7 @@ export default class CorteReal {
 
   static create(nombre: string, peso_real: number, mediares_id: number) {
     if (peso_real < 0) {
-      throw new Error("El peso de la carne real ingresada es invalida");
+      throw new BadRequest("Peso de la carne");
     }
     return new CorteReal(null, nombre, peso_real, new Date(), mediares_id);
   }

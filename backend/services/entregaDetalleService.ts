@@ -89,10 +89,32 @@ export const updateEntregaDetalle = async (
   return await entregaDetalleRepository.update(id, data);
 };
 
-export const updateCantidad = async (id: number, data: number) => {
-  return await entregaDetalleRepository.updateCantidad(id, data);
-};
+export const updateCantidad = async (id: number, cantidad: number) => {
+  const detalle = await entregaDetalleRepository.findById(id);
 
+  if (!detalle) {
+    throw new NotFound("Detalle de entrega");
+  }
+
+  const saved = await entregaDetalleRepository.updateCantidad(id, cantidad);
+
+  const tipoMovimiento = transformToTipoMovimiento("Salida");
+  const operacion = transformToOperacion("Entrega");
+  const tipoReferencia = transformToTipoReferencia("Entrega");
+
+  await createMovimiento({
+    cantidad: saved.cantidad,
+    tipo_movimiento: tipoMovimiento,
+    motivo: operacion,
+    referencia_id: saved.entregaDetalle_id,
+    referencia_tipo: tipoReferencia,
+    producto_id: saved.producto_id,
+  });
+
+  await calculateTotal(saved.entrega_id);
+
+  return saved;
+};
 export const updatePrecio = async (id: number, data: number) => {
   return await entregaDetalleRepository.updatePrecio(id, data);
 };

@@ -61,11 +61,11 @@ class EntregaDetalleRepository implements Repository<EntregaDetalle, number> {
     return entregaDetalle;
   }
 
-  async updateCantidad(id: number, data: number): Promise<EntregaDetalle> {
+  async updateCantidad(id: number, cantidad: number): Promise<EntregaDetalle> {
     const entregaDetalle = await prisma.entregaDetalle.update({
       where: { entregaDetalle_id: id },
       data: {
-        cantidad: data,
+        cantidad: cantidad,
       },
     });
     return entregaDetalle;

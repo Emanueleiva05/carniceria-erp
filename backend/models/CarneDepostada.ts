@@ -1,3 +1,4 @@
+import BadRequest from "../error/BadRequest";
 import { Carne } from "../utils/contracts";
 
 export class CarneDepostada {
@@ -24,7 +25,7 @@ export class CarneDepostada {
     producto_id: number,
   ): CarneDepostada {
     if (peso_real <= 0) {
-      throw new Error("El peso de la carne depostada ingresada es invalida");
+      throw new BadRequest("Peso de la carne depostada");
     }
     return new CarneDepostada(null, peso_real, mediares_id, producto_id);
   }

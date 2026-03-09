@@ -1,3 +1,4 @@
+import BadRequest from "../error/BadRequest";
 import { Oferta } from "../utils/contracts";
 import { VentaDetalle as VentaDetalleType } from "../utils/contracts";
 
@@ -35,13 +36,11 @@ export class VentaDetalla {
     venta_id: number,
   ) {
     if (precio_unitario <= 0) {
-      throw new Error(
-        "El precio unitario ingresado de la venta detalle es invalido",
-      );
+      throw new BadRequest("Precio unitario");
     }
 
     if (cantidad <= 0) {
-      throw new Error("La cantidad ingresada de la venta detalle es invalida");
+      throw new BadRequest("Cantidad");
     }
 
     return new VentaDetalla(

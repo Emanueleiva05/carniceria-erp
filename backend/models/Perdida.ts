@@ -1,5 +1,7 @@
 import { transformToUnidadMedida, UnidadMedida } from "../utils/tipos";
 import { Perdida as PerdidaType } from "../utils/contracts";
+import BussinesRuleViolation from "../error/BussinesRuleViolation";
+import BadRequest from "../error/BadRequest";
 
 export class Perdida {
   public perdida_id: number | null;
@@ -30,7 +32,7 @@ export class Perdida {
 
   static create(tirado: number, unidad: string, producto_id: number) {
     if (tirado <= 0) {
-      throw new Error("La cantidad tirada ingresada de la perdida es invalida");
+      throw new BadRequest("Cantidad tirada");
     }
 
     const unidadPer = transformToUnidadMedida(unidad);
@@ -63,7 +65,9 @@ export class Perdida {
 
   calculateTotal(precio_venta: number) {
     if (precio_venta <= 0) {
-      throw new Error("Precio venta invalido");
+      throw new BussinesRuleViolation(
+        "El precio de la venta es negativo, por favor ingrese un dato valido",
+      );
     }
 
     this.total = this.tirado * precio_venta;

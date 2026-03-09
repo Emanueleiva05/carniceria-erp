@@ -1,5 +1,6 @@
 import { VentaDetalla } from "./VentaDetalle";
 import { Venta as VentaType } from "../utils/contracts";
+import BussinesRuleViolation from "../error/BussinesRuleViolation";
 
 export class Venta {
   public venta_id: number | null;
@@ -42,7 +43,9 @@ export class Venta {
     const total = ventaDetalle.reduce((acu, sum) => acu + sum.subtotal, 0);
 
     if (total <= 0) {
-      throw new Error("Calculo del total es invalido");
+      throw new BussinesRuleViolation(
+        "El total de la venta dio un numero negativo, por favor verifique los detalles de la venta",
+      );
     }
 
     this.total = total;

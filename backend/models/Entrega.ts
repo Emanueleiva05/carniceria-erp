@@ -1,5 +1,6 @@
 import { EntregaDetalle } from "./EntregaDetalle";
 import { Entrega as EntregaType } from "../utils/contracts";
+import BussinesRuleViolation from "../error/BussinesRuleViolation";
 
 export default class Entrega {
   public readonly entrega_id: number | null;
@@ -60,8 +61,8 @@ export default class Entrega {
     );
 
     if (total <= 0) {
-      throw new Error(
-        "Hubo un problema con el calculo del total de la entrega",
+      throw new BussinesRuleViolation(
+        "El total de la entrega dio un numero negativo, por favor verifique los detalles de la entrega",
       );
     }
 
