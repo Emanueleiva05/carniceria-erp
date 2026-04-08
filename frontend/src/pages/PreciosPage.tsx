@@ -39,23 +39,25 @@ export const PreciosPage = () => {
 
     return (
         <>
-            <div className="tituloPrecio">
-                <img className="imageLogo" src="../../public/WhatsApp_Image_2026-04-08_at_12.00.03_AM-removebg-preview.png" alt="" />
-                <h1>Nuestro precios</h1>
-                <img className="imageLogo" src="../../public/WhatsApp_Image_2026-04-08_at_12.00.03_AM-removebg-preview.png" alt="" />
-            </div>
+            <div className="tituloPage">
+                <div className="tituloPrecio">
+                    <img className="imageLogo" src="../../public/WhatsApp_Image_2026-04-08_at_12.00.03_AM-removebg-preview.png" alt="" />
+                    <h1>Nuestro precios</h1>
+                    <img className="imageLogo" src="../../public/WhatsApp_Image_2026-04-08_at_12.00.03_AM-removebg-preview.png" alt="" />
+                </div>
 
-            <div className="categoriasLayout">
-                {
-                    CATEGORIA.map(cat => ( //Poner () en map o metodos de array hace que retorne el componente en jsx no como el map normal con {}
-                        <div key={cat} className="categoriasDiv">
-                            <h2>{cat}</h2>
-                            {productos.filter(pro => cat === pro.categoria).map(pro => ( //No se usa normalmente los if es con && o con un filter
-                                <DetallePrecio key={pro.nombre} {...pro}/>
-                            ))}
-                        </div>
-                    ))
-                }
+                <div className="categoriasLayout">
+                    {
+                        CATEGORIA.map(cat => ( //Poner () en map o metodos de array hace que retorne el componente en jsx no como el map normal con {}
+                            <div key={cat} className="categoriasDiv">
+                                <h2>{cat}</h2>
+                                {productos.filter(pro => cat === pro.categoria).map(pro => ( //No se usa normalmente los if es con && o con un filter
+                                    <DetallePrecio key={pro.nombre} {...pro}/>
+                                ))}
+                            </div>
+                        ))
+                    }
+                </div>
             </div>
         </>
     )
