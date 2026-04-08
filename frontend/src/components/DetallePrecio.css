@@ -1,0 +1,7 @@
+.filaPrecio {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid white;
+    margin-bottom: 10px;
+}

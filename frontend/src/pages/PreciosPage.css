@@ -1,0 +1,61 @@
+/* 1. Optimización de Fuente */
+@font-face {
+    font-family: "Fuzzy Bubbles";
+    src: url('/fonts/FuzzyBubbles-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 2. Estilos Globales */
+body {
+    margin: 0;
+    padding: 0;
+    background: #1a1a1a url('../../public/grunge-style-blackboard-texture.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    font-family: "Fuzzy Bubbles", sans-serif;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 3. Títulos con efecto tiza */
+h1, h2 {
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), 
+                 0 0 5px rgba(255, 255, 255, 0.2);
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+/* 4. Layout de Categorías (Sin fondos) */
+.categoriasLayout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+}
+
+/* 5. Divs de Categoría (Transparentes) */
+.categoriasDiv {
+    flex: 1 1 200px;
+    max-width: 350px;
+    background: none;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.categoriasDiv h2 {
+    font-size: 2rem;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+    display: inline-block;
+}
+
+.tituloPrecio {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
