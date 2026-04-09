@@ -1,0 +1,97 @@
+.slide-categoria, .slide-oferta {
+    width: 100vh;
+    height: 100vw;
+    
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    
+    transform: translate(-50%, -50%) rotate(90deg);
+    
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden; 
+}
+
+.slide-categoria {
+    background-image: url("/categoria.jpeg");
+    padding-top: 10vh;
+}
+
+.slide-oferta {
+    background-image: url("/oferta.jpeg");
+    padding-top: 5vh;
+}
+
+
+.tituloCategoria {
+    font-size: 6.5rem;
+    color: white;
+    text-transform: uppercase;
+    font-family: "Fuzzy Bubbles", sans-serif;
+    
+    transform: rotate(-3.5deg); 
+    
+    text-shadow: 4px 4px 0px rgba(0,0,0,0.6);
+    margin: 0;
+    margin-top: 85vh;
+}
+
+.ofertas {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    gap: 2rem;
+    width: 90%;
+    margin-top: 90vh;
+
+    font-size:4.5rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.ofertas > div {
+    padding: 1.5rem;
+    border-radius: 20px;
+    min-width: 250px;
+}
+
+/* El contenedor ahora apila los elementos uno arriba del otro */
+.precioOferta {
+    display: flex;
+    flex-direction: column; /* Pone los kilos arriba y el precio abajo */
+    align-items: center;    /* Centra ambos */
+    line-height: 1;         /* Reduce espacio entre líneas */
+}
+
+/* Estilo para "X kilos" (Más chico y quizás un color más suave) */
+.textoKilos {
+    font-size: 3rem;       /* Mucho más chico que el precio */
+    color: #555;           /* Gris oscuro para que no compita con el precio */
+    margin-bottom: 0.5rem; /* Espacio antes del precio */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Estilo para el número del precio (Grande y llamativo) */
+.montoPrecio {
+    font-size: 8rem;       /* Tamaño masivo para el precio */
+    font-weight: bold;
+    color: #d32f2f;        /* Rojo para resaltar */
+}
+
+/* Ajuste opcional para el nombre del producto */
+.nombreProducto {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
