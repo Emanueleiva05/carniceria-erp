@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Esto mata cualquier scroll accidental */
+    overflow: hidden;
     height: 100vh;
     width: 100vw;
 }
