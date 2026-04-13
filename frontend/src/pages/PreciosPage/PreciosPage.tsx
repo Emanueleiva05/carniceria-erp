@@ -1,4 +1,4 @@
-import { DetallePrecio } from "../components/DetallePrecio"
+import { DetallePrecio } from "../../components/DetallePrecio/DetallePrecio"
 import "./PreciosPage.css"
 
 export type ProductoPrecio = {

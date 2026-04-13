@@ -1,4 +1,4 @@
-import type { OfertaType, ProductoType } from "../pages/OfertasPage";
+import type { OfertaType, ProductoType } from "../pages/OfertaPage/OfertasPage";
 
 // Definimos la interfaz de las Props para TypeScript
 interface DetalleOfertaProps {

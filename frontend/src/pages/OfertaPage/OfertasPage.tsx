@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import DetalleOferta from "../components/DetalleOferta"
+import DetalleOferta from "../../components/DetalleOferta/DetalleOferta"
 import "./OfertaPage.css"
 
 export type OfertaType = {
