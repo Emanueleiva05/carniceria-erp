@@ -1,7 +1,7 @@
-import type { ProductoPrecio } from "../../pages/PreciosPage/PreciosPage";
+import type { ProductoType } from "../../types/ProdutoType";
 import "./DetallePrecio.css"
 
-export function DetallePrecio({ nombre, precio_venta }: ProductoPrecio) {
+export function DetallePrecio({ nombre, precio_venta }: ProductoType) {
     return (
             <div className="filaPrecio">
                 <span>{nombre}</span>

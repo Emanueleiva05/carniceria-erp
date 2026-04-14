@@ -10,11 +10,11 @@ function App() {
       <>
         <Routes>
           <Route path="/" element={<RootLayout/>}>
-            <Route path="/home" element={<Home/>}/>
+            <Route path="/" element={<Home/>}/>
+            <Route path="*" element={<NotFound/>}/>   
           </Route>
           <Route path="precio" element={<PreciosPage/>}/>
           <Route path="oferta" element={<OfertaPage/>}/> 
-          <Route path="*" element={<NotFound/>}/>   
         </Routes>
       </>
   )

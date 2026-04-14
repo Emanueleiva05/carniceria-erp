@@ -1,0 +1,47 @@
+.containerNotFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Centrado vertical real */
+  text-align: center;
+  font-family: sans-serif;
+  color: #333;
+}
+
+.errorCode {
+  font-size: 8rem;
+  margin: 0;
+  color: #e0e0e0; /* Color suave para el número */
+  line-height: 1;
+}
+
+.errorTitle {
+  font-size: 3rem;
+}
+
+.errorImg {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+.btnHome {
+  padding: 12px 24px;
+  background-color: #B22222;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+.btnHome:hover {
+  background-color: #b2222270;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
