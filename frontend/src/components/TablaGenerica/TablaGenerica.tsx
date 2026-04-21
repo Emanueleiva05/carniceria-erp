@@ -7,12 +7,18 @@ import {
 import "./TablaGenerica.css";
 
 interface Props<T> {
-  titulo: string;
+  titulo?: string;
   data: T[]; //Dato generico osea si paso un Producto[] entonces este tipo T sera Producto
   columns: ColumnDef<T, unknown>[]; //Tambien asignarle como tipo generico T hace que las columnas sean estrictamente de la columna del tipo enviado
+  getRowClassName?: (row: T) => string;
 }
 
-export const TablaGenerica = <T,>({ titulo, data, columns }: Props<T>) => {
+export const TablaGenerica = <T,>({
+  titulo,
+  data,
+  columns,
+  getRowClassName,
+}: Props<T>) => {
   //Se pone <T,> debido a que le dice a react que se trabajara con un tipo de dato T pero se sabra ese tipo cuando se use el componente
   //Es asi porque react espera un objeto con lo que enviaste por eso se debe desestructurar
 
@@ -33,7 +39,6 @@ export const TablaGenerica = <T,>({ titulo, data, columns }: Props<T>) => {
               hg, //Devuelve los encabezados en un arreglo
             ) => (
               <tr className="filaEncabezado" key={hg.id}>
-                {" "}
                 {/*Fila del encabezado*/}
                 {hg.headers.map(
                   (
@@ -57,20 +62,30 @@ export const TablaGenerica = <T,>({ titulo, data, columns }: Props<T>) => {
             (
               row, //Devuelve los datos del array
             ) => (
-              <tr className="filaDatos" key={row.id}>
-                {" "}
+              <tr
+                className={`filaDatos ${getRowClassName ? getRowClassName(row.original) : ""}`}
+                key={row.id}
+              >
                 {/*Fila de uno de los datos*/}
                 {row.getVisibleCells().map(
                   (
                     cell, //Recorremos el valor de cada indice
-                  ) => (
-                    <td className="dato">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
-                  ),
+                  ) => {
+                    const metaClass = cell.column.columnDef.meta as {
+                      className?: string;
+                    };
+                    return (
+                      <td
+                        key={cell.id}
+                        className={`dato ${metaClass?.className || ""}`}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </td>
+                    );
+                  },
                 )}
               </tr>
             ),

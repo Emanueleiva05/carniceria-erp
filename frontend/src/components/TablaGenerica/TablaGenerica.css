@@ -4,7 +4,6 @@
     background-color: white;
     border-radius: 12px;
     padding: 24px;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
     display: flex;
     flex-direction: column;
 }
@@ -52,10 +51,37 @@
     cursor: pointer;
 }
 
+.accionesEstilo button {
+    width: auto !important;
+    padding: 6px 10px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.accionesEstilo {
+    width: 1px; /* Forzamos al mínimo posible */
+    white-space: nowrap;
+    padding: 8px 12px; /* Reducimos el padding respecto al estándar de 16px */
+}
+
+/* Opcional: si quieres que los iconos de los botones tengan un tamaño uniforme */
+.accionesEstilo svg {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+
 /* Título */
 .titulo {
     margin: 0;
     font-size: 1.5rem;
     font-weight: 600;
     color: #333;
+}
+
+.filaDatos.stockBajo .dato {
+  background-color: #ffcccc;
+  color: #b30000;                   
 }

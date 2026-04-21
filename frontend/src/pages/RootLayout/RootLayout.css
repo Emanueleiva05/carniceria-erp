@@ -20,6 +20,7 @@
     justify-content: end;
     gap: 4%;
     list-style: none;
+    margin: auto
 }
 
 .elementoMenu{

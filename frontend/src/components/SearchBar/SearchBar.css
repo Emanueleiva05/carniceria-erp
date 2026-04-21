@@ -1,0 +1,47 @@
+.searchBarContainer {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 4rem;
+}
+
+.filtros {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-end;
+    flex-wrap: wrap; /* Para que sea responsivo */
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1; /* El buscador crece más */
+    min-width: 200px;
+}
+
+.labelFiltro {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.inputBusqueda, .selectFiltro {
+    padding: 0.6rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inputBusqueda:focus, .selectFiltro:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Estilo específico para que el select no se vea tan ancho */
+.inputGroup:has(.selectFiltro) {
+    flex: 0 1 250px; 
+}

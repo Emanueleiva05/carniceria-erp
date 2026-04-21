@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
 import InfoCard from "../../components/InfoCard/InfoCard";
 import "./Home.css";
 import type { ProductoType } from "../../types/ProdutoType";
 import type { DeudoresType } from "../../types/DeudoresType";
 import type { EntregaType } from "../../types/EntregaType";
 import { TablaGenerica } from "../../components/TablaGenerica/TablaGenerica";
+import ModalComponent from "../../components/Modal/Modal";
+import { Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const entregas: EntregaType[] = [
@@ -261,7 +263,6 @@ const Home = () => {
       <div className="containerHome">
         <h1>Bienvenido Ricardo!</h1>
         <h2>Viernes, 05 de julio de 2002</h2>
-
         <div className="containerInformacion">
           <InfoCard
             tipo="precio"
@@ -297,17 +298,98 @@ const Home = () => {
         </div>
 
         <div className="containerBtn">
-          <Link to="" className="buttonHome">
-            Ingresar una entrega de producto
-          </Link>
-          <Link to="" className="buttonHome">
-            Ingresar un nuevo producto a la base de datos
-          </Link>
-          <Link to="" className="buttonHome">
-            Modificar precio de producto
-          </Link>
-          <Link to="" className="buttonHome">
-            Generar informe de ingresos y egresos
+          <ModalComponent
+            titulo="Ingresar un nuevo producto"
+            accion="Crear producto"
+            formId="crear-producto"
+          >
+            <Form id="crear-producto">
+              <Form.Group className="mb-3" controlId="nombreGrupo">
+                <Form.Label>Nombre</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingrese nombre del producto"
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="precioGrupo">
+                <Form.Label>Precio de venta</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingrese precio del producto"
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="stockMinimoGrupo">
+                <Form.Label>Stock minimo</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingrese stock minimo del producto"
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="categoriaGrupo">
+                <Form.Label>Categoria</Form.Label>
+                <Form.Select>
+                  <option>Abre el menu para seleccionar categoria</option>
+                  <option value="Carnes">Carne</option>
+                  <option value="Pollos">Pollo</option>
+                  <option value="Congelados">Congelado</option>
+                  <option value="Achuras">Achura</option>
+                  <option value="Cerdos"></option>
+                </Form.Select>
+              </Form.Group>
+            </Form>
+          </ModalComponent>
+
+          <ModalComponent
+            titulo="Ingresar una entrega de productos"
+            accion="Crear entrega"
+            formId="crear-entrega"
+          >
+            <Form id="crear-entrega">
+              <Form.Group className="mb-3" controlId="proveedorGrupo">
+                <Form.Label>Proveedor</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingrese proveedor que realizo la entrega"
+                />
+                <Form.Group className="mb-3" controlId="archivoGrupo">
+                  <Form.Label>Ingrese un archivo</Form.Label>
+                  <Form.Control type="file" />
+                </Form.Group>
+              </Form.Group>
+            </Form>
+          </ModalComponent>
+
+          <ModalComponent
+            titulo="Modificar precio de producto"
+            accion="Modificar precio"
+            formId="modificar-precio"
+          >
+            <Form id="modificar-precio">
+              <Form.Group className="mb-3" controlId="categoriaGrupo">
+                <Form.Label>Seleccionar producto</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingrese el producto para cambiar de precio"
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group>
+                <Form.Label>Selecciona producto</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingrese el nuevo precio"
+                ></Form.Control>
+              </Form.Group>
+            </Form>
+          </ModalComponent>
+
+          <Link to={""}>
+            <button className="botonHome">
+              Generar informe de ganancia y perdidas
+            </button>
           </Link>
         </div>
 
@@ -322,7 +404,6 @@ const Home = () => {
             ""
           )}
         </div>
-
         <div className="containerEntregas">
           {entregasAPagar.length !== 0 ? (
             <TablaGenerica
@@ -334,7 +415,6 @@ const Home = () => {
             ""
           )}
         </div>
-
         <div className="containerDeudores">
           {deudoresActivos.length !== 0 ? (
             <TablaGenerica
