@@ -4,53 +4,63 @@ import "./RootLayout.css";
 const RootLayout = () => {
   return (
     <>
-      <header className="headerMenu">
+      <header>
         <NavLink to={"/"}>
           <img
-            className="logoMenu"
+            className="header__logo"
             src="../../public/WhatsApp_Image_2026-04-08_at_12.00.03_AM-removebg-preview.png"
             alt=""
           />
         </NavLink>
 
-        <nav className="menu">
-          <ul className="listaMenu">
-            <li className="elementoMenu">
+        <nav className="header__menu">
+          <ul className="header__menu-lista">
+            <li>
               <NavLink
                 to={"/"}
-                className={({ isActive }) => (isActive ? "activo" : "")}
+                className={({ isActive }) =>
+                  isActive ? "header__menu-activo" : "header__menu-elemento"
+                }
               >
                 Inicio
               </NavLink>
             </li>
-            <li className="elementoMenu">
+            <li>
               <NavLink
                 to={"/productos"}
-                className={({ isActive }) => (isActive ? "activo" : "")}
+                className={({ isActive }) =>
+                  isActive ? "header__menu-activo" : "header__menu-elemento"
+                }
               >
                 Productos
               </NavLink>
             </li>
-            <li className="elementoMenu">
+            <li>
               <NavLink
                 to={"/entregas"}
-                className={({ isActive }) => (isActive ? "activo" : "")}
+                className={({ isActive }) =>
+                  isActive ? "header__menu-activo" : "header__menu-elemento"
+                }
               >
                 Entregas
               </NavLink>
             </li>
-            <li className="elementoMenu">
+            <li>
               <NavLink
                 to={"/ventas"}
-                className={({ isActive }) => (isActive ? "activo" : "")}
+                className={({ isActive }) =>
+                  isActive ? "header__menu-activo" : "header__menu-elemento"
+                }
               >
                 Ventas
               </NavLink>
             </li>
-            <li className="elementoMenu">
+            <li>
               <NavLink
                 to={"/informes"}
-                className={({ isActive }) => (isActive ? "activo" : "")}
+                className={({ isActive }) =>
+                  isActive ? "activo" : "header__menu-elemento"
+                }
               >
                 Informes
               </NavLink>

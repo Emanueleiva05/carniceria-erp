@@ -1,58 +1,28 @@
-.containerHome{
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.containerHome > h1{
-  margin: 0;
-  padding: 0;
-}
-
-.containerHome > h2{
-  font-size: 1rem;
-  margin: 0;
-  padding: 0;
-}
-
-.containerInformacion {
-  margin-top: 50px;
+.container__cards {
+  height: auto;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
-  height: auto;
-  width: 100%;
   gap: 4%;
+  margin: 35px 0px;
 }
 
-.containerBtn {
-  margin-top: 40px;
-  margin-bottom: 50px;
+.container__containerBtn {
   display: flex;
   align-content: center;
   justify-content: center;
   gap: 5%;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
-.buttonHome {
+.container__tabla{
   display: flex;
-  align-items: center;
-  text-align: center;
-  padding: 12px 24px;
-  color: #B22222;
-  text-decoration: none;
-  border: 1px solid #B22222;
-  border-radius: 8px;
-  transition: background 0.3s;
-  width: 30rem;
-}
-
-.buttonHome:hover{
-  color: #FAFAFA;
-  background-color: #B22222;
-}
-
-.containerStock .containerEntregas .containerDeudores{
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  flex-direction: column;  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  height: auto;
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
 }

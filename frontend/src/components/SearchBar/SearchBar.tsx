@@ -24,11 +24,11 @@ const SearchBar = ({ titulo, productos, columns }: props) => {
 
   return (
     <>
-      <div className="searchBarContainer">
-        <div className="filtros">
-          <div className="inputGroup">
+      <div className="search">
+        <div className="search__filtros">
+          <div className="search__filtros-input">
             <input
-              className="inputBusqueda"
+              className="filtros__input"
               type="text"
               placeholder={`Buscar ${titulo}...`}
               value={query}
@@ -36,12 +36,12 @@ const SearchBar = ({ titulo, productos, columns }: props) => {
             />
           </div>
 
-          <div className="inputGroup">
-            <label htmlFor="opciones" className="labelFiltro">
+          <div className="search__filtros-input">
+            <label htmlFor="opciones" className="filtro__input-label">
               Categoría:
             </label>
             <select
-              className="selectFiltro"
+              className="filtros__input"
               name="opciones"
               id="opciones"
               onChange={(e) => setFilter(e.target.value)}

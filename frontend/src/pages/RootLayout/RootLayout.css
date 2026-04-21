@@ -1,54 +1,37 @@
-.headerMenu {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-height: 60px;
-    background-color: #B22222;
-}
+@import url('../../variables.css');
 
-.menu{
+.header__menu{
     max-width: 100%;
     flex-grow: 1;
     margin-right: 2.5%;
 }
 
-.listaMenu{
+.header__menu-lista{
     display: flex;
     justify-content: end;
-    gap: 4%;
+    gap: 5%;
     list-style: none;
-    margin: auto
+    margin: auto;
 }
 
-.elementoMenu{
+.header__menu-elemento{
     text-align: center;
-}
-
-.elementoMenu > a{
     text-decoration: none;
-    color: #FAFAFA;
+    color: var(--secundario);
 }
 
-.elementoMenu > .activo{
-    color: #FFF176; 
+.header__menu-activo{
+    color: var(--activo); 
+    text-decoration: none;
     font-weight: bold;
 }
 
-.elementoMenu > a:hover {
-    color: #D3D3D3; 
+.header__menu-elemento:hover {
+    color: black;
     transition: 0.3s;
 }
 
-main{
-    background-color: #F5F5F5;
-    min-height: 100vh;
-    padding: 1.5rem;
-}
-
-.logoMenu {
+.header__logo {
     max-width: 100%;
     max-height: 80px;
     vertical-align: middle;

@@ -166,7 +166,7 @@ const ProductosPage = () => {
       id: "acciones",
       header: "Acciones",
       meta: {
-        className: "accionesEstilo",
+        className: "columna__acciones",
       },
       cell: () => (
         <div
@@ -174,6 +174,8 @@ const ProductosPage = () => {
             display: "flex",
             gap: "10px",
             justifyContent: "center",
+            flexWrap: "wrap",
+            alignItems: "center",
           }}
         >
           <ModalComponent

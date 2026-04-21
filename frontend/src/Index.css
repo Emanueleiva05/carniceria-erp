@@ -1,19 +1,75 @@
+@import url('variables.css');
+
+@font-face {
+    font-family: "Fuzzy Bubbles";
+    src: url('/fonts/FuzzyBubbles-Regular.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
 body {
     margin: 0;
     padding: 0;
     overflow: hidden;
     height: 100vh;
     width: 100vw;
-    background-color: #F5F5F5;
+    background-color: var(--secundario);
     overflow-y:auto;
+    font-family: "Fuzzy Bubbles", sans-serif;
+}
+
+main{
+    background-color: var(--secundario);
+    min-height: 100vh;
+    padding: 2rem;
 }
 
 header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin: 0;
     padding: 0;
+    max-height: 60px;
+    background-color: var(--primario);
 }
 
-.imageLogo{
-    width: 120px;
-    height: 150px;
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    padding: 5px;
+    font-weight: 600;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: sans-serif;
+  color: var(--text);
+}
+
+.buttonHome {
+  padding: 12px 24px;
+  background-color: var(--secundario);
+  border: 1px solid var(--primario);
+  border-radius: 8px;
+  transition: background 0.3s;
+  text-align: center;
+  color: var(--primario);
+  text-decoration: none;
+  width: 30rem;
+}
+
+
+.buttonHome:hover{
+  color: var(--secundario);
+  background-color: var(--primario);
+  border: 1px solid var(--secundario);
 }

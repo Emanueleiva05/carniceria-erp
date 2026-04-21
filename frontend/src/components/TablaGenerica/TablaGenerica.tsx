@@ -29,22 +29,22 @@ export const TablaGenerica = <T,>({
   });
 
   return (
-    <div className="divTable">
-      <h2 className="titulo">{titulo}</h2>
+    <>
+      {titulo ? <h2>{titulo}</h2> : ""}
 
-      <table className="tableInfo">
-        <thead className="encabezadoInfo">
+      <table className="table__informacion">
+        <thead className="table__informacion-encabezado">
           {table.getHeaderGroups().map(
             (
               hg, //Devuelve los encabezados en un arreglo
             ) => (
-              <tr className="filaEncabezado" key={hg.id}>
+              <tr className="encabezado__fila" key={hg.id}>
                 {/*Fila del encabezado*/}
                 {hg.headers.map(
                   (
                     header, //Recorremos los header de la tabla
                   ) => (
-                    <th className="columnaNombre" key={header.id}>
+                    <th className="encabezado__columna" key={header.id}>
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext(),
@@ -57,13 +57,13 @@ export const TablaGenerica = <T,>({
             ),
           )}
         </thead>
-        <tbody className="cuerpoTable">
+        <tbody className="table__informacion-cuerpo">
           {table.getRowModel().rows.map(
             (
               row, //Devuelve los datos del array
             ) => (
               <tr
-                className={`filaDatos ${getRowClassName ? getRowClassName(row.original) : ""}`}
+                className={`cuerpo__fila ${getRowClassName ? getRowClassName(row.original) : ""}`}
                 key={row.id}
               >
                 {/*Fila de uno de los datos*/}
@@ -77,7 +77,7 @@ export const TablaGenerica = <T,>({
                     return (
                       <td
                         key={cell.id}
-                        className={`dato ${metaClass?.className || ""}`}
+                        className={`cuerpo__columna ${metaClass?.className || ""}`}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -92,6 +92,6 @@ export const TablaGenerica = <T,>({
           )}
         </tbody>
       </table>
-    </div>
+    </>
   );
 };

@@ -69,7 +69,6 @@
     line-height: 1;         /* Reduce espacio entre líneas */
 }
 
-/* Estilo para "X kilos" (Más chico y quizás un color más suave) */
 .textoKilos {
     font-size: 3rem;       /* Mucho más chico que el precio */
     color: #555;           /* Gris oscuro para que no compita con el precio */

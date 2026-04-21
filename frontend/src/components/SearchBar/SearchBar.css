@@ -1,33 +1,34 @@
-.searchBarContainer {
-    background-color: #ffffff;
+@import url('../../variables.css');
+
+.search {
+    background-color: var(--secundario);
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    margin-bottom: 4rem;
 }
 
-.filtros {
+.search__filtros {
     display: flex;
     gap: 1.5rem;
     align-items: flex-end;
-    flex-wrap: wrap; /* Para que sea responsivo */
+    flex-wrap: wrap;
 }
 
-.inputGroup {
+.search__filtros-input {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    flex: 1; /* El buscador crece más */
+    flex: 1;
     min-width: 200px;
 }
 
-.labelFiltro {
+.filtro__input-label {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #4a5568;
+    color: var(--text);
 }
 
-.inputBusqueda, .selectFiltro {
+.filtros__input {
     padding: 0.6rem 1rem;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -36,12 +37,11 @@
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.inputBusqueda:focus, .selectFiltro:focus {
-    border-color: #3b82f6;
+.filtros__input:focus {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 /* Estilo específico para que el select no se vea tan ancho */
-.inputGroup:has(.selectFiltro) {
+.search__filtros-input:has(.selectFiltro) {
     flex: 0 1 250px; 
 }

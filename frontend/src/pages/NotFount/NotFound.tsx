@@ -3,17 +3,17 @@ import "./NotFound.css";
 
 const NotFound = () => {
   return (
-    <div className="containerNotFound">
-      <h1 className="errorCode">404</h1>
-      <h2 className="errorTitle">Página no encontrada</h2>
+    <div className="container">
+      <h1 className="container__error">404</h1>
+      <h1>Página no encontrada</h1>
 
       <img
         src="/b1f-removebg-preview.png"
         alt="Ilustración error 404"
-        className="errorImg"
+        className="container__error-img"
       />
 
-      <Link to="/" className="btnHome">
+      <Link to="/" className="buttonHome">
         Volver al Inicio
       </Link>
     </div>

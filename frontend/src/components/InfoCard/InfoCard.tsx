@@ -11,19 +11,21 @@ type infoCardType = {
 const InfoCard = ({ children, tipo, imagen, valor, text }: infoCardType) => {
   return (
     <>
-      <div className="containerCard">
-        <div className="titulo">
-          <img src={`${imagen}`} alt="" className="logoInfoCard" />
-          <h1 className="tituloInfoCard">{children}</h1>
+      <div className="card">
+        <div className="card__encabezado">
+          <img src={`${imagen}`} alt="" className="card__encabezado-img" />
+          <h1 className="card__encabezado-titulo">{children}</h1>
         </div>
-        <span className="valorInfoCard">
+
+        <span className="card__valor">
           {tipo === "precio"
             ? `$${valor}`
             : tipo === "porcentaje"
               ? `${valor}%`
               : valor}
         </span>
-        <span className="textoInfoCard">{text}</span>
+
+        <span className="card__texto">{text}</span>
       </div>
     </>
   );
