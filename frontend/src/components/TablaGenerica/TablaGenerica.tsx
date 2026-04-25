@@ -9,7 +9,7 @@ import "./TablaGenerica.css";
 interface Props<T> {
   titulo?: string;
   data: T[]; //Dato generico osea si paso un Producto[] entonces este tipo T sera Producto
-  columns: ColumnDef<T, unknown>[]; //Tambien asignarle como tipo generico T hace que las columnas sean estrictamente de la columna del tipo enviado
+  columns: ColumnDef<T, any>[]; //Tambien asignarle como tipo generico T hace que las columnas sean estrictamente de la columna del tipo enviado
   getRowClassName?: (row: T) => string;
 }
 

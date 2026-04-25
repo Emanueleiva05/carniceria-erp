@@ -2,7 +2,6 @@ import { MdDelete } from "react-icons/md";
 import { FaPenToSquare } from "react-icons/fa6";
 import { BiSolidOffer } from "react-icons/bi";
 import { TiDelete } from "react-icons/ti";
-//import { CiSquarePlus } from "react-icons/ci";
 import type { ProductoType } from "../../types/ProdutoType";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import ModalComponent from "../../components/Modal/Modal";

@@ -26,8 +26,13 @@
 }
 
 .cuerpo__columna {
+        width: 100px;
     background-color: var(--secundario);
     transition: background-color 0.2s ease; 
+}
+
+.cuerpo__columna:last-child {
+    width: 10%;
 }
 
 .cuerpo__fila td:first-child {
@@ -41,6 +46,10 @@
 .cuerpo__fila:hover td {
     background-color: var(--secundario);
     cursor: pointer;
+}
+
+.columna__check{
+    width: 10%;
 }
 
 .columna__acciones {
