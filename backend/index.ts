@@ -13,10 +13,18 @@ import ofertaRouter from "./routes/ofertaRouter";
 import reclamoRouter from "./routes/reclamoRouter";
 import corteRealRouter from "./routes/corteRealRouter";
 import errorHandler from "./middleware/errorHandler";
+import cors from "cors";
 
 const app = express();
-const PORT = Bun.env.PORT;
+const PORT = Number(Bun.env.PORT) || 3000;
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 app.use(json());
 
 app.use("/api/proveedor/", proveedorRouter);
@@ -35,6 +43,6 @@ app.use("/api/corteReal/", corteRealRouter);
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor en ${PORT}`);
 });

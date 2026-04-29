@@ -60,7 +60,7 @@ const SearchBar = ({ titulo, productos, columns }: props) => {
           data={result}
           columns={columns}
           getRowClassName={(pro) =>
-            pro.stock < pro.minStock ? "stockBajo" : ""
+            pro.stock_actual < pro.stock_minimo ? "stockBajo" : ""
           }
         />
       </div>

@@ -1,8 +1,15 @@
 export type ProductoType = {
-  id: number;
+  producto_id: number;
   nombre: string;
   precio_venta: number;
-  stock: number;
-  minStock: number;
-  categoria: "Achuras" | "Congelados" | "Carnes" | "Pollos" | "Cerdos";
+  stock_actual: number;
+  stock_minimo: number;
+  categoria:
+    | "Varios"
+    | "Achuras"
+    | "Congelados"
+    | "Carnes"
+    | "Pollos"
+    | "Cerdos";
+  unidad_medida: string;
 };

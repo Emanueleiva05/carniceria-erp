@@ -1,6 +1,7 @@
 export type OfertaType = {
-  id: number;
+  oferta_id: number;
   minKg: number;
-  precio: number;
+  precio_oferta: number;
   producto_id: number;
+  esta_activo: boolean;
 };
