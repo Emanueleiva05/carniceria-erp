@@ -114,6 +114,12 @@ Además, funciona como laboratorio personal para profundizar conocimientos en:
 
 ---
 
+## Imagenes
+
+<img width="1869" height="714" alt="2026-04-28-231614_hyprshot" src="https://github.com/user-attachments/assets/7b554d35-7243-4806-a18e-effab26e931c" />
+<img width="1808" height="939" alt="2026-04-28-231624_hyprshot" src="https://github.com/user-attachments/assets/3334ea6f-aad9-4be0-a0b9-0855c3b1d5e6" />
+<img width="1872" height="806" alt="2026-04-28-231555_hyprshot" src="https://github.com/user-attachments/assets/ea06b7f8-572f-4177-8926-144f85a234d8" />
+
 ## Autor
 
 **Emanuel Leiva**  
